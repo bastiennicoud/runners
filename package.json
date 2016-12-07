@@ -1,11 +1,12 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
+  "name": "Runners",
+  "author": "CPNV",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "docs": "typedoc --tsconfig tsconfig-type-docs.json --hideGenerator --out build/docs/ src/"
   },
   "dependencies": {
     "@angular/common": "2.1.1",
@@ -26,6 +27,9 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "0.0.45",
+    "jsdoc": "^3.4.3",
+    "tsdoc": "0.0.4",
+    "typedoc": "^0.5.1",
     "typescript": "2.0.6"
   },
   "cordovaPlugins": [
