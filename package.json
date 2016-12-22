@@ -4,7 +4,7 @@
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
-    "ionic:build": "ionic-app-scripts build",
+    "ionic:build": "ionic-app-scripts build --dev",
     "ionic:serve": "ionic-app-scripts serve",
     "docs": "typedoc --tsconfig tsconfig-type-docs.json --hideGenerator --out build/docs/ src/"
   },
