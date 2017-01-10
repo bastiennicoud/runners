@@ -1,6 +1,6 @@
-import {ConnectionBackend, Http, RequestOptions, Response, RequestOptionsArgs, Request, Headers} from "@angular/http";
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import { ConnectionBackend, Http, RequestOptions, Response, RequestOptionsArgs, Request, Headers } from "@angular/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
 export const X_ACCESS_TOKEN = 'x-access-token';
 
@@ -39,7 +39,7 @@ export class HttpService extends Http {
   private appendAuthHeader(options?: RequestOptionsArgs): RequestOptionsArgs {
     let mergedOptions: RequestOptionsArgs;
     if (!options) {
-      mergedOptions = {headers: new Headers()};
+      mergedOptions = { headers: new Headers() };
     } else {
       mergedOptions = options;
     }
@@ -48,7 +48,6 @@ export class HttpService extends Http {
     // JWT TOKEN
     /*const isTokenSet = mergedOptions.headers.has('Authorization');
      if (token && !isTokenSet) mergedOptions.headers.append('Authorization', `Bearer ${token}`);*/
-    console.log(mergedOptions);
     return mergedOptions;
   }
 }
