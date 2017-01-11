@@ -10,13 +10,13 @@ export class UserService {
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get('/api/users/' + id)
+    return this.http.get(`https://markal.servehttp.com/runners/api/users/${id}`)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   me(): Observable<User> {
-    return this.http.get('/api/users/me')
+    return this.http.get('https://markal.servehttp.com/runners/api/users/me')
       .map(this.extractData)
       .catch(this.handleError);
   }
