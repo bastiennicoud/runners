@@ -1,10 +1,10 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { RequestOptions, XHRBackend } from "@angular/http";
+import { Platform } from 'ionic-angular';
 import { HttpService } from "../services/http.service";
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -27,16 +27,16 @@ import { TabsPage } from '../pages/tabs/tabs';
     TabsPage,
     LoginPage,
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
-    {
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler },
+  {
     provide: HttpService,
     useFactory: (backend: XHRBackend, defaultOptions: RequestOptions) => new HttpService(backend, defaultOptions),
     deps: [XHRBackend, RequestOptions]
   },
   {
     provide: UserService,
-    useFactory: (http: HttpService) => new UserService(http),
-    deps: [HttpService]
+    useFactory: (http: HttpService, platform: Platform) => new UserService(http, platform),
+    deps: [HttpService, Platform]
   },
   {
     provide: AuthService,
@@ -47,5 +47,4 @@ import { TabsPage } from '../pages/tabs/tabs';
 
   ]
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Response } from "@angular/http";
-import { User } from "../models/user";
-import { Observable } from "rxjs";
-import { HttpService } from "./http.service";
+import { Response } from '@angular/http';
+import { BaseUrlService } from './base.url.service';
+import { Platform } from 'ionic-angular';
+import { User } from '../models/user';
+import { Observable } from 'rxjs';
+import { HttpService } from './http.service';
 
 @Injectable()
-export class UserService {
-  constructor(public http: HttpService) {
+export class UserService extends BaseUrlService {
+  constructor(public http: HttpService, public platform: Platform) {
+    super(platform);
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get(`https://markal.servehttp.com/runners/api/users/${id}`)
+    return this.http.get(`${this.BASE_URL}/users/${id}`)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   me(): Observable<User> {
-    return this.http.get('https://markal.servehttp.com/runners/api/users/me')
+    return this.http.get(`${this.BASE_URL}/users/me`)
       .map(this.extractData)
       .catch(this.handleError);
   }
