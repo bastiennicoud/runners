@@ -10,10 +10,16 @@ export let USER_PROFILE = "profile";
 @Injectable()
 export class AuthService {
 
-  constructor(public userService: UserService) { }
+  private loggedOutObserver: any;
+  public loggedOut: Observable<any>;
+
+  constructor(public userService: UserService) {
+    this.loggedOutObserver = null;
+    this.loggedOut = new Observable(observer => this.loggedOutObserver = observer);
+  }
 
   /**
-   * 
+   *
    * @param key QrCode key
    */
   login(key: string): Observable<User> {
@@ -38,6 +44,11 @@ export class AuthService {
   logout() {
     localStorage.removeItem(USER_PROFILE);
     localStorage.removeItem(X_ACCESS_TOKEN);
+    this.redirectToLogin();
+  }
+
+  redirectToLogin() {
+    this.loggedOutObserver.next();
   }
 
   isAuthenticated(): boolean {

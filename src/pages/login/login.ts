@@ -3,6 +3,8 @@ import { NavController, Platform, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from 'ionic-native';
 import { AuthService } from '../../services/auth.service';
 
+import { TabsPage } from '../tabs/tabs';
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -46,15 +48,13 @@ export class LoginPage {
         message: `Bonjour ${user.firstname} ${user.lastname}, vous êtes connecté`,
         duration: 3000,
         position: 'top',
-        cssClass: 'toast-success'
       }).present();
-      console.log(user);
+      this.navCtrl.popToRoot();
     }, error => {
       this.toastCtrl.create({
         message: 'Problème de connexion, veuillez ressayer plus tard',
         position: 'top',
         showCloseButton: true,
-        cssClass: 'toast-fail',
       }).present();
       console.error(error);
     });
