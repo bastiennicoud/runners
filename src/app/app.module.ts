@@ -5,6 +5,8 @@ import { Platform } from 'ionic-angular';
 import { HttpService } from "../services/http.service";
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { RunService } from '../services/run.services';
+import { VehicleServices } from '../services/vehicle.services';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -43,9 +45,19 @@ import { TabsPage } from '../pages/tabs/tabs';
     provide: AuthService,
     useFactory: (userService: UserService) => new AuthService(userService),
     deps: [UserService]
-  }
+  },
+  {
+    provide: RunService,
+    useFactory: (http: HttpService, platform: Platform) => new RunService(http, platform),
+    deps: [HttpService, Platform]
+  },
+  {
+    provide: VehicleServices,
+    useFactory: (http: HttpService, platform: Platform) => new VehicleServices(http, platform),
+    deps: [HttpService, Platform]
+  },
 
 
   ]
 })
-export class AppModule {}
+export class AppModule { }

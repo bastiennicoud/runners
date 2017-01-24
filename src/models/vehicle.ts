@@ -1,4 +1,4 @@
-export class Vehicle{
+export class Vehicle {
   id: number;
   name: string;
   plate_number: string;
