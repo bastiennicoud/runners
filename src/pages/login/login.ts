@@ -46,15 +46,13 @@ export class LoginPage {
         message: `Bonjour ${user.firstname} ${user.lastname}, vous êtes connecté`,
         duration: 3000,
         position: 'top',
-        cssClass: 'toast-success'
       }).present();
-      console.log(user);
+      this.navCtrl.popToRoot();
     }, error => {
       this.toastCtrl.create({
         message: 'Problème de connexion, veuillez ressayer plus tard',
         position: 'top',
         showCloseButton: true,
-        cssClass: 'toast-fail',
       }).present();
       console.error(error);
     });
