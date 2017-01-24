@@ -5,6 +5,7 @@ import { Platform } from 'ionic-angular';
 import { HttpService } from "../services/http.service";
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';

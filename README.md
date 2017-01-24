@@ -6,6 +6,9 @@
 # Install cordava 
 npm install -g cordova ionic
 
+# Install typings
+npm install -g typings
+
 
 # Install dependencies
 npm install
