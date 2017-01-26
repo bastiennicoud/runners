@@ -5,4 +5,9 @@
     <ion-icon name="camera"></ion-icon>
   </button>
 
+  <form (submit)="manualKey($event)">
+    <input type="text" name="key" placeholder="Votre Clé" />
+    <button type="submit"><ion-icon name="play"></ion-icon></button>
+  </form>
+
 </ion-content>

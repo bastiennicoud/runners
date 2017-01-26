@@ -40,6 +40,22 @@ export class LoginPage {
     });
   }
 
+  manualKey(e) {
+    e.preventDefault();
+    let key = e.target.key.value;
+
+    if (!key) {
+      this.toastCtrl.create({
+        message: `Le champ est vide`,
+        duration: 1500,
+        position: 'top',
+      }).present();
+      return;
+    };
+
+    this.login(key);
+  }
+
   login (key) {
     this.auth.login(key).subscribe(user =>  {
       this.toastCtrl.create({
