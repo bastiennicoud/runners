@@ -1,16 +1,17 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      RUNS
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
- <ion-content>
-   <div class="list-item" ion-item *ngFor="let run of runs" (click)="openPage(run)">
+<ion-content>
+ <ion-content id="container-list">
+   <div class="margin-top"></div>
+   <div class="list-item" ion-item (click)="openPage(run)">
      <div class="border-left"></div>
-     <div class="details-run">{{getDate(run.start_at)}}, {{ months[getMonth(run.start_at)] }} {{getHours(run.start_at)}}:{{getMinutes(run.start_at)}} | <img src="assets/geo.svg" alt="geo cursor" class="geo-img"> {{run.lieu}}</div>
-     <div class="title-run">{{run.title}}</div>
+     <div class="details-run">14, juillet <span class="bold-date">11:00</span> | <img src="assets/geo.svg" alt="geo cursor" class="geo-img"> Gare Cornavin de Genève</div>
+     <div class="title-run">30 SECONDS TO MARS</div>
    </div>
   </ion-content></ion-content>
