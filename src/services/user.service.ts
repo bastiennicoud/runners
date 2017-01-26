@@ -6,6 +6,8 @@ import { User } from '../models/user';
 import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 
+export { User };
+
 @Injectable()
 export class UserService extends BaseUrlService {
   constructor(public http: HttpService, public platform: Platform) {

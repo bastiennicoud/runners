@@ -6,6 +6,8 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs';
 import { Run } from '../models/run';
 
+export { Run };
+
 @Injectable()
 export class RunService extends BaseUrlService {
     constructor(public http: HttpService, public platform: Platform) {

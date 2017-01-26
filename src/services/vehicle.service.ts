@@ -6,6 +6,8 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs';
 import { Vehicle } from '../models/vehicle';
 
+export { Vehicle };
+
 @Injectable()
 export class VehicleService extends BaseUrlService {
     constructor(public http: HttpService, public platform: Platform) {
