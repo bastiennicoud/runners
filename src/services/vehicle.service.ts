@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Vehicle } from '../models/vehicle';
 
 @Injectable()
-export class VehicleServices extends BaseUrlService {
+export class VehicleService extends BaseUrlService {
     constructor(public http: HttpService, public platform: Platform) {
         super(platform);
     }

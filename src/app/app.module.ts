@@ -5,8 +5,8 @@ import { Platform } from 'ionic-angular';
 import { HttpService } from "../services/http.service";
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { RunService } from '../services/run.services';
-import { VehicleServices } from '../services/vehicle.services';
+import { RunService } from '../services/run.service';
+import { VehicleService } from '../services/vehicle.service';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -52,8 +52,8 @@ import { TabsPage } from '../pages/tabs/tabs';
     deps: [HttpService, Platform]
   },
   {
-    provide: VehicleServices,
-    useFactory: (http: HttpService, platform: Platform) => new VehicleServices(http, platform),
+    provide: VehicleService,
+    useFactory: (http: HttpService, platform: Platform) => new VehicleService(http, platform),
     deps: [HttpService, Platform]
   },
 
