@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, Platform, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from 'ionic-native';
 import { AuthService } from '../../services/auth.service';
