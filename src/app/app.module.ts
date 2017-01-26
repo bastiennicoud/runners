@@ -43,8 +43,8 @@ import { TabsPage } from '../pages/tabs/tabs';
   },
   {
     provide: AuthService,
-    useFactory: (userService: UserService) => new AuthService(userService),
-    deps: [UserService]
+    useFactory: (userService: UserService, http: HttpService) => new AuthService(userService, http),
+    deps: [UserService, HttpService]
   },
   {
     provide: RunService,
