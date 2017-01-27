@@ -10,7 +10,6 @@ export class HomePage implements OnInit{
 
   constructor(public navCtrl: NavController) {  }
 
-
   ngOnInit(): void {
     console.log("Home page load !");
   }

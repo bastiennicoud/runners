@@ -16,19 +16,30 @@ export class RunService extends BaseUrlService {
 
     all(): Observable<Run[]> {
         return this.http.get(`${this.BASE_URL}/runs`)
-            .map(this.extractData)
+            .map(this.extractDatas)
             .catch(this.handleError);
     }
 
-    get(id: number): Observable<Run>{
+    get(id: number): Observable<Run> {
         return this.http.get(`${this.BASE_URL}/runs/${id}`)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    private extractData(res: Response) {
+    private extractData(res: Response): Run {
         let data = res.json();
-        return data || {};
+        let result = new Run(data);
+        return result || null;
+    }
+
+
+    private extractDatas(res: Response): Run[] {
+        let data = res.json();
+        let result = [];
+        data.forEach(element => {
+            result.push(new Run(element))
+        });
+        return result || [];
     }
 
     private handleError(error: Response | any) {
@@ -41,7 +52,6 @@ export class RunService extends BaseUrlService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        console.error("User service : ", error);
         return Observable.throw(errMsg);
     }
 }

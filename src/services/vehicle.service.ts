@@ -28,9 +28,20 @@ export class VehicleService extends BaseUrlService {
             .catch(this.handleError);
     }
 
-    private extractData(res: Response) {
+    private extractData(res: Response): Vehicle {
         let data = res.json();
-        return data || {};
+        let result = new Vehicle(data);
+        return result || null;
+    }
+
+
+    private extractDatas(res: Response): Vehicle[] {
+        let data = res.json();
+        let result = [];
+        data.forEach(element => {
+            result.push(new Vehicle(element))
+        });
+        return result || [];
     }
 
     private handleError(error: Response | any) {

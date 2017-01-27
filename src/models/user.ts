@@ -4,5 +4,10 @@ export class User {
   lastname: string;
   phone_number: string;
 
-  constructor() { }
+  constructor(data:any) {
+    this.id = data.id || data._id;
+    this.firstname = data.firstname || null;
+    this.lastname = data.lastname || null;
+    this.phone_number = data.phone_number || null;
+  }
 }

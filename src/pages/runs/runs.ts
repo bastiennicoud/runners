@@ -21,7 +21,6 @@ export class RunsPage implements OnInit{
 
   ngOnInit(): void {
     this.runServices.all().subscribe((runs) =>{
-      console.log(runs);
       this.runs = runs;
     }, (error) => {
         console.error("Runs : ", error);

@@ -12,7 +12,7 @@ export class HttpService extends Http {
   public accessDeniedOut: Observable<any>;
 
   constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
-    super(backend, defaultOptions);    
+    super(backend, defaultOptions);
     this.accessDeniedOut = new Observable(observer => this.accessDeniedOutObserver = observer);
   }
 
@@ -59,13 +59,10 @@ export class HttpService extends Http {
   }
 
   sendError() {
-    console.log("Error : ", this.accessDeniedOutObserver);
     if (this.accessDeniedOutObserver != null) {
       this.accessDeniedOutObserver.next();
     }
   }
-
-
 
   private appendAuthHeader(options?: RequestOptionsArgs): RequestOptionsArgs {
     let mergedOptions: RequestOptionsArgs;

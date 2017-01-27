@@ -13,6 +13,9 @@ npm install -g typings
 # Install dependencies
 npm install
 
+# re install cordova plugins
+ionic state restore --plugins
+
 # Configure platforms
 
 ionic platform add android
