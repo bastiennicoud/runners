@@ -12,6 +12,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
+import { RunPage } from '../pages/run/run';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TabsPage } from '../pages/tabs/tabs';
     HomePage,
     TabsPage,
     LoginPage,
+    RunPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -29,6 +31,7 @@ import { TabsPage } from '../pages/tabs/tabs';
     HomePage,
     TabsPage,
     LoginPage,
+    RunPage,
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler },
   {

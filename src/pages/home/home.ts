@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { RunService } from '../../services/run.services';
+import { RunService } from '../../services/run.service';
 import { Run } from '../../models/run';
+import { RunPage } from '../run/run';
 
 @Component({
   selector: 'page-home',
@@ -12,6 +13,10 @@ export class HomePage implements OnInit{
   runs:Run[] = null;
 
   constructor(public navCtrl: NavController, public runServices: RunService) {
+  }
+
+  openPage(run){
+    this.navCtrl.push(RunPage, run);
   }
 
   ngOnInit(): void {

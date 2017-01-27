@@ -9,9 +9,11 @@
 <ion-content>
  <ion-content id="container-list">
    <div class="margin-top"></div>
-   <div class="list-item" ion-item *ngFor="let run of runs" (click)="openPage(run)">
+   <div class="list-item" *ngFor="let run of runs" (click)="openPage(run)">
      <div class="border-left"></div>
-     <div class="details-run">{{run.start_at}}<span class="bold-date">11:00</span> | <img src="assets/geo.svg" alt="geo cursor" class="geo-img">{{run.geo[0].geocode.formatted_address}}</div>
-     <div class="title-run">Y a rien !!!</div>
+     <div class="content-right">
+        <div class="details-run"><span class="light-date">{{run.start_at}}</span> 11:00 | <svg class="svg-geo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.7 131.5"><path d="M40.3 0C18.1 0 0 18.1 0 40.3c0 22.3 40.3 91.2 40.3 91.2s40.3-68.9 40.3-91.2C80.7 18.1 62.6 0 40.3 0zM40.3 58.6C30.2 58.6 22 50.4 22 40.3S30.2 22 40.3 22s18.3 8.2 18.3 18.3S50.4 58.6 40.3 58.6z"/></svg> {{run.geo[0].geocode.formatted_address}}</div>
+        <div class="title-run">30 SECONDS TO MARS</div>
+     </div>
    </div>
   </ion-content></ion-content>
