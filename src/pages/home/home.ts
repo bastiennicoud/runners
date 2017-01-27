@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { RunService } from '../../services/run.service';
-import { Run } from '../../models/run';
-import { RunPage } from '../run/run';
 
 @Component({
   selector: 'page-home',
@@ -10,22 +7,12 @@ import { RunPage } from '../run/run';
 })
 export class HomePage implements OnInit{
 
-  runs:Run[] = null;
 
-  constructor(public navCtrl: NavController, public runServices: RunService) {
-  }
+  constructor(public navCtrl: NavController) {  }
 
-  openPage(run){
-    this.navCtrl.push(RunPage, run);
-  }
 
   ngOnInit(): void {
-    this.runServices.all().subscribe((runs) =>{
-      console.log(runs);
-      this.runs = runs;
-    }, (error) => {
-        console.error("Runs : ", error);
-    });
+    console.log("Home page load !");
   }
 
 }

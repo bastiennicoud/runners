@@ -13,6 +13,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 import { RunPage } from '../pages/run/run';
+import { RunsPage } from '../pages/runs/runs';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RunPage } from '../pages/run/run';
     TabsPage,
     LoginPage,
     RunPage,
+    RunsPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -32,6 +34,7 @@ import { RunPage } from '../pages/run/run';
     TabsPage,
     LoginPage,
     RunPage,
+    RunsPage,
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler },
   {
@@ -58,9 +61,6 @@ import { RunPage } from '../pages/run/run';
     provide: VehicleService,
     useFactory: (http: HttpService, platform: Platform) => new VehicleService(http, platform),
     deps: [HttpService, Platform]
-  },
-
-
-  ]
+},]
 })
 export class AppModule { }
