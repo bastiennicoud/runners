@@ -2,54 +2,72 @@ page-runs {
 
   #container-list {
     .margin-top{
-      height: 56px;
+      height: 48px;
     }
 
     .list-item{
       padding-left: 0px;
-      height: 87px;
       display: block;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
 
-      .border-left{
-        width: 5px;
-        height: 87px;
-        background-color: red;
-        margin-right: 10px;
-        display: inline-block;
-      }
+      .card{
+        width: calc(100% - 16px);
+        margin: 8px;
+        margin-bottom: 0px;
+        height: 82px;
+        box-shadow: -2px 2px 8px rgba(0,0,0,0.2);
+        border-radius: 3px;
+        overflow: hidden;
 
-      .content-right{
-        display: inline-block;
-        height: 47px;
-        width: 90%;
-        margin-top: 15px;
-        margin-bottom: 15px;
-        vertical-align: top;
-
-        .details-run{
-          display: block;
-          width: 90%;
-          overflow: hidden;
-          height: 16px;
-
-          .light-date{
-            color: rgba(0,0,0,0.5);
-          }
-
-          svg {
-            height: 11px;
-            opacity: 0.7;
-          }
+        .border-left{
+          width: 5px;
+          height: 82px;
+          margin-right: 5px;
+          display: inline-block;
         }
 
-        .title-run{
-          display: block;
-          font-size: 25px;
-          margin-top: 10px;
-          height: 29px;
+        .red{
+          background-color: red;
+          box-shadow: 0 0 6px rgba(255,0,0,0.3);
+        }
+
+        .green{
+          background-color: rgb(0,250,80);
+          box-shadow: 0 0 6px rgba(0,250,80,0.3);
+        }
+
+        .content-right{
+          display: inline-block;
+          height: 47px;
           width: 90%;
-          overflow: hidden;
+          margin-top: 15px;
+          margin-bottom: 15px;
+          vertical-align: top;
+
+          .details-run{
+            display: block;
+            width: 90%;
+            overflow: hidden;
+            height: 16px;
+
+            .light-date{
+              color: rgba(0,0,0,0.5);
+            }
+
+            svg {
+              height: 11px;
+              opacity: 0.7;
+            }
+          }
+
+          .title-run{
+            display: block;
+            font-size: 22px;
+            margin-top: 10px;
+            height: 29px;
+            width: 90%;
+            text-shadow: 0 0 6px rgba(0,0,0,0.2);
+            overflow: hidden;
+          }
         }
       }
     }
