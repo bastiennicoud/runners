@@ -14,6 +14,7 @@ import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 import { RunPage } from '../pages/run/run';
 import { RunsPage } from '../pages/runs/runs';
+import { VehiclesPage } from '../pages/vehicles/vehicles';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RunsPage } from '../pages/runs/runs';
     HomePage,
     TabsPage,
     LoginPage,
+    VehiclesPage,
     RunPage,
     RunsPage,
   ],
@@ -33,6 +35,7 @@ import { RunsPage } from '../pages/runs/runs';
     HomePage,
     TabsPage,
     LoginPage,
+    VehiclesPage,
     RunPage,
     RunsPage,
   ],
@@ -61,6 +64,6 @@ import { RunsPage } from '../pages/runs/runs';
     provide: VehicleService,
     useFactory: (http: HttpService, platform: Platform) => new VehicleService(http, platform),
     deps: [HttpService, Platform]
-},]
+  },]
 })
 export class AppModule { }

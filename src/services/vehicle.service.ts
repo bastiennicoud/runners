@@ -4,9 +4,9 @@ import { HttpService } from './http.service';
 import { BaseUrlService } from './base.url.service';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs';
-import { Vehicle } from '../models/vehicle';
+import { Vehicle, User, VehicleStatus } from '../models/vehicle.status';
 
-export { Vehicle };
+export { Vehicle, User, VehicleStatus };
 
 @Injectable()
 export class VehicleService extends BaseUrlService {
@@ -17,15 +17,30 @@ export class VehicleService extends BaseUrlService {
     all(status?: string): Observable<Vehicle[]> {
         var params = new URLSearchParams();
         if (status != null) params.set('status', status);
-        return this.http.get(`${this.BASE_URL}/runs${params}`)
-            .map(this.extractData)
+        return this.http.get(`${this.BASE_URL}/vehicles${params}`)
+            .map(this.extractDatas)
             .catch(this.handleError);
     }
 
     get(id: number): Observable<Vehicle> {
-        return this.http.get(`${this.BASE_URL}/runs/${id}`)
+        return this.http.get(`${this.BASE_URL}/vehicles/${id}`)
             .map(this.extractData)
             .catch(this.handleError);
+    }
+
+    status(): Observable<VehicleStatus[]>{
+        return this.http.get(`${this.BASE_URL}/status/vehicles`)
+            .map(this.extractVehiclesData)
+            .catch(this.handleError);
+    }
+
+    private extractVehiclesData(res: Response): VehicleStatus[]{
+        let data = res.json();
+        let result = [];
+        data.forEach(element => {
+            result.push(new VehicleStatus(element))
+        });
+        return result || [];
     }
 
     private extractData(res: Response): Vehicle {

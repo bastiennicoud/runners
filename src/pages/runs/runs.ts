@@ -8,24 +8,35 @@ import { RunPage } from '../run/run';
   selector: 'page-runs',
   templateUrl: 'runs.html'
 })
-export class RunsPage implements OnInit{
+export class RunsPage implements OnInit {
 
-  runs:Run[] = null;
+  runs: Run[] = [];
 
   constructor(public navCtrl: NavController, public runServices: RunService) {
   }
 
-  openPage(run){
-    this.navCtrl.push(RunPage, run);
+  ionViewWillEnter() {
+    this.ngOnInit();
+  }
+
+  ionViewWillLeave() {
+    this.runs = [];
   }
 
   ngOnInit(): void {
-    this.runServices.all().subscribe((runs) =>{
-      this.runs = runs;
-    }, (error) => {
+    if (this.runs.length == 0) {
+      this.runServices.all().subscribe((runs) => {
+        this.runs = runs;
+      }, (error) => {
         console.error("Runs : ", error);
-    });
+      });
+    }
   }
+
+  openPage(run) {
+    this.navCtrl.push(RunPage, run);
+  }
+  
 
 }
 
