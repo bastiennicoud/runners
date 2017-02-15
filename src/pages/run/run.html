@@ -1,0 +1,80 @@
+<!--
+  Generated template for the Run page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>RUN</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-content id="container-list">
+    <!--<div class="margin-top"></div>-->
+    <div class="list-item">
+      <div class="border-left red"></div>
+      <div class="content-right">
+        <div class="title-run">30 SECONDS TO MARS</div>
+        <div class="details-run"><span class="light-date">{{run.start_at}}</span> 11:00 <br>
+            <svg class="svg-geo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.7 131.5">
+            <path d="M40.3 0C18.1 0 0 18.1 0 40.3c0 22.3 40.3 91.2 40.3 91.2s40.3-68.9 40.3-91.2C80.7 18.1 62.6 0 40.3 0zM40.3 58.6C30.2 58.6 22 50.4 22 40.3S30.2 22 40.3 22s18.3 8.2 18.3 18.3S50.4 58.6 40.3 58.6z"
+            />
+          </svg> {{run.geo[0].geocode.formatted_address}}</div>
+      </div>
+    </div>
+
+    <div class="containerStep">
+      <div class="step">
+        <div class="containerRoad">
+          <div class="stick"></div>
+          <div class="round"></div>
+        </div>
+        <div class="destination">Chavannes</div>
+      </div>
+      <div class="step">
+        <div class="containerRoad">
+          <div class="stick"></div>
+          <div class="round"></div>
+        </div>
+        <div class="destination">Nyon</div>
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <td class="title-td">Nbr de personne : </td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td class="title-td">Véhicule : </td>
+        <td>Vito</td>
+      </tr>
+      <tr>
+        <td class="title-td">Matériels : </td>
+        <td>2 valises</td>
+      </tr>
+      <tr>
+        <td class="title-td">Contact : </td>
+        <td>Lionel Israel 079 434 72 45</td>
+      </tr>
+      <tr>
+        <td class="title-td">Remarque : </td>
+        <td>Appeler Lionel pour les détails de la course. Prendre un Vito pour le matériel.
+        </td>
+      </tr>
+    </table>
+
+    <div id="optionButtons">
+      <div id="editButton"><ion-icon name="ios-create-outline"></ion-icon></div>
+      <div id="quitButton"><ion-icon name="ios-exit-outline"></ion-icon></div>
+    </div>
+
+    <div class="button-accept-run"(click)="showvehicles()">ACCEPTER</div>
+
+    <div class="margin-bottom"></div>
+  </ion-content>
+</ion-content>

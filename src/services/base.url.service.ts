@@ -11,5 +11,4 @@ export abstract class BaseUrlService {
       this.BASE_URL = '/api';
     }
   }
-
 }

@@ -5,10 +5,16 @@ import { Platform } from 'ionic-angular';
 import { HttpService } from "../services/http.service";
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { RunService } from '../services/run.service';
+import { VehicleService } from '../services/vehicle.service';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
+import { RunPage } from '../pages/run/run';
+import { RunsPage } from '../pages/runs/runs';
+import { VehiclesPage } from '../pages/vehicles/vehicles';
 
 @NgModule({
   declarations: [
@@ -16,6 +22,9 @@ import { TabsPage } from '../pages/tabs/tabs';
     HomePage,
     TabsPage,
     LoginPage,
+    VehiclesPage,
+    RunPage,
+    RunsPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -26,6 +35,9 @@ import { TabsPage } from '../pages/tabs/tabs';
     HomePage,
     TabsPage,
     LoginPage,
+    VehiclesPage,
+    RunPage,
+    RunsPage,
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler },
   {
@@ -40,11 +52,18 @@ import { TabsPage } from '../pages/tabs/tabs';
   },
   {
     provide: AuthService,
-    useFactory: (userService: UserService) => new AuthService(userService),
-    deps: [UserService]
-  }
-
-
-  ]
+    useFactory: (userService: UserService, http: HttpService) => new AuthService(userService, http),
+    deps: [UserService, HttpService]
+  },
+  {
+    provide: RunService,
+    useFactory: (http: HttpService, platform: Platform) => new RunService(http, platform),
+    deps: [HttpService, Platform]
+  },
+  {
+    provide: VehicleService,
+    useFactory: (http: HttpService, platform: Platform) => new VehicleService(http, platform),
+    deps: [HttpService, Platform]
+  },]
 })
-export class AppModule {}
+export class AppModule { }

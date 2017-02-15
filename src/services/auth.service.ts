@@ -3,9 +3,11 @@ import { Injectable } from "@angular/core";
 import { X_ACCESS_TOKEN } from "./http.service";
 import { UserService } from "./user.service";
 import { Observable } from "rxjs";
+import { HttpService } from './http.service'
 
-
+export { User }
 export let USER_PROFILE = "profile";
+
 
 @Injectable()
 export class AuthService {
@@ -13,9 +15,10 @@ export class AuthService {
   private loggedOutObserver: any;
   public loggedOut: Observable<any>;
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, public http: HttpService) {
     this.loggedOutObserver = null;
     this.loggedOut = new Observable(observer => this.loggedOutObserver = observer);
+    http.accessDeniedOut.subscribe(_ => this.logout());
   }
 
   /**

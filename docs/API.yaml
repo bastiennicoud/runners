@@ -1,0 +1,367 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Runners API
+  description: Application for the paleo
+  version: "1.0.0"
+# the domain of the service
+host: localhost:8080
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /
+produces:
+  - application/json
+paths:
+  /users:
+    get:
+      summary: User Types
+      description: 
+        List all users
+      tags:
+        - Users
+      responses:
+        200:
+          description: An array of users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /users/me:
+    get:
+      summary: User Types
+      description: "The authenticated user (Identified by the token)"
+      tags:
+        - Users
+      responses:
+        200:
+          description: An array of users
+          schema:
+            type: object
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /runs:
+    get:
+      summary: User Types
+      description: 
+        List all runs
+      parameters:
+        - name: status
+          in: query
+          description: "Allows to recover the runs according to their status such as : [reserved, finish, current]. Exemple : /runs?status=finish,current" 
+          required: false
+          type: string
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: An array of runs
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'        
+            
+  /runs/{id}:
+    get:
+      summary: User Types
+      description: 
+        Liste tous les runs
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the run
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: An array of runs
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'   
+            
+  /vehicles:
+    get:
+      summary: Vehicles Types
+      description: 
+        List all vehicles
+      parameters:
+        - name: status
+          in: query
+          description: "Allows you to retrieve a list of vehicles according to their status : [taken, free]. /vehicles?status=taken"
+          required: false
+          type: string
+        - name: type
+          in: query
+          description: "Allows you to retrieve a list of vehicles according to type such as : [Vito, Limo]. /vehicles?staus=taken&type=Limo"
+          required: false
+          type: string
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: An array of vehicles
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Vehicle'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error' 
+            
+  /status/vehicles:
+      get:
+        summary: Vehicles status
+        description: Allows to retrieve the status of vehicles (are they used and by who).
+        parameters:
+          - name: status
+            in: query
+            description: "Allows you to retrieve a list of VehiclesStatus according to their status : [taken, free]. /vehicles?status=taken"
+            required: false
+            type: string
+        tags:
+          - Users
+          - Vehicles
+        responses:
+          200:
+            description: An array of users
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/VehicleStatus'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error' 
+            
+            
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        description: Unique identifier (PK)
+        type: integer
+      firstname: 
+        description: Driver's first name
+        type: string
+      lastname: 
+        description: Driver's last name
+        type: string
+      phone_number: 
+        description: Driver's phone number
+        type: string
+    
+  Vehicle:
+    type: object
+    properties:
+      id:
+        description: Unique identifier (PK)
+        type: integer
+      name: 
+        description: Nom de la voiture (Vito 1)
+        type: string
+      type:
+        type: object
+        $ref: '#/definitions/VehicleType'
+      plate_number: 
+        description: Numéro de plaque de la voiture
+        type: string
+      nb_place: 
+        description: Nombre de place disponible dans la voiture (la place du conducteur est exclue)
+        type: integer
+        
+  VehicleType:
+    type: object
+    properties:
+      type:
+        type: string
+      description:
+        type: string
+  
+  VehicleStatus:
+    type: object
+    properties:
+      vehicle:
+        type: object
+        $ref: '#/definitions/Vehicle'
+      status:
+        type: string
+        description: "Type : free, taken"
+      user:
+        type: object
+        $ref: '#/definitions/User'
+
+  Run:
+    type: object
+    properties:
+      id:
+        description: Identifiant unique
+        type: integer
+      title:
+        type: string
+      waypoints:
+        type: array
+        description: ""
+        items:
+          $ref: '#/definitions/Waypoint'
+      begin_date:
+        type: string
+        format: date-time
+        description: Quand la course devrait commencer
+      start_at: 
+        type: string
+        description: Quand commence la course
+        format: date-time
+      end_at: 
+        description: Quand fini la course
+        type: string
+        format: date-time
+      status:
+        type: string
+        description: "Status de la run : libre, incomplet, ..."
+      runners:
+        type: array
+        description: ""
+        items:
+          $ref: '#/definitions/Runners'
+        
+  Waypoint:
+    type: object
+    properties:
+      nickname:
+        type: string
+        description: ""
+      geocoder:
+        type: object
+        $ref: '#/definitions/Geocoder'
+        
+  Runners:
+    type: object
+    properties:
+      user:
+        type: object
+        $ref: '#/definitions/User'
+      vehicle_category:
+        type: object
+        $ref: '#/definitions/VehicleType'
+      vehicle:
+        type: object
+        $ref: '#/definitions/Vehicle' 
+        
+        
+        
+# Google Map API
+  Geocoder:
+    type: object
+    properties:
+      address_components:
+        type: array
+        description:
+          An array of GeocoderAddressComponents
+        items:
+          $ref: '#/definitions/GeocoderAddressComponent'
+      formatted_address:
+        type: string
+        description:
+          A string containing the human-readable address of this location.
+        items:
+          type: string
+      geometry:
+        type: object
+        description: A GeocoderGeometry object
+        $ref: '#/definitions/GeocoderGeometry'
+      place_id:
+        type: string
+      types:
+        type: array
+        items:
+              type: string
+  
+  GeocoderAddressComponent:
+    type: object
+    properties:
+      long_name:
+        type: string
+        description: The full text of the address component
+      short_name:
+        type: string
+        description: The abbreviated, short text of the given address component
+      types:
+        type: array
+        description: An array of strings denoting the type of this address component. A list of valid types can be found here https://developers.google.com/maps/documentation/geocoding/intro?hl=fr#Types
+        items:
+         type: string
+          
+  GeocoderGeometry:
+    type: object
+    properties:
+      location:
+        type: object
+        properties:
+          lat:
+            type: string
+          lng:
+            type: string
+      location_type:
+        type: string
+        items:
+          type: string
+      viewport:
+        type: object
+        properties:
+          northeast:
+            type: object
+            properties:
+              lat:
+                type: string
+              lng:
+                type: string
+          southwest:
+            type: object
+            properties:
+              lat:
+                type: string
+              lng:
+                type: string
+            
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      ui_message:
+        type: string

@@ -3,6 +3,8 @@ import { NavController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 
 import { HomePage } from '../home/home';
+import { RunsPage } from '../runs/runs';
+import { VehiclesPage } from '../vehicles/vehicles';
 import { LoginPage } from '../login/login';
 
 @Component({
@@ -11,8 +13,8 @@ import { LoginPage } from '../login/login';
 export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab1Root: any = HomePage;
-  tab2Root: any = HomePage;
+  tab1Root: any = RunsPage;
+  tab2Root: any = VehiclesPage;
   tab3Root: any = HomePage;
   tab4Root: any = HomePage;
   tab5Root: any = HomePage;

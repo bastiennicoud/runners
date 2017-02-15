@@ -6,9 +6,17 @@
 # Install cordava 
 npm install -g cordova ionic
 
+# Install typings
+npm install -g typings
+
+# Documentation generation
+npm install -g jsdoc tsdoc typedoc
 
 # Install dependencies
 npm install
+
+# re install cordova plugins
+ionic state restore --plugins
 
 # Configure platforms
 

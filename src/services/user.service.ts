@@ -6,6 +6,8 @@ import { User } from '../models/user';
 import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 
+export { User };
+
 @Injectable()
 export class UserService extends BaseUrlService {
   constructor(public http: HttpService, public platform: Platform) {
@@ -24,9 +26,20 @@ export class UserService extends BaseUrlService {
       .catch(this.handleError);
   }
 
-  private extractData(res: Response) {
+  private extractData(res: Response): User {
     let data = res.json();
-    return data || {};
+    let result = new User(data);
+    return result || null;
+  }
+
+
+  private extractDatas(res: Response): User[] {
+    let data = res.json();
+    let result = [];
+    data.forEach(element => {
+      result.push(new User(element))
+    });
+    return result || [];
   }
 
   private handleError(error: Response | any) {
