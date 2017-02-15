@@ -2,6 +2,29 @@ page-run {
   #container-list {
     margin-bottom: 30px;
 
+    #optionButtons {
+      color: white;
+      margin: 0 auto;
+      cursor: pointer;
+      margin-top: 40px;
+      transition: all 0.4s;
+
+      #editButton{
+        text-align: center;
+        padding: 10px;
+        border-radius: 50px;
+        background: rgba(120,141,255,1);
+        box-shadow: 0 0 25px rgba(120,141,255,0.4);
+      }
+      #quitButton{
+        text-align: center;
+        padding: 10px;
+        border-radius: 50px;
+        background: rgba(252,77,77,1);
+        box-shadow: 0 0 25px rgba(252,77,77,0.4);
+      }
+    }
+
     .margin-top{
       height: 44px;
     }
@@ -140,7 +163,7 @@ page-run {
       padding-right: 30px;
       padding-top: 15px;
       padding-bottom: 15px;
-      margin-top: 50px;
+      margin-top: 40px;
       font-weight: bold;
       text-transform: uppercase;
       background: rgba(100,221,23,1);

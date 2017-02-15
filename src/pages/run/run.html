@@ -14,7 +14,7 @@
 
 <ion-content>
   <ion-content id="container-list">
-    <div class="margin-top"></div>
+    <!--<div class="margin-top"></div>-->
     <div class="list-item">
       <div class="border-left red"></div>
       <div class="content-right">
@@ -68,11 +68,13 @@
       </tr>
     </table>
 
-    <div>
-      <ion-icon name="play"></ion-icon>
-      <ion-icon name="play"></ion-icon>
+    <div id="optionButtons">
+      <div id="editButton"><ion-icon name="ios-create-outline"></ion-icon></div>
+      <div id="quitButton"><ion-icon name="ios-exit-outline"></ion-icon></div>
     </div>
+
     <div class="button-accept-run"(click)="showvehicles()">ACCEPTER</div>
+
     <div class="margin-bottom"></div>
   </ion-content>
 </ion-content>
