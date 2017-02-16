@@ -5,7 +5,7 @@ export { RunGeocoderResult, Runners }
 
 export class Run {
     id: number;
-    geo: RunGeocoderResult[];
+    waypoints: RunGeocoderResult[];
     start_at: Date;
     end_at: Date;
     status: number;
@@ -13,10 +13,11 @@ export class Run {
 
     constructor(data: any) {
         this.id = data.id || data._id;
-        this.geo = data.geo || [];
+        this.waypoints = data.waypoints || [];
         this.start_at = data.start_at || null;
         this.status = data.status || null;
-        this.runners = Runners.fromList(data.runners) || null;
+        this.runners = null;
+        if(data.runners != null) this.runners = Runners.fromList(data.runners);
     }
 
 }

@@ -19,13 +19,11 @@ export class TabsPage {
   tab4Root: any = HomePage;
   tab5Root: any = HomePage;
 
-  constructor(auth: AuthService, navCtrl: NavController) {
+  constructor(navCtrl: NavController) {
+    AuthService.setRedirect(_ => navCtrl.push(LoginPage));
 
-    // When user is logged out change Page
-    auth.loggedOut.subscribe(_ => navCtrl.push(LoginPage));
-
-    // If User is not authenticated, redirect him on login Page
-    if (!auth.isAuthenticated()) auth.redirectToLogin();
-
+    if(!AuthService.isAuthenticated()){
+      AuthService.logOutAndRedirect();
+    }
   }
 }

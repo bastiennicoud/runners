@@ -12,13 +12,10 @@ export let USER_PROFILE = "profile";
 @Injectable()
 export class AuthService {
 
-  private loggedOutObserver: any;
-  public loggedOut: Observable<any>;
+  static redirectCallback:any = null
 
   constructor(public userService: UserService, public http: HttpService) {
-    this.loggedOutObserver = null;
-    this.loggedOut = new Observable(observer => this.loggedOutObserver = observer);
-    http.accessDeniedOut.subscribe(_ => this.logout());
+
   }
 
   /**
@@ -44,17 +41,29 @@ export class AuthService {
     });
   }
 
-  logout() {
+  static logout() {
     localStorage.removeItem(USER_PROFILE);
     localStorage.removeItem(X_ACCESS_TOKEN);
-    this.redirectToLogin();
   }
 
-  redirectToLogin() {
-    this.loggedOutObserver.next();
+  static setRedirect(callback:any){
+    if(callback != null){
+      AuthService.redirectCallback = callback;
+    }
   }
 
-  isAuthenticated(): boolean {
+   static redirect(){
+    if(AuthService.redirectCallback != null){
+      AuthService.redirectCallback();
+    }
+  }
+
+  static logOutAndRedirect(){
+    AuthService.logout();
+    AuthService.redirect();
+  }
+
+  static isAuthenticated(): boolean {
     let user = localStorage.getItem(USER_PROFILE);
     return user != null;
   }

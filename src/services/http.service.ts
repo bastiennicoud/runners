@@ -8,17 +8,9 @@ export const X_ACCESS_TOKEN = 'x-access-token';
 @Injectable()
 export class HttpService extends Http {
 
-  private accessDeniedOutObserver: any;
-  public accessDeniedOut: Observable<any>;
 
   constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
     super(backend, defaultOptions);
-    this.accessDeniedOut = new Observable(observer => this.accessDeniedOutObserver = observer);
-  }
-
-  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    const request = super.request(url, this.appendAuthHeader(options));
-    return this.execute(request);
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
@@ -48,20 +40,15 @@ export class HttpService extends Http {
         observer.complete();
       }, error => {
         if (error.status == 401) {
-          this.sendError();
-          observer.error(error);
-        } else {
-          this.sendError();
+          this.disconnect();
           observer.error(error);
         }
       });
     });
   }
 
-  sendError() {
-    if (this.accessDeniedOutObserver != null) {
-      this.accessDeniedOutObserver.next();
-    }
+  disconnect() {
+    AuthService.logOutAndRedirect();
   }
 
   private appendAuthHeader(options?: RequestOptionsArgs): RequestOptionsArgs {
