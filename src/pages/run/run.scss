@@ -1,0 +1,40 @@
+page-run {
+
+  ion-list.waypoints {
+
+    ion-item {
+
+      ion-icon {
+        z-index: 2000;
+      }
+
+      &::before,
+      &::after {
+        z-index: 1999;
+        content: '';
+        background: #000000;
+        position: absolute;
+        left: 26px;
+        width: 5px;
+      }
+
+      &::before {
+        top: 0;
+        height: 25px;
+      }
+
+      &::after {
+        top: 40px;
+        bottom: 0;
+      }
+
+      &:first-child::before {
+        display: none;
+      }
+
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
+}

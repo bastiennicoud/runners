@@ -1,0 +1,18 @@
+<ion-content>
+
+  <ion-slides pager>
+
+    <ion-slide>
+      <button style="height:70px; width: 180px;" (click)="scan()">SCANNER <ion-icon name="camera"></ion-icon></button>
+    </ion-slide>
+
+    <ion-slide>
+      <form (submit)="manually($event)">
+        <input type="text" name="key" placeholder="Votre Clé"/>
+        <button type="submit"><ion-icon name="play"></ion-icon></button>
+      </form>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>

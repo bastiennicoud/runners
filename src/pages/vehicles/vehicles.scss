@@ -1,0 +1,9 @@
+page-vehicles {
+
+  @each $status, $value in map-remove($vehicleStatus) {
+    ion-item[status=#{$status}] ion-note {
+      color: $value;
+    }
+  }
+
+}

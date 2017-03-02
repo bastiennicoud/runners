@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title><ion-icon name="ios-car"></ion-icon> Véhicules</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher (ionRefresh)="refreshVehicleStatus($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+
+    <ion-item-group *ngFor="let group of vehicleStatus | groupVehicleStatus">
+
+      <ion-item-divider sticky>
+        <ion-label>{{group.type.type}}</ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let vehicleStatus of group.vehicleStatus" [attr.status]="vehicleStatus.status">
+        <ion-label>
+          <h2>{{vehicleStatus.vehicle.name}}</h2>
+          <p *ngIf="vehicleStatus.user">{{vehicleStatus.user.fullname}}</p>
+        </ion-label>
+        <ion-note item-right>{{vehicleStatus.status}}</ion-note>
+      </ion-item>
+
+    </ion-item-group>
+
+    <ion-item *ngIf="!vehicleStatus.length">
+      <ion-label>
+        <p>Aucune Voiture</p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
