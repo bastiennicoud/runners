@@ -15,9 +15,6 @@ export class TabsPage {
 
   tab1: any = RunsPage;
   tab2: any = VehiclesPage;
-  tab3: any = null;
-  tab4: any = null;
-  tab5: any = null;
 
   loggedSubscriber: Subscription;
 
