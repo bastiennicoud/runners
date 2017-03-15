@@ -1,21 +1,25 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title><ion-icon name="ios-clipboard-outline"></ion-icon> Board</ion-title>
+    <ion-title>
+      <ion-icon name="ios-clipboard-outline"></ion-icon> Board</ion-title>
   </ion-navbar>
 
-  <ion-segment [(ngModel)]="filteredBy">
-    <ion-segment-button [value]="FilterByEnum.current">
-      Tous les runs
-    </ion-segment-button>
-    <ion-segment-button [value]="FilterByEnum.mine">
-      Mes runs
-    </ion-segment-button>
-    <ion-segment-button [value]="FilterByEnum.old">
-      Terminé
-    </ion-segment-button>
-  </ion-segment>
+  <div padding>
+    <ion-segment [(ngModel)]="filteredBy">
+      <ion-segment-button [value]="FilterByEnum.current">
+        Tous les runs
+      </ion-segment-button>
+      <ion-segment-button [value]="FilterByEnum.mine">
+        Mes runs
+      </ion-segment-button>
+      <ion-segment-button [value]="FilterByEnum.old">
+        Terminé
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 </ion-header>
+
 
 <ion-content>
 
@@ -35,8 +39,7 @@
         <ion-label>
           <h2>{{run.title}}</h2>
           <p>
-            <strong>{{run.beginAt | date:'yMMMd'}}</strong>
-            {{run.beginAt | date:'jm'}}
+            <strong>{{run.beginAt | date:'yMMMd'}}</strong> {{run.beginAt | date:'jm'}}
           </p>
           <p>{{run.waypoints[0].geocoder.formatted_address}}</p>
         </ion-label>

@@ -16,6 +16,7 @@ import { RunsPage } from '../pages/runs/runs';
 import { RunPage } from '../pages/run/run';
 import { ProfilPage } from '../pages/profil/profil';
 import { VehiclesPage } from '../pages/vehicles/vehicles';
+import { VehiclePage } from '../pages/vehicle/vehicle';
 import { RunnerPage } from '../pages/runner/runner';
 
 import { FilterRunsPipe } from '../pipes/filter-runs.pipe';
@@ -30,6 +31,7 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     RunsPage,
     RunPage,
     VehiclesPage,
+    VehiclePage,
     RunnerPage,
     ProfilPage,
     FilterRunsPipe,
@@ -47,6 +49,7 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     RunsPage,
     RunPage,
     VehiclesPage,
+    VehiclePage,
     RunnerPage,
     ProfilPage,
   ],

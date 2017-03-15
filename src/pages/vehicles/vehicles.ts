@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
+import { VehiclePage } from '../vehicle/vehicle';
 
-import { VehicleService, VehicleStatus } from '../../services/vehicle.service';
+import { VehicleService, VehicleStatus, Vehicle } from '../../services/vehicle.service';
 
 @Component({
   selector: 'page-vehicles',
@@ -31,6 +32,10 @@ export class VehiclesPage {
       err => err.status != 401 && refresher.cancel(),
       () => refresher.complete()
     );
+  }
+
+  showVehicle(v: VehicleStatus): void {
+    this.navCtrl.push(VehiclePage, { id: v.vehicle.id });
   }
 
 }

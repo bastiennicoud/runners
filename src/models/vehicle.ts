@@ -1,4 +1,5 @@
 import { VehicleCategory } from './vehicle-category';
+import { User } from './user';
 
 export class Vehicle {
 
@@ -7,6 +8,7 @@ export class Vehicle {
   public type: VehicleCategory;
   public plateNumber: string;
   public nbPlace: number;
+  public user: User;
 
   get name(): string {
     return `${this.type.type || 'Véhicule'} ${this.num}`;
@@ -21,6 +23,7 @@ export class Vehicle {
     v.type = VehicleCategory.build(data.type);
     v.plateNumber = data.plate_number;
     v.nbPlace = data.nb_place;
+    v.user = User.build(data.user);
 
     return v;
   }
