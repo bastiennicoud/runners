@@ -3,7 +3,8 @@ import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Observable } from 'rxjs';
 
 import { RunnerService, Runner } from '../../services/runner.service';
-import { UserService } from '../../services/user.service';
+import { UserService, User } from '../../services/user.service';
+import { ProfilPage } from '../profil/profil';
 
 import { Vehicle } from '../../models/vehicle';
 
@@ -65,6 +66,10 @@ export class RunnerPage {
       err => !console.log(err) && loader.dismiss(),
       () => loader.dismiss()
     );
+  }
+
+  showProfil({ id }: User): void {
+    this.navCtrl.push(ProfilPage, {id});
   }
 
 }

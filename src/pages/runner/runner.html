@@ -14,7 +14,7 @@
 
   <ion-list *ngIf="runner">
 
-    <ion-item *ngIf="runner.user">
+    <ion-item *ngIf="runner.user" (click)="showProfil(runner.user)">
       <ion-icon name="man" item-left></ion-icon>
       <h2>{{runner.user.fullname}}</h2>
     </ion-item>
