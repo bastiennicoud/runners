@@ -32,7 +32,6 @@ export class ProfilPage {
   }
 
   callUser(){
-    console.log('ok');
     CallNumber.callNumber(this.user.phoneNumber, false)
       .then(() => console.log('Launched dialer!'))
       .catch(() => console.log('Error launching dialer'));
