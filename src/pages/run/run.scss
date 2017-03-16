@@ -1,5 +1,11 @@
 page-run {
 
+  @each $status, $value in map-remove($runStatus) {
+    ion-card.status[status=#{$status}] {
+      border-left: 10px solid $value;
+    }
+  }
+
   ion-list.waypoints {
 
     ion-item {
@@ -20,11 +26,11 @@ page-run {
 
       &::before {
         top: 0;
-        height: 25px;
+        height: 15px;
       }
 
       &::after {
-        top: 40px;
+        top: 35px;
         bottom: 0;
       }
 

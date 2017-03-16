@@ -17,7 +17,6 @@ export class GroupVehicleStatusPipe {
     }, []);
     return Object.keys(groupedVehicleStatus).map(key => {
       const { type, vehicleStatus } = groupedVehicleStatus[key];
-      console.log(vehicleStatus);
       return { type, vehicleStatus };
     });
   }

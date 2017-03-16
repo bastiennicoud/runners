@@ -30,11 +30,15 @@ export class Run {
   }
 
   get empty(): boolean {
-    return !this.runners.filter(r => r.user).length;
+    return !this.runners.filter(r => r.user || r.vehicle).length;
   }
 
-  get beingFilledIn(): boolean {
-    return !this.empty && !this.ready;
+  get organizingUsers(): boolean {
+    return !!this.runners.filter(r => !r.user).length;
+  }
+
+  get organizingVehicles(): boolean {
+    return !!this.runners.filter(r => !r.vehicle).length;
   }
 
   get ready(): boolean {
@@ -49,12 +53,18 @@ export class Run {
     return !!this.endAt;
   }
 
+  get problem(): boolean {
+    return false;
+  }
+
   get status(): RunStatusEnum {
-    if (this.completed) return RunStatusEnum.completed;
+    if (this.problem) return RunStatusEnum.problem;
+    else if (this.completed) return RunStatusEnum.completed;
     else if (this.inProgress) return RunStatusEnum.inProgress;
     else if (this.ready) return RunStatusEnum.ready;
-    else if (this.beingFilledIn) return RunStatusEnum.beingFilledIn;
     else if (this.empty) return RunStatusEnum.empty;
+    else if (this.organizingUsers) return RunStatusEnum.organizingUsers;
+    else if (this.organizingVehicles) return RunStatusEnum.organizingVehicles;
     else throw new Error(`Run #${this.id} has no status, it's weird`);
   }
 

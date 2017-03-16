@@ -4,117 +4,128 @@
     <ion-title *ngIf="run">{{run.title}}</ion-title>
   </ion-navbar>
 
-  <ion-segment [(ngModel)]="view">
-    <ion-segment-button value="information">
-      Informations
-    </ion-segment-button>
-    <ion-segment-button value="waypoints">
-      Trajet
-    </ion-segment-button>
-    <ion-segment-button value="runners">
-      Inscriptions
-    </ion-segment-button>
-  </ion-segment>
-
 </ion-header>
 
-
-
-<ion-content padding>
+<ion-content>
 
   <ion-refresher (ionRefresh)="refreshRun($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div *ngIf="run" [ngSwitch]="view">
+  <div *ngIf="run">
 
-    <!-- Information -->
-    <div *ngSwitchCase="'information'">
+    <ion-card class="status" [attr.status]="run.status">
+      <ion-card-content>
+        <div [ngSwitch]="run.status">
+          <span *ngSwitchCase="RunStatusEnum.problem">Chaud !!!</span>
+          <span *ngSwitchCase="RunStatusEnum.completed">Terminé</span>
+          <span *ngSwitchCase="RunStatusEnum.inProgress">En Cours</span>
+          <span *ngSwitchCase="RunStatusEnum.ready">Prêt</span>
+          <span *ngSwitchCase="RunStatusEnum.empty">Ouvert</span>
+          <span *ngSwitchCase="RunStatusEnum.organizingUsers">Recherche de chauffeur</span>
+          <span *ngSwitchCase="RunStatusEnum.organizingVehicles">Choix des véhicules</span>
+        </div>
 
-      <ion-list no-lines>
+      </ion-card-content>
 
-        <ion-item>
-          <ion-icon name="calendar" item-left></ion-icon>
-          <h2>devrait commencer le :</h2>
-          <p><em>{{run.beginAt | date:'fullDate'}} à {{run.beginAt | date:'shortTime'}}</em></p>
-        </ion-item>
+    </ion-card>
 
-        <ion-item>
-          <ion-icon name="car" item-left></ion-icon>
-          <span *ngIf="run.startAt">
-            <h2>Le run a démarré le :</h2>
-            <p><em>{{run.startAt | date:'fullDate'}} à {{run.startAt | date:'shortTime'}}</em></p>
-          </span>
-          <span *ngIf="!run.startAt">
-            <p><em>Le run n'a pas encore démarré</em></p>
-          </span>
-        </ion-item>
+    <ion-card>
 
-        <ion-item *ngIf="run.startAt && !run.endAt">
-          <p><em>Le run est toujours en cours</em></p>
-        </ion-item>
+      <ion-card-header>Informations</ion-card-header>
 
-        <ion-item *ngIf="run.startAt && run.endAt">
-          <ion-icon name="checkmark" item-left></ion-icon>
-          <h2>Le run c'est terminé le :</h2>
-          <p><em>{{run.endAt | date:'fullDate'}} à {{run.endAt | date:'shortTime'}}</em></p>
-        </ion-item>
+      <ion-card-content>
 
-      </ion-list>
+        <ion-list no-lines>
 
-    </div>
+          <ion-item>
+            <ion-icon name="calendar" item-left></ion-icon>
+            <h2>Planifié :</h2>
+            <p><em>{{run.beginAt | date:'EEEE'}} à {{run.beginAt | date:'shortTime'}}</em></p>
+          </ion-item>
 
-    <!-- Waypoints -->
-    <div *ngSwitchCase="'waypoints'">
+          <ion-item *ngIf="run.startAt">
+            <ion-icon name="car" item-left></ion-icon>
+            <span>
+              <h2>Démarré :</h2>
+              <p><em>{{run.startAt | date:'EEEE'}} à {{run.startAt | date:'shortTime'}}</em></p>
+            </span>
+          </ion-item>
 
-      <ion-list class="waypoints" no-lines>
+          <ion-item *ngIf="run.startAt && run.endAt">
+            <ion-icon name="checkmark" item-left></ion-icon>
+            <h2>Terminé :</h2>
+            <p><em>{{run.endAt | date:'EEEE'}} à {{run.endAt | date:'shortTime'}}</em></p>
+          </ion-item>
 
-        <ion-item *ngFor="let waypoint of run.waypoints">
-          <ion-icon name="compass" item-left></ion-icon>
-          <h2>{{waypoint.nickname}}</h2>
-          <p><em>{{waypoint.geocoder.formatted_address}}</em></p>
-        </ion-item>
+        </ion-list>
 
-      </ion-list>
+      </ion-card-content>
 
-    </div>
+    </ion-card>
 
-    <!-- Runners -->
-    <div *ngSwitchCase="'runners'">
+    <ion-card>
 
-      <ion-list no-lines>
+      <ion-card-header>Trajet</ion-card-header>
 
-        <button ion-item *ngFor="let runner of run.runners" (click)="showRunner(runner)">
-          <ion-icon name="car" item-left></ion-icon>
-          <h2 *ngIf="runner.vehicle">{{runner.vehicle.name}}</h2>
-          <h2 *ngIf="!runner.vehicle">{{runner.vehicleCategory.type}} ??</h2>
-          <p *ngIf="runner.user">{{runner.user.fullname}}</p>
-          <p *ngIf="!runner.user">-</p>
+      <ion-card-content>
+
+        <ion-list class="waypoints" no-lines>
+
+          <ion-item *ngFor="let waypoint of run.waypoints">
+            <ion-icon name="compass" item-left></ion-icon>
+            <h2>{{waypoint.nickname}}</h2>
+          </ion-item>
+
+        </ion-list>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-card>
+
+      <ion-card-header>Conducteurs</ion-card-header>
+
+      <ion-card-content>
+
+        <ion-list no-lines>
+
+          <button ion-item *ngFor="let runner of run.runners" (click)="showRunner(runner)">
+            <ion-icon name="car" item-left></ion-icon>
+            <h2 *ngIf="runner.vehicle">{{runner.vehicle.name}}</h2>
+            <h2 *ngIf="!runner.vehicle">{{runner.vehicleCategory.type}} ??</h2>
+            <p *ngIf="runner.user">{{runner.user.fullname}}</p>
+            <p *ngIf="!runner.user">-</p>
+          </button>
+
+        </ion-list>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <div *ngIf="run && authStorage.user.belongsToRun(run)" [ngSwitch]="run.status">
+      <ion-card *ngSwitchCase="RunStatusEnum.ready">
+        <ion-card-content>
+          <button ion-button full color="secondary" icon-left (click)="start()">
+            <ion-icon name="car"></ion-icon>
+            Démarrer
+          </button>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngSwitchCase="RunStatusEnum.inProgress">
+        <ion-card-content>
+        <button ion-button full color="danger" icon-left (click)="stop()">
+          <ion-icon name="beer"></ion-icon>
+          Arrêter
         </button>
-
-      </ion-list>
+        </ion-card-content>
+      </ion-card>
 
     </div>
 
   </div>
 
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar *ngIf="run && authStorage.user.belongsToRun(run)">
-    <ion-title *ngIf="run.status == 'created'">
-      <i>en attente</i>
-    </ion-title>
-    <ion-title *ngIf="run.status == 'ready'">
-      <i>Le groupe est prêt</i>
-      <button ion-button item-right>Commencer</button>
-    </ion-title>
-    <ion-title *ngIf="run.status == 'inProgress'">
-      <i>en cours</i>
-      <button ion-button item-right>Terminer</button>
-    </ion-title>
-    <ion-title *ngIf="run.status == 'completed'">
-      <i>run terminé</i>
-    </ion-title>
-  </ion-toolbar>
-</ion-footer>

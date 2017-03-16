@@ -25,4 +25,12 @@ export class RunService {
       .map(data => Run.build(data));
   }
 
+  start({ id }: Run): Observable<any> {
+    return this.httpService.post(`/runs/${id}/start`, '');
+  }
+
+  stop({ id }: Run): Observable<any> {
+    return this.httpService.post(`/runs/${id}/stop`, '');
+  }
+
 }

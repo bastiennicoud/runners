@@ -1,7 +1,9 @@
 export enum RunStatusEnum {
   empty = <any>'empty',
-  beingFilledIn = <any>'beingFilledIn',
+  organizingUsers = <any>'organizing-users',
+  organizingVehicles = <any>'organizing-vehicles',
   ready = <any>'ready',
   inProgress = <any>'inProgress',
-  completed = <any>'completed'
+  completed = <any>'completed',
+  problem = <any>'problem',
 }
