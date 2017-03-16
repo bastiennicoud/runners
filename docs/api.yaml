@@ -80,9 +80,9 @@ paths:
             
   /runs/{id}:
     get:
-      summary: User Types
+      summary: Run Types
       description: 
-        Liste tous les runs
+        List all run
       parameters:
         - name: id
           in: path
@@ -109,7 +109,7 @@ paths:
   /runners/{id}:
     patch:
       summary: Runners
-      description: "allow to edit / remove car or user linked to one run."
+      description: "Allow to edit / remove car or user linked to one run."
       parameters:
         - name: id
           in: path
@@ -137,7 +137,62 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  
+
+  /runners/{id}/start:
+    post:
+      summary: Start the run
+      description: 
+        Start the run only if all runners are ready and have vehicles.
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: Run object with the start_at filled
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error' 
+            
+  /runners/{id}/stop:
+    post:
+      summary: Stop the run
+      description: 
+        Indicates that the run has been completed. (filled end_at)
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: Run object with the start_at filled
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error' 
             
   /vehicles:
     get:
@@ -155,7 +210,6 @@ paths:
           description: "Allows you to retrieve a list of vehicles according to type such as : [Vito, Limo]. /vehicles?staus=taken&type=Limo"
           required: false
           type: string
-          
         - name: include
           in: query
           description: "Add user object if the vehicle is taken : /vehicles?include=user"
@@ -176,6 +230,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error' 
+          
             
 definitions:
     
@@ -267,7 +322,7 @@ definitions:
         description: "Status de la run : libre, incomplet, ..."
       runners:
         type: array
-        description: ""
+        description: "Le tableau de runners nous permet de définir le nombre de runners ainsi que optionnelement les véhicules définit"
         items:
           $ref: '#/definitions/Runners'
         

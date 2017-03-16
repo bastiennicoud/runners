@@ -20,12 +20,12 @@
         <ion-label>{{group.type.type}}</ion-label>
       </ion-item-divider>
 
-      <ion-item *ngFor="let vehicleStatus of group.vehicleStatus" (click)="showVehicle(vehicleStatus)" [attr.status]="vehicleStatus.status">
+      <ion-item *ngFor="let vehicleStatus of group.vehicleStatus" (click)="showVehicle(vehicleStatus)">
         <ion-label>
           <h2>{{vehicleStatus.vehicle.name}}</h2>
-          <p *ngIf="vehicleStatus.user">{{vehicleStatus.user.fullname}}</p>
         </ion-label>
-        <ion-note item-right>{{vehicleStatus.status}}</ion-note>
+        <ion-note *ngIf="vehicleStatus.user" item-right>{{vehicleStatus.user.fullname}}</ion-note>
+        <ion-note *ngIf="!vehicleStatus.user" item-right class="free">Libre</ion-note>
       </ion-item>
 
     </ion-item-group>
