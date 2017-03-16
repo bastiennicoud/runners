@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Vehicle, VehicleService, VehicleStatus} from '../../services/vehicle.service';
+import { Vehicle, VehicleService } from '../../services/vehicle.service';
 import { ProfilPage } from '../../pages/profil/profil';
 import { User } from '../../models/user';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';

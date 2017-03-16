@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { VehiclePage } from '../vehicle/vehicle';
 
-import { VehicleService, VehicleStatus, Vehicle } from '../../services/vehicle.service';
+import { VehicleService, VehicleStatus } from '../../services/vehicle.service';
 
 @Component({
   selector: 'page-vehicles',
