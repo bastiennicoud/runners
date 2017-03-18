@@ -9,6 +9,13 @@ import { AuthStorage } from '../storages/auth.storage';
 
 export { Response, RequestOptionsArgs };
 
+/**
+ * This class add http header on each request. 
+ * And detect if the user have not sucessfully authenticated.
+ * 
+ * @export
+ * @class HttpService
+ */
 @Injectable()
 export class HttpService {
 
@@ -51,6 +58,7 @@ export class HttpService {
 
     return this.http.request(new Request(requestOptions))
       .catch(err => {
+        // If the user is not correctly authenticated.
         err.status == 401 && this.authFailed.next(err);
         return Observable.throw(err);
       })

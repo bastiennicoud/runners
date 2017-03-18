@@ -4,12 +4,13 @@ import { ProfilPage } from '../../pages/profil/profil';
 import { User } from '../../models/user';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
-/*
-  Generated class for the Vehicle page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+/**
+ * This class displays the profile of a vehicle
+ * 
+ * @export
+ * @class VehiclePage
+ */
 @Component({
   selector: 'page-vehicle',
   templateUrl: 'vehicle.html'

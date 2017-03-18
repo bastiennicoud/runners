@@ -7,6 +7,12 @@ import { VehicleStatus } from '../models/vehicle-status';
 
 export { Vehicle, VehicleStatus };
 
+/**
+ * Retrive one or all Vehicle.
+ * 
+ * @export
+ * @class VehicleService
+ */
 @Injectable()
 export class VehicleService {
 

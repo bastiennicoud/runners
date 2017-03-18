@@ -4,6 +4,12 @@ import { VehiclePage } from '../vehicle/vehicle';
 
 import { VehicleService, VehicleStatus } from '../../services/vehicle.service';
 
+/**
+ * This class lists all vehicles available or in use.
+ * 
+ * @export
+ * @class VehiclesPage
+ */
 @Component({
   selector: 'page-vehicles',
   templateUrl: 'vehicles.html'
