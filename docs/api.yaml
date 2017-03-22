@@ -18,7 +18,7 @@ paths:
   /users:
     get:
       summary: User Types
-      description: 
+      description:
         List all users
       tags:
         - Users
@@ -33,7 +33,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-            
+
   /users/me:
     get:
       summary: User Types
@@ -53,12 +53,12 @@ paths:
   /runs:
     get:
       summary: User Types
-      description: 
+      description:
         List all runs
       parameters:
         - name: status
           in: query
-          description: "Allows to recover the runs according to their status such as : [reserved, finish, current]. Exemple : /runs?status=finish,current" 
+          description: "Allows to recover the runs according to their status such as : [reserved, finish, current]. Exemple : /runs?status=finish,current"
           required: false
           type: string
       tags:
@@ -76,12 +76,12 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'        
-            
+            $ref: '#/definitions/Error'
+
   /runs/{id}:
     get:
       summary: Run Types
-      description: 
+      description:
         List all run
       parameters:
         - name: id
@@ -104,8 +104,8 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error' 
-            
+            $ref: '#/definitions/Error'
+
   /runners/{id}:
     patch:
       summary: Runners
@@ -141,7 +141,7 @@ paths:
   /runners/{id}/start:
     post:
       summary: Start the run
-      description: 
+      description:
         Start the run only if all runners are ready and have vehicles.
       parameters:
         - name: id
@@ -164,12 +164,12 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error' 
-            
+            $ref: '#/definitions/Error'
+
   /runners/{id}/stop:
     post:
       summary: Stop the run
-      description: 
+      description:
         Indicates that the run has been completed. (filled end_at)
       parameters:
         - name: id
@@ -192,12 +192,12 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error' 
-            
+            $ref: '#/definitions/Error'
+
   /vehicles:
     get:
       summary: Vehicles Types
-      description: 
+      description:
         List all vehicles
       parameters:
         - name: status
@@ -229,27 +229,27 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error' 
-          
-            
+            $ref: '#/definitions/Error'
+
+
 definitions:
-    
+
   Vehicle:
     type: object
     properties:
       id:
         description: Unique identifier (PK)
         type: integer
-      name: 
+      name:
         description: Nom de la voiture (Vito 1)
         type: string
       type:
         type: object
         $ref: '#/definitions/VehicleType'
-      plate_number: 
+      plate_number:
         description: Numero de plaque de la voiture
         type: string
-      nb_place: 
+      nb_place:
         description: Nombre de place disponible dans la voiture (la place du conducteur est exclue)
         type: integer
       user:
@@ -261,16 +261,16 @@ definitions:
       id:
         description: Unique identifier (PK)
         type: integer
-      firstname: 
+      firstname:
         description: Driver's first name
         type: string
-      lastname: 
+      lastname:
         description: Driver's last name
         type: string
-      phone_number: 
+      phone_number:
         description: Driver's phone number
         type: string
-        
+
   VehicleType:
     type: object
     properties:
@@ -278,7 +278,7 @@ definitions:
         type: string
       description:
         type: string
-  
+
   VehicleStatus:
     type: object
     properties:
@@ -309,11 +309,11 @@ definitions:
         type: string
         format: date-time
         description: Quand la course devrait commencer
-      start_at: 
+      start_at:
         type: string
         description: Quand commence la course
         format: date-time
-      end_at: 
+      end_at:
         description: Quand fini la course
         type: string
         format: date-time
@@ -325,7 +325,7 @@ definitions:
         description: "Le tableau de runners nous permet de définir le nombre de runners ainsi que optionnelement les véhicules définit"
         items:
           $ref: '#/definitions/Runners'
-        
+
   Waypoint:
     type: object
     properties:
@@ -335,7 +335,7 @@ definitions:
       geocoder:
         type: object
         $ref: '#/definitions/Geocoder'
-        
+
   Runners:
     type: object
     properties:
@@ -347,10 +347,10 @@ definitions:
         $ref: '#/definitions/VehicleType'
       vehicle:
         type: object
-        $ref: '#/definitions/Vehicle' 
-        
-        
-        
+        $ref: '#/definitions/Vehicle'
+
+
+
 # Google Map API
   Geocoder:
     type: object
@@ -377,7 +377,7 @@ definitions:
         type: array
         items:
               type: string
-  
+
   GeocoderAddressComponent:
     type: object
     properties:
@@ -392,7 +392,7 @@ definitions:
         description: An array of strings denoting the type of this address component. A list of valid types can be found here https://developers.google.com/maps/documentation/geocoding/intro?hl=fr#Types
         items:
          type: string
-          
+
   GeocoderGeometry:
     type: object
     properties:
@@ -424,7 +424,7 @@ definitions:
                 type: string
               lng:
                 type: string
-            
+
   Error:
     type: object
     properties:
