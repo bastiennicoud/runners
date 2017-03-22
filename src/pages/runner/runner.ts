@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { RunnerService, Runner } from '../../services/runner.service';
 import { UserService, User } from '../../services/user.service';
+import { AuthStorage } from '../../storages/auth.storage';
 import { ProfilPage } from '../profil/profil';
 
 import { Vehicle } from '../../models/vehicle';
@@ -17,7 +18,7 @@ export class RunnerPage {
   runner: Runner;
   availableVehicles: Vehicle[];
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private loadingCtrl: LoadingController, private runnerService: RunnerService, private userService: UserService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private loadingCtrl: LoadingController, private runnerService: RunnerService, private userService: UserService, private authStorage: AuthStorage) {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' });
     loader.present();
     this.loadRunner().subscribe(
@@ -42,18 +43,18 @@ export class RunnerPage {
     this.loadRunner().subscribe(
       null,
       err => err.status != 401 && refresher.cancel(),
-      () => refresher.complete()
+      () => refresher.complete(),
     );
   }
 
-  takeRunner(runner: Runner): void {
+  selectUser(): void {
     const loader = this.loadingCtrl.create({ content: 'Traitement ...' });
     loader.present();
 
-    this.userService.takeRunner(runner).subscribe(
+    this.runnerService.setUser(this.runner, this.authStorage.user).subscribe(
       runner => this.runner = runner,
-      err => !console.log(err) && loader.dismiss(),
-      () => loader.dismiss()
+      err => err.status != 401 && loader.dismiss(),
+      () => loader.dismiss(),
     );
   }
 
@@ -61,10 +62,10 @@ export class RunnerPage {
     const loader = this.loadingCtrl.create({ content: 'Traitement ...' });
     loader.present();
 
-    this.runnerService.takeVehicle(this.runner, vehicle).subscribe(
+    this.runnerService.setVehicle(this.runner, vehicle).subscribe(
       runner => this.runner = runner,
-      err => !console.log(err) && loader.dismiss(),
-      () => loader.dismiss()
+      err => err.status != 401 && loader.dismiss(),
+      () => loader.dismiss(),
     );
   }
 

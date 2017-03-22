@@ -21,7 +21,7 @@
 
     <ion-item *ngIf="!runner.user">
       <ion-icon name="man" item-left></ion-icon>
-      <button ion-button full (click)="takeRunner(runner)">Je prends le run !</button>
+      <button ion-button full (click)="selectUser()">Je prends le run !</button>
     </ion-item>
 
     <ion-item *ngIf="runner.vehicle">

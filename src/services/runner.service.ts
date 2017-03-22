@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 import { Runner } from '../models/runner';
 import { Vehicle } from '../models/vehicle';
+import { User } from '../models/user';
 
 export { Runner };
 
@@ -21,10 +22,10 @@ export class RunnerService {
 
   /**
    * Get one runner
-   * 
+   *
    * @param {string} id Unique identifier of the runner
    * @returns {Observable<Runner>}
-   * 
+   *
    * @memberOf RunnerService
    */
   get(id: string): Observable<Runner> {
@@ -36,26 +37,46 @@ export class RunnerService {
 
 /**
  * Link a vehicle to the runner.
- * 
+ *
  * @param {Runner} runner
  * @param {Vehicle} vehicle
  * @returns {Observable<Runner>}
- * 
+ *
  * @memberOf RunnerService
  */
-  takeVehicle(runner: Runner, vehicle: Vehicle): Observable<Runner> {
+  setVehicle({ id }: Runner, vehicle: Vehicle): Observable<Runner> {
     return this.httpService
-      .post(`/runners/${runner.id}/vehicles/${vehicle.id}`, null)
+      .patch(`/runners/${id}`, JSON.stringify({
+        vehicle,
+      }))
+      .map(data => data.json())
+      .map(data => Runner.build(data));
+  }
+
+  /**
+ * The authenticated user will join the run
+ *
+ * @param {Runner} { id }
+ * @param {User} user
+ * @returns {Observable<Runner>}
+ *
+ * @memberOf UserService
+ */
+  setUser({ id }: Runner, user: User): Observable<Runner> {
+    return this.httpService
+      .patch(`/runners/${id}`, JSON.stringify({
+        user,
+      }))
       .map(data => data.json())
       .map(data => Runner.build(data));
   }
 
 /**
  * List all available vehicle for the given runner
- * 
+ *
  * @param {Runner} { id }
  * @returns {Observable<Vehicle[]>}
- * 
+ *
  * @memberOf RunnerService
  */
   availableVehicles({ id }: Runner): Observable<Vehicle[]> {
