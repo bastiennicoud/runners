@@ -1,8 +1,9 @@
 import { Http, Headers, RequestOptions, RequestOptionsArgs, Response, RequestMethod, Request } from '@angular/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable, Subject } from 'rxjs';
 
+import { API_ENDPOINT } from '../tokens/api-endpoint';
 import { AuthStorage } from '../storages/auth.storage';
 
 // Widely inspirated by https://gist.github.com/chandermani/9166abe6e6608a31f471
@@ -19,11 +20,9 @@ export { Response, RequestOptionsArgs };
 @Injectable()
 export class HttpService {
 
-  private base: string = 'https://markal.servehttp.com/runners/api';
-
   public authFailed: Subject<any> = new Subject<any>();
 
-  constructor(private platform: Platform, private http: Http, private authStorage: AuthStorage) {}
+  constructor(@Inject(API_ENDPOINT) private base: string, private platform: Platform, private http: Http, private authStorage: AuthStorage) {}
 
   public get(url: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.request(RequestMethod.Get, url, null, options);

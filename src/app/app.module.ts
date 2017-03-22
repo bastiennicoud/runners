@@ -1,6 +1,9 @@
 import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
+import { api } from '../../runners.config.json';
+import { API_ENDPOINT } from '../tokens/api-endpoint';
+
 import { HttpService } from '../services/http.service';
 import { VehicleService } from '../services/vehicle.service';
 import { UserService } from '../services/user.service';
@@ -54,6 +57,10 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     ProfilPage,
   ],
   providers: [
+    {
+      provide: API_ENDPOINT,
+      useValue: api,
+    },
     {
       provide: LOCALE_ID,
       useValue: 'fr-CH',
