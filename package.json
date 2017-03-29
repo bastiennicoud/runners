@@ -1,7 +1,8 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "runners",
+  "author": "CPNV",
+  "homepage": "https://www.cpnv.ch/",
+  "description": "Runners Paléo project",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
@@ -40,6 +41,5 @@
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard"
   ],
-  "cordovaPlatforms": [],
-  "description": "runners: An Ionic project"
+  "cordovaPlatforms": []
 }
