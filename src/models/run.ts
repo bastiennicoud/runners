@@ -3,17 +3,80 @@ import { Runner } from './runner';
 
 import { RunStatusEnum } from '../enums/run-status.enum';
 
+/**
+ * a Run is the equivalent to the physical little physical cards on the board
+ *
+ * @export
+ * @class Run
+ */
 export class Run {
 
+  /**
+   * Unique identifier of the run
+   *
+   * @type {string}
+   * @memberOf Run
+   */
   public id: string;
+
+  /**
+   * Title of the run, generally this is the name of artist
+   *
+   * @type {string}
+   * @memberOf Run
+   */
   public title: string;
+
+  /**
+   * The "expected" date, when the run should start
+   *
+   * @type {Date}
+   * @memberOf Run
+   */
   public beginAt: Date;
+
+  /**
+   * The date, when the run was started
+   *
+   * @type {Date}
+   * @memberOf Run
+   */
   public startAt?: Date;
+
+  /**
+   * The date, when the run was ended
+   *
+   * @type {Date}
+   * @memberOf Run
+   */
   public endAt?: Date;
 
+  /**
+   * List of waypoints that drivers must follow
+   *
+   * @type {Waypoint[]}
+   * @memberOf Run
+   */
   public waypoints: Waypoint[];
+
+  /**
+   * List of convoys that attends to the run
+   *
+   * @type {Runner[]}
+   * @memberOf Run
+   */
   public runners: Runner[];
 
+
+  /**
+   * Factory that uses json data for build Run instance
+   *
+   * @static
+   * @param {*} data
+   * @returns {Run}
+   *
+   * @memberOf Run
+   */
   static build(data: any): Run {
     if (!data) return null;
 
@@ -29,34 +92,91 @@ export class Run {
     return b;
   }
 
+  /**
+   * Does the run is empty ?
+   * no drivers, no vehicles
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberOf Run
+   */
   get empty(): boolean {
     return !this.runners.filter(r => r.user || r.vehicle).length;
   }
 
+  /**
+   * Does the run still needs drivers
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberOf Run
+   */
   get organizingUsers(): boolean {
     return !!this.runners.filter(r => !r.user).length;
   }
 
+  /**
+   * Does the run still needs vehicles
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberOf Run
+   */
   get organizingVehicles(): boolean {
     return !!this.runners.filter(r => !r.vehicle).length;
   }
 
+  /**
+   * Does the run is ready to start
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberOf Run
+   */
   get ready(): boolean {
     return !this.runners.filter(r => !r.user || !r.vehicle).length;
   }
 
+  /**
+   * Does the run is in progress
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberOf Run
+   */
   get inProgress(): boolean {
     return !!this.startAt;
   }
 
+  /**
+   * Does the run is finished
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberOf Run
+   */
   get completed(): boolean {
     return !!this.endAt;
   }
 
+  /**
+   * Does the run is in critical condition
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberOf Run
+   */
   get problem(): boolean {
     return false;
   }
 
+  /**
+   * Give the current status of run
+   *
+   * @readonly
+   * @type {RunStatusEnum}
+   * @memberOf Run
+   */
   get status(): RunStatusEnum {
     if (this.problem) return RunStatusEnum.problem;
     else if (this.completed) return RunStatusEnum.completed;
