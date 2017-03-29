@@ -7,6 +7,12 @@ import { RunnerPage } from '../runner/runner';
 import { Runner } from '../../models/runner'; // FIXME: is this the proper way ? (maybe get Runner from RunnerPage or RunService)
 import { RunStatusEnum } from '../../enums/run-status.enum';
 
+/**
+ * This class displays the details of a run when selected from the board
+ *
+ * @export
+ * @class RunPage
+ */
 @Component({
   selector: 'page-run',
   templateUrl: 'run.html'
@@ -26,10 +32,24 @@ export class RunPage {
     );
   }
 
+/**
+ * Load the datas of the run
+ *
+ * @returns
+ *
+ * @memberOf RunPage
+ */
   loadRun() {
     return this.runService.get(this.navParams.get('id')).do(run => this.run = run);
   }
 
+/**
+ * Pull to refresh to actualize the view according to the new datas on the backend
+ *
+ * @param {any} refresher
+ *
+ * @memberOf RunPage
+ */
   refreshRun(refresher) {
     this.loadRun().subscribe(
       null,
@@ -38,10 +58,23 @@ export class RunPage {
     );
   }
 
+/**
+ * Show the view for the convoy selected
+ *
+ * @param {Runner} { id }
+ *
+ * @memberOf RunPage
+ */
   showRunner({ id }: Runner) {
     this.navCtrl.push(RunnerPage, { id });
   }
 
+/**
+ * Method to start the run (assign the current user) with a confirmation box
+ *
+ *
+ * @memberOf RunPage
+ */
   start() {
     this.alertCtrl.create({
       title: 'Démarrer le run ?',
@@ -60,6 +93,12 @@ export class RunPage {
     }).present();
   }
 
+/**
+ * Method to mark the run as finished with a confirmation box
+ *
+ *
+ * @memberOf RunPage
+ */
   stop() {
     this.alertCtrl.create({
       title: 'Terminer le run ?',

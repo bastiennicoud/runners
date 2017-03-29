@@ -6,7 +6,7 @@ import { VehicleService, VehicleStatus } from '../../services/vehicle.service';
 
 /**
  * This class lists all vehicles available or in use.
- * 
+ *
  * @export
  * @class VehiclesPage
  */
@@ -28,6 +28,13 @@ export class VehiclesPage {
     );
   }
 
+/**
+ * Load the datas of the vehicle
+ *
+ * @returns
+ *
+ * @memberOf VehiclesPage
+ */
   loadVehicleStatus() {
     return this.vehicleService.status().do(vehicleStatus => this.vehicleStatus = vehicleStatus);
   }
@@ -40,6 +47,13 @@ export class VehiclesPage {
     );
   }
 
+/**
+ * Show the page detailing the vehicle
+ *
+ * @param {VehicleStatus} v
+ *
+ * @memberOf VehiclesPage
+ */
   showVehicle(v: VehicleStatus): void {
     this.navCtrl.push(VehiclePage, { id: v.vehicle.id });
   }

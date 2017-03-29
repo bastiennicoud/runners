@@ -6,6 +6,12 @@ import { AuthService } from '../../services/auth.service';
 import { AuthStorage } from '../../storages/auth.storage';
 import { TabsPage } from '../tabs/tabs';
 
+/**
+ * This class displays the login page
+ *
+ * @export
+ * @class LoginPage
+ */
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -18,6 +24,12 @@ export class LoginPage {
       .then(() => Splashscreen.hide());
   }
 
+/**
+ * This function launch the scan to oprerate with a qrcode as soon as the device is ready
+ *
+ *
+ * @memberOf LoginPage
+ */
   scan(): void {
     this.platform.ready().then(() => {
 
@@ -39,6 +51,14 @@ export class LoginPage {
     });
   }
 
+/**
+ * This function allow to enter the code to connect to the app manually (you have to swipe to the left to discover this option)
+ *
+ * @param {any} e
+ * @returns {void}
+ *
+ * @memberOf LoginPage
+ */
   manually(e): void {
     e.preventDefault();
     const key = e.target.key.value;
@@ -56,6 +76,13 @@ export class LoginPage {
     this.login(key);
   }
 
+/**
+ * Log in the user and display a toast in case of error or successful connection
+ *
+ * @param {string} key
+ *
+ * @memberOf LoginPage
+ */
   login(key: string): void {
     this.authService.login(key).subscribe(
       user => {

@@ -9,6 +9,12 @@ import { ProfilPage } from '../profil/profil';
 
 import { Vehicle } from '../../models/vehicle';
 
+/**
+ * This class displays the convoy selected
+ *
+ * @export
+ * @class RunnerPage
+ */
 @Component({
   selector: 'page-runner',
   templateUrl: 'runner.html'
@@ -28,17 +34,38 @@ export class RunnerPage {
     );
   }
 
+/**
+ * Load the data of the runner
+ *
+ * @returns {Observable<Runner>}
+ *
+ * @memberOf RunnerPage
+ */
   loadRunner(): Observable<Runner> {
     return this.runnerService.get(this.navParams.get('id'))
       .do(runner => this.runner = runner)
       .do(runner => !runner.vehicle && this.loadAvailableVehicles().subscribe());
   }
 
+/**
+ * Load the vehicles availables
+ *
+ * @returns {Observable<Vehicle[]>}
+ *
+ * @memberOf RunnerPage
+ */
   loadAvailableVehicles(): Observable<Vehicle[]> {
     return this.runnerService.availableVehicles(this.runner)
       .do(vehicles => this.availableVehicles = vehicles);
   }
 
+/**
+ * Push to refresh the datas
+ *
+ * @param {any} refresher
+ *
+ * @memberOf RunnerPage
+ */
   refreshRunner(refresher): void {
     this.loadRunner().subscribe(
       null,
@@ -47,6 +74,12 @@ export class RunnerPage {
     );
   }
 
+/**
+ * Set the user for the convoy
+ *
+ *
+ * @memberOf RunnerPage
+ */
   selectUser(): void {
     const loader = this.loadingCtrl.create({ content: 'Traitement ...' });
     loader.present();
@@ -58,6 +91,13 @@ export class RunnerPage {
     );
   }
 
+/**
+ * Assign a vehicle to the convoy
+ *
+ * @param {Vehicle} vehicle
+ *
+ * @memberOf RunnerPage
+ */
   selectVehicle(vehicle: Vehicle): void {
     const loader = this.loadingCtrl.create({ content: 'Traitement ...' });
     loader.present();
@@ -69,6 +109,13 @@ export class RunnerPage {
     );
   }
 
+/**
+ * Display the profil page of the user
+ *
+ * @param {User} { id }
+ *
+ * @memberOf RunnerPage
+ */
   showProfil({ id }: User): void {
     this.navCtrl.push(ProfilPage, {id});
   }

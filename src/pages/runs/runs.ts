@@ -27,10 +27,24 @@ export class RunsPage {
     );
   }
 
+/**
+ * Load all the runs
+ *
+ * @returns
+ *
+ * @memberOf RunsPage
+ */
   loadRuns() {
     return this.runService.all().do(runs => this.runs = runs);
   }
 
+/**
+ * Function to refresh when pulled
+ *
+ * @param {any} refresher
+ *
+ * @memberOf RunsPage
+ */
   refreshRuns(refresher) {
     this.loadRuns().subscribe(
       null,
@@ -39,6 +53,13 @@ export class RunsPage {
     );
   }
 
+/**
+ * Show the detail of the run
+ *
+ * @param {Run} { id }
+ *
+ * @memberOf RunsPage
+ */
   showRun({ id }: Run): void {
     this.navCtrl.push(RunPage, { id });
   }
