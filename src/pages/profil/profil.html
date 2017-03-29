@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title><ion-icon name="ios-profil"></ion-icon> Info runner</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+  <ion-item *ngIf="user">
+    <ion-thumbnail item-left>
+      <img [src]="user.image_profile">
+    </ion-thumbnail>
+    <h2>{{user.firstname}} {{user.lastname}}</h2>
+    <p>{{user.phoneNumber}}</p>
+    <button ion-button clear item-right (click)="callUser()">
+          <ion-icon class="callIcon" name="ios-call-outline" style="color: lawngreen"></ion-icon>
+    </button>
+  </ion-item>
+</ion-list>
+
+</ion-content>

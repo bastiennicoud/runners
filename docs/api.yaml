@@ -1,0 +1,426 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Runners API
+  description: Application for the paleo
+  version: "1.0.0"
+# the domain of the service
+host: localhost:8080
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /
+produces:
+  - application/json
+paths:
+  /users:
+    get:
+      summary: User Types
+      description:
+        List all users
+      tags:
+        - Users
+      responses:
+        200:
+          description: An array of users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /users/me:
+    get:
+      summary: User Types
+      description: "The authenticated user (Identified by the token)"
+      tags:
+        - Users
+      responses:
+        200:
+          description: An array of users
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /runs:
+    get:
+      summary: User Types
+      description:
+        List all runs
+      parameters:
+        - name: status
+          in: query
+          description: "Allows to recover the runs according to their status such as : [reserved, finish, current]. Example : /runs?status=finish,current"
+          required: false
+          type: string
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: An array of runs
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /runs/{id}:
+    get:
+      summary: Run Types
+      description:
+        List all run
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the run
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: An array of runs
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /runners/{id}:
+    patch:
+      summary: Runners
+      description: "Allow to edit / remove car or user linked to one run."
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+        - name: runners
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Runners"
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: An array of runs
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /runners/{id}/start:
+    post:
+      summary: Start the run
+      description:
+        Start the run only if all runners are ready and have vehicles.
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: Run object with the start_at filled
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /runners/{id}/stop:
+    post:
+      summary: Stop the run
+      description:
+        Indicates that the run has been completed. (filled end_at)
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: Run object with the start_at filled
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /vehicles:
+    get:
+      summary: Vehicles Types
+      description:
+        List all vehicles
+      parameters:
+        - name: status
+          in: query
+          description: "Allows you to retrieve a list of vehicles according to their status : [taken, free]. /vehicles?status=taken"
+          required: false
+          type: string
+        - name: type
+          in: query
+          description: "Allows you to retrieve a list of vehicles according to type such as : [Vito, Limo]. /vehicles?staus=taken&type=Limo"
+          required: false
+          type: string
+        - name: include
+          in: query
+          description: "Add user object if the vehicle is taken : /vehicles?include=user"
+          type: string
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: An array of vehicles
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Vehicle'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+definitions:
+
+  Vehicle:
+    type: object
+    properties:
+      id:
+        description: Unique identifier (PK)
+        type: integer
+      name:
+        description: Name of the car
+        type: string
+      type:
+        $ref: '#/definitions/VehicleType'
+      plate_number:
+        description: Car plate number
+        type: string
+      nb_place:
+        description: Number of places available in the car (driver's place is excluded)
+        type: integer
+      user:
+        $ref: '#/definitions/User'
+  User:
+    type: object
+    properties:
+      id:
+        description: Unique identifier (PK)
+        type: integer
+      firstname:
+        description: Driver's first name
+        type: string
+      lastname:
+        description: Driver's last name
+        type: string
+      phone_number:
+        description: Driver's phone number
+        type: string
+
+  VehicleType:
+    type: object
+    properties:
+      type:
+        type: string
+      description:
+        type: string
+
+  VehicleStatus:
+    type: object
+    properties:
+      vehicle:
+        $ref: '#/definitions/Vehicle'
+      status:
+        type: string
+        description: "Type : free, taken"
+      user:
+        $ref: '#/definitions/User'
+
+  Run:
+    type: object
+    properties:
+      id:
+        description: Identifiant unique
+        type: integer
+      title:
+        type: string
+      waypoints:
+        type: array
+        description: "Lists the steps in geographical ways in order to complete the run"
+        items:
+          $ref: '#/definitions/Waypoint'
+      begin_date:
+        type: string
+        format: date-time
+        description: When the race should start
+      start_at:
+        type: string
+        description: When the race begins (action of the runner)
+        format: date-time
+      end_at:
+        description: When the race ends
+        type: string
+        format: date-time
+      status:
+        type: string
+        description: "Run status: free, incomplete, ..."
+      runners:
+        type: array
+        description: "The table of runners allows us to define the number of runners and the vehicles taken by the runner"
+        items:
+          $ref: '#/definitions/Runners'
+
+  Waypoint:
+    type: object
+    properties:
+      nickname:
+        type: string
+        description: ""
+      geocoder:
+        $ref: '#/definitions/Geocoder'
+
+  Runners:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/User'
+      vehicle_category:
+        $ref: '#/definitions/VehicleType'
+      vehicle:
+        $ref: '#/definitions/Vehicle'
+
+
+
+# Google Map API
+  Geocoder:
+    type: object
+    properties:
+      address_components:
+        type: array
+        description:
+          An array of GeocoderAddressComponents
+        items:
+          $ref: '#/definitions/GeocoderAddressComponent'
+      formatted_address:
+        type: string
+        description:
+          A string containing the human-readable address of this location.
+        items:
+          type: string
+      geometry:
+        $ref: '#/definitions/GeocoderGeometry'
+      place_id:
+        type: string
+      types:
+        type: array
+        items:
+              type: string
+
+  GeocoderAddressComponent:
+    type: object
+    properties:
+      long_name:
+        type: string
+        description: The full text of the address component
+      short_name:
+        type: string
+        description: The abbreviated, short text of the given address component
+      types:
+        type: array
+        description: An array of strings denoting the type of this address component. A list of valid types can be found here https://developers.google.com/maps/documentation/geocoding/intro?hl=fr#Types
+        items:
+         type: string
+
+  GeocoderGeometry:
+    type: object
+    properties:
+      location:
+        type: object
+        properties:
+          lat:
+            type: string
+          lng:
+            type: string
+      location_type:
+        type: string
+        items:
+          type: string
+      viewport:
+        type: object
+        properties:
+          northeast:
+            type: object
+            properties:
+              lat:
+                type: string
+              lng:
+                type: string
+          southwest:
+            type: object
+            properties:
+              lat:
+                type: string
+              lng:
+                type: string
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      ui_message:
+        type: string

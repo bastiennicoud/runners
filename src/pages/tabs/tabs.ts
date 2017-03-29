@@ -1,20 +1,31 @@
 import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { Subscription } from 'rxjs';
 
-import { HomePage } from '../home/home';
+import { AuthService } from '../../services/auth.service';
+import { LoginPage } from '../login/login';
+import { RunsPage } from '../runs/runs';
+import { VehiclesPage } from '../vehicles/vehicles';
 
 @Component({
+  selector: 'page-tabs',
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  // this tells the tabs component which Pages
-  // should be each tab's root Page
-  tab1Root: any = HomePage;
-  tab2Root: any = HomePage;
-  tab3Root: any = HomePage;
-  tab4Root: any = HomePage;
-  tab5Root: any = HomePage;
 
-  constructor() {
+  tab1: any = RunsPage;
+  tab2: any = VehiclesPage;
 
+  loggedSubscriber: Subscription;
+
+  constructor(private navCtrl: NavController, private authService: AuthService) {}
+
+  ionViewWillLoad() {
+    this.loggedSubscriber = this.authService.loggedOut.subscribe(() => this.navCtrl.setRoot(LoginPage));
   }
+
+  ionViewWillLeave() {
+    this.loggedSubscriber && this.loggedSubscriber.unsubscribe();
+  }
+
 }

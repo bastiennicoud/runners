@@ -1,0 +1,46 @@
+page-run {
+
+  @each $status, $value in map-remove($runStatus) {
+    ion-card.status[status=#{$status}] {
+      border-left: 10px solid $value;
+    }
+  }
+
+  ion-list.waypoints {
+
+    ion-item {
+
+      ion-icon {
+        z-index: 2000;
+      }
+
+      &::before,
+      &::after {
+        z-index: 1999;
+        content: '';
+        background: #000000;
+        position: absolute;
+        left: 26px;
+        width: 5px;
+      }
+
+      &::before {
+        top: 0;
+        height: 15px;
+      }
+
+      &::after {
+        top: 35px;
+        bottom: 0;
+      }
+
+      &:first-child::before {
+        display: none;
+      }
+
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
+}
