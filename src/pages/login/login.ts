@@ -33,12 +33,6 @@ export class LoginPage {
   scan(): void {
     this.platform.ready().then(() => {
 
-      // TODO: Remove this on production
-      if (!this.platform.is('cordova')) {
-        this.login('first_user');
-        return;
-      }
-
       BarcodeScanner
         .scan({
           preferFrontCamera: false,
