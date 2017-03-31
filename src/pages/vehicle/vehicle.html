@@ -24,26 +24,26 @@
       <ion-card-title>
         <h1><strong>{{vehicle.name}} - {{vehicle.plateNumber}}</strong></h1>
       </ion-card-title>
-      <div *ngIf="vehicle.user" (click)="showUser(vehicle.user)">
+      <div *ngIf="vehicle.status == VehicleStatusEnum.taken" (click)="showUser(vehicle.user)">
         <h2>Occupé par <strong>{{vehicle.user.firstname}} {{vehicle.user.lastname}}</strong></h2>
       </div>
-      <p *ngIf="!vehicle.user">
+      <p *ngIf="vehicle.status == VehicleStatusEnum.free">
         Libre
       </p>
-      <p>
-        <strong>Commentaires:</strong>
-      </p>
+
+      <h4>Commentaires:</h4>
+
       <table>
-        <tr>
-          <td>2016-01-01</td>
-          <td>test</td>
-        </tr>
-        <tr>
-          <td>2016-01-01</td>
-          <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti architecto qui laboriosam. Ipsa dolorum saepe nihil enim ex, eius soluta esse animi, illum sit nulla iste ea consequatur, assumenda provident?</td>
+        <tr *ngFor="let comment of vehicle.comments">
+          <td valign="top">
+            <strong>{{comment.author.fullname}}</strong><br/>
+            {{comment.createdAt | date:'dd.MM.y à HH:mm'}}
+          </td>
+          <td>
+            <p>{{comment.message}}</p>
+          </td>
         </tr>
       </table>
-
 
     </ion-card-content>
   </ion-card>

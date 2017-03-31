@@ -3,6 +3,7 @@ import { Vehicle, VehicleService } from '../../services/vehicle.service';
 import { ProfilPage } from '../../pages/profil/profil';
 import { User } from '../../models/user';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { VehicleStatusEnum } from '../../enums/vehicle-status.enum';
 
 
 /**
@@ -19,6 +20,7 @@ import { NavController, NavParams, LoadingController } from 'ionic-angular';
 export class VehiclePage {
 
   vehicle: Vehicle = Vehicle.build(null);
+  VehicleStatusEnum = VehicleStatusEnum;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private loadingCtrl: LoadingController, private vehicleService: VehicleService) {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...'});
@@ -38,15 +40,38 @@ export class VehiclePage {
  * @memberOf VehiclePage
  */
   loadVehicleStatus() {
-    return this.vehicleService.get(this.navParams.get('id')).do(vehicle => {
-      this.vehicle = vehicle;
-      this.vehicle.user = User.build({
-        id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
-        firstname:'Laura',
-        lastname: 'Remy'
-      })
-      console.log(this.vehicle);
-    });
+    return this.vehicleService
+      .get(this.navParams.get('id'))
+      // TODO: fake data you have to replace them by real one
+      .map(vehicle => Object.assign(vehicle, {
+        status: VehicleStatusEnum.taken,
+        user: User.build({
+          id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
+          firstname: 'Laura',
+          lastname: 'Remy',
+        }),
+        comments: [
+          {
+            createdAt: new Date(),
+            message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti architecto qui laboriosam. Ipsa dolorum saepe nihil enim ex, eius soluta esse animi, illum sit nulla iste ea consequatur, assumenda provident?',
+            author: User.build({
+              id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
+              firstname: 'Laura',
+              lastname: 'Remy',
+            }),
+          },
+          {
+            createdAt: new Date(),
+            message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti architecto qui laboriosam. Ipsa dolorum saepe nihil enim ex, eius soluta esse animi, illum sit nulla iste ea consequatur, assumenda provident?',
+            author: User.build({
+              id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
+              firstname: 'Laura',
+              lastname: 'Remy',
+            }),
+          },
+        ],
+      }))
+      .do(vehicle => this.vehicle = vehicle);
   }
 
 /**
