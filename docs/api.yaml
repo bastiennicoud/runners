@@ -49,6 +49,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+
   /runs:
     get:
       summary: User Types
@@ -105,6 +106,62 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /runs/{id}/start:
+    post:
+      summary: Start the run
+      description:
+        Start the run only if all runners are ready and have vehicles.
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: Run object with the start_at filled
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /runs/{id}/stop:
+    post:
+      summary: Stop the run
+      description:
+        Indicates that the run has been completed. (filled end_at)
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of the runner
+          required: true
+          type: number
+      tags:
+        - Runs
+        - Users
+        - Geocoders
+        - Vehicles
+      responses:
+        200:
+          description: Run object with the start_at filled
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Run'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
   /runners/{id}:
     patch:
       summary: Runners
@@ -137,57 +194,35 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /runners/{id}/start:
-    post:
-      summary: Start the run
+  /runners/{id}/vehicles:
+    get:
+      summary: Vehicles for a runner
       description:
-        Start the run only if all runners are ready and have vehicles.
+        List all vehicles link or not to a runner (look parameters)
       parameters:
         - name: id
           in: path
           description: Unique identifier of the runner
           required: true
           type: number
-      tags:
-        - Runs
-        - Users
-        - Geocoders
-        - Vehicles
-      responses:
-        200:
-          description: Run object with the start_at filled
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Run'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
-  /runners/{id}/stop:
-    post:
-      summary: Stop the run
-      description:
-        Indicates that the run has been completed. (filled end_at)
-      parameters:
-        - name: id
-          in: path
-          description: Unique identifier of the runner
+          enum:
+           - free
+           - taken
+        - name: status
+          in: query
+          description: "Allows you filter vehicles"
           required: true
-          type: number
+          type: string
       tags:
-        - Runs
-        - Users
-        - Geocoders
-        - Vehicles
+       - Runners
+       - Vehicles
       responses:
         200:
-          description: Run object with the start_at filled
+          description: An array of vehicles
           schema:
             type: array
             items:
-              $ref: '#/definitions/Run'
+              $ref: '#/definitions/Vehicle'
         default:
           description: Unexpected error
           schema:
@@ -230,6 +265,27 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /status/vehicles:
+    get:
+      summary: Vehicle Status (DEPRECATED)
+      description:
+        List all vehicles with them status
+        This method is use in actual runners mobile application but you should remove it and use /vehicles instead
+      tags:
+       - VehicleStatus
+       - Vehicles
+       - Users
+      responses:
+        200:
+          description: An array of status of vehicles
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/VehicleStatus'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
 definitions:
 
