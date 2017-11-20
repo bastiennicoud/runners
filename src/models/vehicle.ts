@@ -87,7 +87,6 @@ export class Vehicle {
     v.plateNumber = data.plate_number;
     v.nbPlace = data.nb_place;
     v.user = User.build(data.user);
-    console.log(v)
     return v;
   }
 
