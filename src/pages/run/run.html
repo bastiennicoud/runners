@@ -94,7 +94,8 @@
           <button ion-item *ngFor="let runner of run.runners" (click)="showRunner(runner)">
             <ion-icon name="car" item-left></ion-icon>
             <h2 *ngIf="runner.vehicle">{{runner.vehicle.name}}</h2>
-            <h2 *ngIf="!runner.vehicle">{{runner.vehicleCategory.type}} ??</h2>
+            <h2 *ngIf="!runner.vehicle && runner.vehicleCategory">{{runner.vehicleCategory.type}} ??</h2>
+            <h2 *ngIf="!runner.vehicle && !runner.vehicleCategory">??</h2>
             <p *ngIf="runner.user">{{runner.user.fullname}}</p>
             <p *ngIf="!runner.user">-</p>
           </button>

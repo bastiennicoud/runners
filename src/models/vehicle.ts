@@ -57,15 +57,15 @@ export class Vehicle {
   public user: User;
 
   /**
-   * Get the name of the vehicle by merging of category name and num
+   * Get the name of the vehicle
    *
-   * @readonly
    * @type {string}
    * @memberOf Vehicle
    */
-  get name(): string {
-    return `${this.type.type || 'Véhicule'} ${this.num}`;
-  }
+  public name: string;
+
+
+
 
   /**
    * Factory that uses json data for build Vehicle instance
@@ -81,12 +81,13 @@ export class Vehicle {
 
     const v = new Vehicle;
     v.id = data.id || data._id;
-    v.num = data.num;
+    // v.num = data.num;
+    v.name = data.name;
     v.type = VehicleCategory.build(data.type);
     v.plateNumber = data.plate_number;
     v.nbPlace = data.nb_place;
     v.user = User.build(data.user);
-
+    console.log(v)
     return v;
   }
 

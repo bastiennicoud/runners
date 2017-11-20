@@ -56,9 +56,9 @@ export class Runner {
 
     const r = new Runner;
     r.id = data.id || data._id;
-    r.vehicleCategory = VehicleCategory.build(data.vehicle_category);
+    r.vehicleCategory = VehicleCategory.build(data.vehicule_category);
     r.user = User.build(data.user);
-    r.vehicle = Vehicle.build(data.vehicle);
+    r.vehicle = Vehicle.build(data.car);
 
     return r;
   }
