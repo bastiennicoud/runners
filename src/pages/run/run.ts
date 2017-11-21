@@ -22,7 +22,9 @@ export class RunPage {
   run: Run;
   RunStatusEnum = RunStatusEnum;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams, private loadingCtrl: LoadingController, private runService: RunService, private authStorage: AuthStorage) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, private navParams: NavParams, private loadingCtrl: LoadingController, private runService: RunService, private authStorage: AuthStorage) {}
+
+  ionViewWillEnter() {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' });
     loader.present();
     this.loadRun().subscribe(
@@ -31,7 +33,7 @@ export class RunPage {
       () => loader.dismiss()
     );
   }
-
+  
 /**
  * Load the datas of the run
  *
