@@ -8,6 +8,7 @@ import { AuthStorage } from '../../storages/auth.storage';
 import { ProfilPage } from '../profil/profil';
 
 import { Vehicle } from '../../models/vehicle';
+import {Run} from "../../models/run";
 
 /**
  * This class displays the convoy selected
@@ -22,11 +23,14 @@ import { Vehicle } from '../../models/vehicle';
 export class RunnerPage {
 
   runner: Runner;
+  run: Run;
   availableVehicles: Vehicle[];
 
   constructor(private navCtrl: NavController, private navParams: NavParams, private loadingCtrl: LoadingController, private runnerService: RunnerService, private userService: UserService, private authStorage: AuthStorage) {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' });
     loader.present();
+
+    this.run = this.navParams.get("title");
     this.loadRunner().subscribe(
       null,
       err => err.status != 401 && loader.dismiss(),

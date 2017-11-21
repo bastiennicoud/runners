@@ -11,9 +11,9 @@ import { AuthStorage } from '../storages/auth.storage';
 export { Response, RequestOptionsArgs };
 
 /**
- * This class add http header on each request. 
+ * This class add http header on each request.
  * And detect if the user have not sucessfully authenticated.
- * 
+ *
  * @export
  * @class HttpService
  */
@@ -54,6 +54,7 @@ export class HttpService {
     if(!requestOptions.headers) requestOptions.headers = new Headers();
 
     requestOptions.headers.set('x-access-token', this.authStorage.key);
+    requestOptions.headers.append('Content-Type', 'application/json');
 
     return this.http.request(new Request(requestOptions))
       .catch(err => {

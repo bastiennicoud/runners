@@ -65,7 +65,7 @@ export class RunnerService {
   setUser({ id }: Runner, user: User): Observable<Runner> {
     return this.httpService
       .patch(`/runners/${id}`, JSON.stringify({
-        user,
+        user: user.id,
       }))
       .map(data => data.json())
       .map(data => Runner.build(data));
