@@ -65,8 +65,8 @@ export class RunPage {
  *
  * @memberOf RunPage
  */
-  showRunner({ id }: Runner) {
-    this.navCtrl.push(RunnerPage, { id });
+  showRunner({ id }: Runner, {title}:Run) {
+    this.navCtrl.push(RunnerPage, { id, title });
   }
 
 /**
