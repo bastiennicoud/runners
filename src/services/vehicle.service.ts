@@ -9,7 +9,7 @@ export { Vehicle, VehicleStatus };
 
 /**
  * Retrive one or all Vehicle.
- * 
+ *
  * @export
  * @class VehicleService
  */
@@ -34,7 +34,7 @@ export class VehicleService {
 
   status(): Observable<VehicleStatus[]> {
     return this.httpService
-      .get(`/status/vehicles`)
+      .get(`/vehicles`)
       .map(data => data.json())
       .map(data => data.map(d => VehicleStatus.build(d)));
   }
