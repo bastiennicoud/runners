@@ -1,3 +1,3 @@
-import { OpaqueToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-export let API_ENDPOINT = new OpaqueToken('api.endpoint');
+export let API_ENDPOINT = new InjectionToken('api.endpoint');

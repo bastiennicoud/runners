@@ -1,7 +1,16 @@
 import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
-import { api } from '../../runners.config.json';
+import { CacheModule } from "ionic-cache";
+
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
+import { api } from '../runners.config';
 import { API_ENDPOINT } from '../tokens/api-endpoint';
 
 import { HttpService } from '../services/http.service';
@@ -26,6 +35,7 @@ import { FilterRunsPipe } from '../pipes/filter-runs.pipe';
 import { GroupRunsPipe } from '../pipes/group-runs.pipe';
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -42,7 +52,13 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     GroupVehicleStatusPipe,
   ],
   imports: [
+    BrowserModule,
+    HttpClientModule,
+    HttpModule,
+    CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
+
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -57,6 +73,9 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     ProfilPage,
   ],
   providers: [
+    StatusBar,
+    SplashScreen,
+    BarcodeScanner,
     {
       provide: API_ENDPOINT,
       useValue: api,

@@ -19,6 +19,11 @@ export class RunsPage {
 
   constructor(private navCtrl: NavController, private loadingCtrl: LoadingController, private runService: RunService) {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' });
+
+    var id = this.navCtrl.last().getNavParams().get("id")
+    var run = this.runService.get(id).do( r => this.runs = [this.runs.filter(r => r.id == id), run]);
+
+
     loader.present();
     this.loadRuns().subscribe(
       null,
