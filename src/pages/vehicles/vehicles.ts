@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
-import { VehiclePage } from '../vehicle/vehicle';
+import { Component } from '@angular/core'
+import { NavController, LoadingController } from 'ionic-angular'
+import { VehiclePage } from '../vehicle/vehicle'
 
-import { VehicleService, VehicleStatus } from '../../services/vehicle.service';
+import { VehicleService, VehicleStatus } from '../../services/vehicle.service'
 
 /**
  * This class lists all vehicles available or in use.
@@ -12,31 +12,38 @@ import { VehicleService, VehicleStatus } from '../../services/vehicle.service';
  */
 @Component({
   selector: 'page-vehicles',
-  templateUrl: 'vehicles.html'
+  templateUrl: 'vehicles.html',
 })
 export class VehiclesPage {
+  vehicleStatus: VehicleStatus[] = []
 
-  vehicleStatus: VehicleStatus[] = [];
+  constructor(
+    private navCtrl: NavController,
+    private loadingCtrl: LoadingController,
+    private vehicleService: VehicleService
+  ) {}
 
-  constructor(private navCtrl: NavController, private loadingCtrl: LoadingController, private vehicleService: VehicleService) {
-    const loader = this.loadingCtrl.create({ content: 'Chargement ...'});
-    loader.present();
+  ionViewWillEnter() {
+    const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
+    loader.present()
     this.loadVehicleStatus().subscribe(
       null,
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
-    );
+    )
   }
 
-/**
- * Load the datas of the vehicle
- *
- * @returns
- *
- * @memberOf VehiclesPage
- */
+  /**
+   * Load the datas of the vehicle
+   *
+   * @returns
+   *
+   * @memberOf VehiclesPage
+   */
   loadVehicleStatus() {
-    return this.vehicleService.status().do(vehicleStatus => this.vehicleStatus = vehicleStatus);
+    return this.vehicleService
+      .status()
+      .do(vehicleStatus => (this.vehicleStatus = vehicleStatus))
   }
 
   refreshVehicleStatus(refresher) {
@@ -44,18 +51,17 @@ export class VehiclesPage {
       null,
       err => err.status != 401 && refresher.cancel(),
       () => refresher.complete()
-    );
+    )
   }
 
-/**
- * Show the page detailing the vehicle
- *
- * @param {VehicleStatus} v
- *
- * @memberOf VehiclesPage
- */
+  /**
+   * Show the page detailing the vehicle
+   *
+   * @param {VehicleStatus} v
+   *
+   * @memberOf VehiclesPage
+   */
   showVehicle(v: VehicleStatus): void {
-    this.navCtrl.push(VehiclePage, { id: v.vehicle.id });
+    this.navCtrl.push(VehiclePage, { id: v.vehicle.id })
   }
-
 }

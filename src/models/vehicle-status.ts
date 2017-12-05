@@ -40,7 +40,7 @@ export class VehicleStatus {
     if (!data) return null;
 
     const vs = new VehicleStatus;
-    vs.vehicle = Vehicle.build(data.vehicle);
+    vs.vehicle = Vehicle.build(data);
     vs.user = User.build(data.user);
 
     return vs;
