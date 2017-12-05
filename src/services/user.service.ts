@@ -29,7 +29,6 @@ export class UserService {
   get(id: string): Observable<User> {
     return this.httpService
       .get(`/users/${id}`)
-      .map(data => data.json())
       .map(data => User.build(data))
   }
 

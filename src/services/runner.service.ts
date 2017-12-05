@@ -31,7 +31,6 @@ export class RunnerService {
   get(id: string): Observable<Runner> {
     return this.httpService
       .get(`/runners/${id}`)
-      .map(data => data.json())
       .map(data => Runner.build(data));
   }
 
@@ -49,7 +48,6 @@ export class RunnerService {
       .patch(`/runners/${id}`, JSON.stringify({
         vehicle,
       }))
-      .map(data => data.json())
       .map(data => Runner.build(data));
   }
 
@@ -67,7 +65,7 @@ export class RunnerService {
       .patch(`/runners/${id}`, JSON.stringify({
         user: user.id,
       }))
-      .map(data => data.json())
+
       .map(data => Runner.build(data));
   }
 
@@ -82,7 +80,6 @@ export class RunnerService {
   availableVehicles({ id }: Runner): Observable<Vehicle[]> {
     return this.httpService
       .get(`/runners/${id}/vehicles?status=free`)
-      .map(data => data.json())
       .map(datas => datas.map(data => Vehicle.build(data)));
   }
 

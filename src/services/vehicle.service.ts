@@ -21,21 +21,18 @@ export class VehicleService {
   all(): Observable<Vehicle[]> {
     return this.httpService
       .get('/vehicles')
-      .map(data => data.json())
       .map(array => array.map(data => Vehicle.build(data)));
   }
 
   get(id: string): Observable<Vehicle> {
     return this.httpService
       .get(`/vehicles/${id}`)
-      .map(data => data.json())
       .map(data => Vehicle.build(data));
   }
 
   status(): Observable<VehicleStatus[]> {
     return this.httpService
       .get(`/vehicles`)
-      .map(data => data.json())
       .map(data => data.map(d => VehicleStatus.build(d)));
   }
 
