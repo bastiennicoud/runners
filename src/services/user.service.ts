@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { HttpService } from './http.service';
 import { User } from '../models/user';
+import {HttpClient} from "@angular/common/http";
 
 export { User };
 
@@ -16,7 +16,7 @@ export { User };
 @Injectable()
 export class UserService {
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpClient) {}
 
 /**
  * Get one user

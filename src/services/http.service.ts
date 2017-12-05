@@ -2,6 +2,7 @@ import { Http, Headers, RequestOptions, RequestOptionsArgs, Response, RequestMet
 import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable, Subject } from 'rxjs';
+import 'rxjs/add/operator/map';
 
 import { API_ENDPOINT } from '../tokens/api-endpoint';
 import { AuthStorage } from '../storages/auth.storage';
@@ -60,35 +61,46 @@ export class HttpService {
       ...options, headers : options.headers.append('x-access-token', this.authStorage.key)
     }
   }
-  private request(method: string, url: string, body?: string, options?: RequestOptionsArgs): Observable<Response> {
+  private request(method: string, url: string, body?: string, options?: RequestOptionsArgs): Observable<any> {
 
-    var headers = new HttpHeaders();
+    let headers = new HttpHeaders();
     headers = headers.append('x-access-token', this.authStorage.key)
 
-    console.log("REQUEST");
-    console.log(url)
-    console.log(this.base)
-    console.log(headers)
 
-    var r = new HttpRequest(method,  this.buildUrl(url), body, {headers});
+
+    let r = new HttpRequest(method,  this.buildUrl(url), body, {headers});
+    console.log("REQUEST");
     console.log(r)
 
-    var request = this.http.request(r)
+    let response = this.http.request(r)
       .catch(err => {
         // If the user is not correctly authenticated.
         err.status == 401 && this.authFailed.next(err);
 
         return Observable.throw(err);
-      })
+      });
 
-
-
-    request.subscribe()
     let cacheKey = method + url;
-    // request.subscribe()
-    return request.map(res => res.body);
-    // return this.cache.loadFromObservable(cacheKey, request);
 
+    // response
+    //         .do(res => console.log(res))
+    //
+    //         .subscribe(r => console.log(r));
+
+    // response.do(res => {
+    //                   console.log("RESPONSE")
+    //                   console.log(res)
+    //                 })
+    //                 .subscribe()
+                    // .map(res => res.body)
+    // return this.cache.loadFromObservable(cacheKey, request);
+    // return Observable.create(observer => {
+    //   console.log(observer)
+    //   response.subscribe(d => observer.complete(d));
+    //
+    //
+    // }).do(data => console.log(data));
+    return response
   }
 
   private buildUrl(endpoint: string): string {

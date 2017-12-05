@@ -1,8 +1,7 @@
 import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { CacheModule } from "ionic-cache";
 
@@ -34,6 +33,8 @@ import { RunnerPage } from '../pages/runner/runner';
 import { FilterRunsPipe } from '../pipes/filter-runs.pipe';
 import { GroupRunsPipe } from '../pipes/group-runs.pipe';
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
+import {ApiTokenInterceptor} from "../services/interceptors/ApiTokenInterceptor";
+import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedInterceptor";
 
 
 @NgModule({
@@ -54,7 +55,6 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
   imports: [
     BrowserModule,
     HttpClientModule,
-    HttpModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
 
@@ -82,11 +82,21 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     },
     {
       provide: LOCALE_ID,
-      useValue: 'fr-CH',
+      useValue: 'en-US',
     },
     {
       provide: ErrorHandler,
       useClass: IonicErrorHandler,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiTokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthFailedInterceptor,
+      multi: true
     },
     AuthStorage,
     HttpService,

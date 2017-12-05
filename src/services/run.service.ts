@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { HttpService } from './http.service';
+import {HttpClient} from "@angular/common/http";
+// import { HttpService } from './http.service';
 import { Run } from '../models/run';
-
-export { Run };
-
+export {Run};
 /**
  * Allows you to retrieve or modify the status of a run.
  *
@@ -15,7 +13,7 @@ export { Run };
 @Injectable()
 export class RunService {
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpClient) {}
 
 /**
  * List all run
@@ -26,8 +24,9 @@ export class RunService {
  */
   all(): Observable<Run[]> {
     return this.httpService
-      .get('/runs')
+      .get<any>('/runs')
       .map(array => array.map(data => Run.build(data)));
+
   }
 
   /**
@@ -41,7 +40,7 @@ export class RunService {
   get(id: string): Observable<Run> {
     return this.httpService
       .get(`/runs/${id}`)
-      
+
       .map(data => Run.build(data));
   }
 

@@ -5,6 +5,7 @@ import { HttpService } from './http.service';
 import { Runner } from '../models/runner';
 import { Vehicle } from '../models/vehicle';
 import { User } from '../models/user';
+import {HttpClient} from "@angular/common/http";
 
 export { Runner };
 
@@ -18,7 +19,7 @@ export { Runner };
 @Injectable()
 export class RunnerService {
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpClient) {}
 
   /**
    * Get one runner
@@ -79,7 +80,7 @@ export class RunnerService {
  */
   availableVehicles({ id }: Runner): Observable<Vehicle[]> {
     return this.httpService
-      .get(`/runners/${id}/vehicles?status=free`)
+      .get<any[]>(`/runners/${id}/vehicles?status=free`)
       .map(datas => datas.map(data => Vehicle.build(data)));
   }
 

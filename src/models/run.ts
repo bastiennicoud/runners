@@ -78,8 +78,7 @@ export class Run {
    * @memberOf Run
    */
   static build(data: any): Run {
-    console.log("BUILDING RUN");
-    console.log(data)
+
     if (!data) return null;
 
     const b = new Run;
