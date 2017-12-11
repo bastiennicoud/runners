@@ -12,7 +12,6 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { api } from '../runners.config';
 import { API_ENDPOINT } from '../tokens/api-endpoint';
 
-import { HttpService } from '../services/http.service';
 import { VehicleService } from '../services/vehicle.service';
 import { UserService } from '../services/user.service';
 import { RunService } from '../services/run.service';
@@ -35,6 +34,7 @@ import { GroupRunsPipe } from '../pipes/group-runs.pipe';
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
 import {ApiTokenInterceptor} from "../services/interceptors/ApiTokenInterceptor";
 import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedInterceptor";
+import {CachingInterceptor} from "../services/interceptors/CachingInterceptor";
 
 
 @NgModule({
@@ -98,8 +98,12 @@ import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedIntercep
       useClass: AuthFailedInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CachingInterceptor,
+      multi: true
+    },
     AuthStorage,
-    HttpService,
     UserService,
     AuthService,
     VehicleService,
