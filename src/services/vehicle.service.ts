@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 import { Vehicle } from '../models/vehicle';
 import { VehicleStatus } from '../models/vehicle-status';
+import {HttpClient} from "@angular/common/http";
 
 export { Vehicle, VehicleStatus };
 
@@ -16,26 +17,23 @@ export { Vehicle, VehicleStatus };
 @Injectable()
 export class VehicleService {
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpClient) {}
 
   all(): Observable<Vehicle[]> {
     return this.httpService
-      .get('/vehicles')
-      .map(data => data.json())
+      .get<any[]>('/vehicles')
       .map(array => array.map(data => Vehicle.build(data)));
   }
 
   get(id: string): Observable<Vehicle> {
     return this.httpService
       .get(`/vehicles/${id}`)
-      .map(data => data.json())
       .map(data => Vehicle.build(data));
   }
 
   status(): Observable<VehicleStatus[]> {
     return this.httpService
-      .get(`/vehicles`)
-      .map(data => data.json())
+      .get<any[]>(`/vehicles`)
       .map(data => data.map(d => VehicleStatus.build(d)));
   }
 

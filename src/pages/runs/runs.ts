@@ -25,6 +25,7 @@ export class RunsPage {
   ionViewWillEnter() {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
+    
     this.loadRuns().subscribe(
       null,
       err => err.status != 401 && loader.dismiss(),

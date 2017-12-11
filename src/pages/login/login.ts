@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, Platform, ToastController } from 'ionic-angular';
-import { BarcodeScanner, Splashscreen } from 'ionic-native';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthService } from '../../services/auth.service';
 import { AuthStorage } from '../../storages/auth.storage';
@@ -18,10 +19,10 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class LoginPage {
 
-  constructor(private platform: Platform, private navCtrl: NavController, private toastCtrl: ToastController, private authService: AuthService, private authStorage: AuthStorage) {
+  constructor(private platform: Platform, private navCtrl: NavController, private toastCtrl: ToastController, private authService: AuthService, private authStorage: AuthStorage, private splashScreen: SplashScreen, private barcodeScanner: BarcodeScanner) {
     this.platform.ready()
       .then(() => this.authService.isAuthenticated ? this.navCtrl.setRoot(TabsPage) : null)
-      .then(() => Splashscreen.hide());
+      .then(() => this.splashScreen.hide());
   }
 
 /**
@@ -33,7 +34,7 @@ export class LoginPage {
   scan(): void {
     this.platform.ready().then(() => {
 
-      BarcodeScanner
+      this.barcodeScanner
         .scan({
           preferFrontCamera: false,
           showFlipCameraButton: true,
