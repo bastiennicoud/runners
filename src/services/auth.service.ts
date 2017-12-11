@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { HttpService } from './http.service';
 import { UserService, User } from './user.service';
 import { AuthStorage } from '../storages/auth.storage';
+import { HttpClient } from "@angular/common/http";
 
 /**
  * Mangage the authentication logic.
  * Allows the user to log in and log out.
- * 
+ *
  * @export
  * @class AuthService
  */
@@ -16,18 +16,19 @@ import { AuthStorage } from '../storages/auth.storage';
 export class AuthService {
 
   public loggedOut: Subject<any> = new Subject<any>();
+  public authFailed: Subject<any> = new Subject<any>();
 
-  constructor(private userService: UserService, private httpService: HttpService, private authStorage: AuthStorage) {
+  constructor(private userService: UserService, private httpService: HttpClient, private authStorage: AuthStorage) {
     // When httpService auth failed, disconnect user
-    this.httpService.authFailed.subscribe(() => this.logout());
+    this.authFailed.subscribe(() => this.logout());
   }
 
 /**
  * Log in the user
- * 
+ *
  * @param {string} key token user given by the administrator or qrcode.
  * @returns {Observable<User>}
- * 
+ *
  * @memberOf AuthService
  */
   login(key: string): Observable<User> {

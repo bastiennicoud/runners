@@ -1,7 +1,15 @@
 import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { BrowserModule } from '@angular/platform-browser';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
-import { api } from '../../runners.config.json';
+import { CacheModule } from "ionic-cache";
+
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
+import { api } from '../runners.config';
 import { API_ENDPOINT } from '../tokens/api-endpoint';
 
 import { HttpService } from '../services/http.service';
@@ -25,6 +33,9 @@ import { RunnerPage } from '../pages/runner/runner';
 import { FilterRunsPipe } from '../pipes/filter-runs.pipe';
 import { GroupRunsPipe } from '../pipes/group-runs.pipe';
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
+import {ApiTokenInterceptor} from "../services/interceptors/ApiTokenInterceptor";
+import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedInterceptor";
+
 
 @NgModule({
   declarations: [
@@ -42,7 +53,12 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     GroupVehicleStatusPipe,
   ],
   imports: [
+    BrowserModule,
+    HttpClientModule,
+    CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
+
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -57,17 +73,30 @@ import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
     ProfilPage,
   ],
   providers: [
+    StatusBar,
+    SplashScreen,
+    BarcodeScanner,
     {
       provide: API_ENDPOINT,
       useValue: api,
     },
     {
       provide: LOCALE_ID,
-      useValue: 'fr-CH',
+      useValue: 'en-US',
     },
     {
       provide: ErrorHandler,
       useClass: IonicErrorHandler,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiTokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthFailedInterceptor,
+      multi: true
     },
     AuthStorage,
     HttpService,

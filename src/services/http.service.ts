@@ -2,9 +2,12 @@ import { Http, Headers, RequestOptions, RequestOptionsArgs, Response, RequestMet
 import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable, Subject } from 'rxjs';
+import 'rxjs/add/operator/map';
 
 import { API_ENDPOINT } from '../tokens/api-endpoint';
 import { AuthStorage } from '../storages/auth.storage';
+import {CacheService} from "ionic-cache";
+import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from "@angular/common/http";
 
 // Widely inspirated by https://gist.github.com/chandermani/9166abe6e6608a31f471
 
@@ -22,46 +25,82 @@ export class HttpService {
 
   public authFailed: Subject<any> = new Subject<any>();
 
-  constructor(@Inject(API_ENDPOINT) private base: string, private platform: Platform, private http: Http, private authStorage: AuthStorage) {}
+  constructor(@Inject(API_ENDPOINT) private base: string, private platform: Platform, private http: HttpClient, private authStorage: AuthStorage, private cache: CacheService) {}
 
-  public get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.request(RequestMethod.Get, url, null, options);
+  public get(url: string, options?: RequestOptionsArgs): Observable<any> {
+    return this.request("GET", url, null, options);
   }
 
-  public post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.request(RequestMethod.Post, url, body, options);
+  public post(url: string, body: string, options?: RequestOptionsArgs): Observable<any> {
+    return this.request("POST", url, body, options);
   }
 
-  public put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.request(RequestMethod.Put, url, body, options);
+  public put(url: string, body: string, options?: RequestOptionsArgs): Observable<any> {
+    return this.request("PUT", url, body, options);
   }
 
-  public delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.request(RequestMethod.Delete, url, null, options);
+  public delete(url: string, options?: RequestOptionsArgs): Observable<any> {
+    return this.request("DELETE", url, null, options);
   }
 
-  public patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.request(RequestMethod.Patch, url, body, options);
+  public patch(url: string, body: string, options?: RequestOptionsArgs): Observable<any> {
+    return this.request("PATCH", url, body, options);
   }
 
-  public head(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.request(RequestMethod.Head, url, null, options);
+  public head(url: string, options?: RequestOptionsArgs): Observable<any> {
+    return this.request("HEAD", url, null, options);
   }
+  private buildRequest(options: {
+    body?: any;
+    headers?: HttpHeaders;
+    observe: 'events';
+    params?: HttpParams;
+    reportProgress?: boolean;
+  }){
+    return {
+      ...options, headers : options.headers.append('x-access-token', this.authStorage.key)
+    }
+  }
+  private request(method: string, url: string, body?: string, options?: RequestOptionsArgs): Observable<any> {
 
-  private request(method: RequestMethod, url: string, body?: string, options?: RequestOptionsArgs): Observable<Response> {
-    let requestOptions = new RequestOptions(Object.assign({ method, body, url: this.buildUrl(url) }, options));
+    let headers = new HttpHeaders();
+    headers = headers.append('x-access-token', this.authStorage.key)
 
-    if(!requestOptions.headers) requestOptions.headers = new Headers();
 
-    requestOptions.headers.set('x-access-token', this.authStorage.key);
-    requestOptions.headers.append('Content-Type', 'application/json');
 
-    return this.http.request(new Request(requestOptions))
+    let r = new HttpRequest(method,  this.buildUrl(url), body, {headers});
+    console.log("REQUEST");
+    console.log(r)
+
+    let response = this.http.request(r)
       .catch(err => {
         // If the user is not correctly authenticated.
         err.status == 401 && this.authFailed.next(err);
+
         return Observable.throw(err);
-      })
+      });
+
+    let cacheKey = method + url;
+
+    // response
+    //         .do(res => console.log(res))
+    //
+    //         .subscribe(r => console.log(r));
+
+    // response.do(res => {
+    //                   console.log("RESPONSE")
+    //                   console.log(res)
+    //                 })
+    //                 .subscribe()
+                    // .map(res => res.body)
+    // return this.cache.loadFromObservable(cacheKey, request);
+    // return Observable.create(observer => {
+    //   console.log(observer)
+    //   response.subscribe(d => observer.complete(d));
+    //
+    //
+    // }).do(data => console.log(data));
+    return response
   }
 
   private buildUrl(endpoint: string): string {

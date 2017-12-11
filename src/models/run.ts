@@ -78,6 +78,7 @@ export class Run {
    * @memberOf Run
    */
   static build(data: any): Run {
+
     if (!data) return null;
 
     const b = new Run;
