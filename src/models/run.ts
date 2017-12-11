@@ -1,7 +1,7 @@
-import { Waypoint } from './waypoint';
-import { Runner } from './runner';
+import { Waypoint } from './waypoint'
+import { Runner } from './runner'
 
-import { RunStatusEnum } from '../enums/run-status.enum';
+import { RunStatusEnum } from '../enums/run-status.enum'
 
 /**
  * a Run is the equivalent to the physical little physical cards on the board
@@ -10,14 +10,13 @@ import { RunStatusEnum } from '../enums/run-status.enum';
  * @class Run
  */
 export class Run {
-
   /**
    * Unique identifier of the run
    *
    * @type {string}
    * @memberOf Run
    */
-  public id: string;
+  public id: string
 
   /**
    * Title of the run, generally this is the name of artist
@@ -25,7 +24,7 @@ export class Run {
    * @type {string}
    * @memberOf Run
    */
-  public title: string;
+  public title: string
 
   /**
    * The "expected" date, when the run should start
@@ -33,7 +32,7 @@ export class Run {
    * @type {Date}
    * @memberOf Run
    */
-  public beginAt: Date;
+  public beginAt: Date
 
   /**
    * The date, when the run was started
@@ -41,7 +40,7 @@ export class Run {
    * @type {Date}
    * @memberOf Run
    */
-  public startAt?: Date;
+  public startAt?: Date
 
   /**
    * The date, when the run was ended
@@ -49,7 +48,7 @@ export class Run {
    * @type {Date}
    * @memberOf Run
    */
-  public endAt?: Date;
+  public endAt?: Date
 
   /**
    * List of waypoints that drivers must follow
@@ -57,7 +56,7 @@ export class Run {
    * @type {Waypoint[]}
    * @memberOf Run
    */
-  public waypoints: Waypoint[];
+  public waypoints: Waypoint[]
 
   /**
    * List of convoys that attends to the run
@@ -65,8 +64,7 @@ export class Run {
    * @type {Runner[]}
    * @memberOf Run
    */
-  public runners: Runner[];
-
+  public runners: Runner[]
 
   /**
    * Factory that uses json data for build Run instance
@@ -78,18 +76,18 @@ export class Run {
    * @memberOf Run
    */
   static build(data: any): Run {
-    if (!data) return null;
+    if (!data) return null
 
-    const b = new Run;
-    b.id = data.id || data._id;
-    b.title = data.title || null;
-    b.beginAt = new Date(data.begin_at);
-    b.startAt = data.start_at ? new Date(data.start_at) : null;
-    b.endAt = data.end_at ? new Date(data.end_at) : null;
-    b.waypoints = data.waypoints.map(d => Waypoint.build(d)) || [];
-    b.runners = data.runners.map(d => Runner.build(d)) || [];
+    const b = new Run()
+    b.id = data.id || data._id
+    b.title = data.title || null
+    b.beginAt = new Date(data.begin_at)
+    b.startAt = data.start_at ? new Date(data.start_at) : null
+    b.endAt = data.end_at ? new Date(data.end_at) : null
+    b.waypoints = data.waypoints.map(d => Waypoint.build(d)) || []
+    b.runners = data.runners.map(d => Runner.build(d)) || []
 
-    return b;
+    return b
   }
 
   /**
@@ -101,7 +99,7 @@ export class Run {
    * @memberOf Run
    */
   get empty(): boolean {
-    return !this.runners.filter(r => r.user || r.vehicle).length;
+    return !this.runners.filter(r => r.user || r.vehicle).length
   }
 
   /**
@@ -112,7 +110,7 @@ export class Run {
    * @memberOf Run
    */
   get organizingUsers(): boolean {
-    return !!this.runners.filter(r => !r.user).length;
+    return !!this.runners.filter(r => !r.user).length
   }
 
   /**
@@ -123,7 +121,7 @@ export class Run {
    * @memberOf Run
    */
   get organizingVehicles(): boolean {
-    return !!this.runners.filter(r => !r.vehicle).length;
+    return !!this.runners.filter(r => !r.vehicle).length
   }
 
   /**
@@ -134,7 +132,7 @@ export class Run {
    * @memberOf Run
    */
   get ready(): boolean {
-    return !this.runners.filter(r => !r.user || !r.vehicle).length;
+    return !this.runners.filter(r => !r.user || !r.vehicle).length
   }
 
   /**
@@ -145,7 +143,7 @@ export class Run {
    * @memberOf Run
    */
   get inProgress(): boolean {
-    return !!this.startAt;
+    return !!this.startAt
   }
 
   /**
@@ -156,7 +154,7 @@ export class Run {
    * @memberOf Run
    */
   get completed(): boolean {
-    return !!this.endAt;
+    return !!this.endAt
   }
 
   /**
@@ -167,7 +165,7 @@ export class Run {
    * @memberOf Run
    */
   get problem(): boolean {
-    return false;
+    return false
   }
 
   /**
@@ -178,14 +176,17 @@ export class Run {
    * @memberOf Run
    */
   get status(): RunStatusEnum {
-    if (this.problem) return RunStatusEnum.problem;
-    else if (this.completed) return RunStatusEnum.completed;
-    else if (this.inProgress) return RunStatusEnum.inProgress;
-    else if (this.ready) return RunStatusEnum.ready;
-    else if (this.empty) return RunStatusEnum.empty;
-    else if (this.organizingUsers) return RunStatusEnum.organizingUsers;
-    else if (this.organizingVehicles) return RunStatusEnum.organizingVehicles;
-    else throw new Error(`Run #${this.id} has no status, it's weird`);
+    if (this.problem) return RunStatusEnum.problem
+    else if (this.completed) return RunStatusEnum.completed
+    else if (this.inProgress) return RunStatusEnum.inProgress
+    else if (this.ready) return RunStatusEnum.ready
+    else if (this.empty) return RunStatusEnum.empty
+    else if (this.organizingUsers) return RunStatusEnum.organizingUsers
+    else if (this.organizingVehicles) return RunStatusEnum.organizingVehicles
+    else throw new Error(`Run #${this.id} has no status, it's weird`)
   }
 
+  missingUsers(): boolean {
+    return this.runners.filter(runner => runner.user == null).length >= 0
+  }
 }
