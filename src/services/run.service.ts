@@ -24,8 +24,7 @@ export class RunService {
  */
   all(): Observable<Run[]> {
     return this.httpService
-      .get('/runs?status=needs_filling,empty,error')
-      .map(data => data.json())
+      .get<any[]>('/runs?status=needs_filling,empty,error')
       .map(array => array.map(data => Run.build(data)))
       .map(runs => runs.map(run => {
         if(run.missingUsers())
@@ -43,7 +42,7 @@ export class RunService {
    */
   get(id: string): Observable<Run> {
     return this.httpService
-      .get(`/runs/${id}`)
+      .get<any>(`/runs/${id}`)
 
       .map(data => Run.build(data));
   }
