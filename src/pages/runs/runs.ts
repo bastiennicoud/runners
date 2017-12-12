@@ -3,8 +3,9 @@ import { NavController, LoadingController } from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
-import { FilterByEnum } from '../../enums/filter-by.enum'
 import { RunStatusEnum } from '../../enums/run-status.enum'
+
+import { filters } from '../../utils/filterengine/filterEngine'
 
 @Component({
   selector: 'page-runs',
@@ -12,9 +13,9 @@ import { RunStatusEnum } from '../../enums/run-status.enum'
 })
 export class RunsPage {
   runs: Run[] = []
-  FilterByEnum = FilterByEnum
   RunStatusEnum = RunStatusEnum
-  filteredBy: FilterByEnum = FilterByEnum.current
+  filters: any = filters
+  oldmode: string =  's'
 
   constructor(
     private navCtrl: NavController,
@@ -25,7 +26,7 @@ export class RunsPage {
   ionViewWillEnter() {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
-    
+
     this.loadRuns().subscribe(
       null,
       err => err.status != 401 && loader.dismiss(),

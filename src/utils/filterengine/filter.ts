@@ -10,12 +10,12 @@ export default class Filter {
     this.enabled ? this.disable() : this.enable()
   }
   public enable(): void {
-    this.onEnable()
     this.enabled = true
+    this.onEnable()
   }
   public disable(): void {
-    this.onDisable()
     this.enabled = false
+    this.onDisable()
   }
   public get isEnabled(): boolean {
     return this.enabled

@@ -1,5 +1,5 @@
-import FilterEngine from '../utils/filterengine/engine'
-import Filter from '../utils/filterengine/filter'
+import FilterEngine from './engine'
+import Filter from './filter'
 
 interface FilterObject {
   [key: string]: Filter
@@ -7,7 +7,8 @@ interface FilterObject {
 
 export const filters: FilterObject = {
   all: new Filter(a => true),
-  finished: new Filter(a => a.isFinished),
+  mine: new Filter(a => a.isFinished),
+
 }
 
 filters.all.onEnable = () => {
@@ -23,8 +24,6 @@ filters.all.onDisable = () => {
   }
 }
 
-const filterEngine = new FilterEngine()
+export const filterEngine = new FilterEngine()
 
 filterEngine.filters = Object.keys(filters).map(key => filters[key])
-
-export default filterEngine
