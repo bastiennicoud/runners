@@ -3,9 +3,10 @@ import { NavController, LoadingController } from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
-import { FilterByEnum } from '../../enums/filter-by.enum'
 import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
+
+import { filters } from '../../utils/filterengine/filterEngine'
 
 @Component({
   selector: 'page-runs',
@@ -13,9 +14,9 @@ import { InternetStatusProvider } from '../../providers/internet-status/internet
 })
 export class RunsPage {
   runs: Run[] = []
-  FilterByEnum = FilterByEnum
   RunStatusEnum = RunStatusEnum
-  filteredBy: FilterByEnum = FilterByEnum.current
+  filters: any = filters
+  oldmode: string =  's'
 
   constructor(
     private navCtrl: NavController,
