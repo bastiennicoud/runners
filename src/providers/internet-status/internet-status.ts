@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { ToastController } from 'ionic-angular'
 import { CacheService } from 'ionic-cache'
+import { Subscription } from 'rxjs'
 
 @Injectable()
 /**
@@ -13,11 +14,12 @@ import { CacheService } from 'ionic-cache'
  */
 export class InternetStatusProvider {
   private connectionStatus: boolean = true
+  private networkStatus: Subscription
 
   constructor(private toast: ToastController, private cache: CacheService) {}
 
   public checkConnection(): void {
-    this.cache.getNetworkStatusChanges().subscribe(
+    this.networkStatus = this.cache.getNetworkStatusChanges().subscribe(
       connected => {
         this.connectionStatus = connected
 
@@ -44,5 +46,9 @@ export class InternetStatusProvider {
 
   public getConnectionStatus(): boolean {
     return this.connectionStatus
+  }
+
+  public stopCheckingConnection(): void {
+    this.networkStatus.unsubscribe()
   }
 }
