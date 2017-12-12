@@ -4,6 +4,7 @@ import { NavController, LoadingController } from 'ionic-angular'
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
 import { RunStatusEnum } from '../../enums/run-status.enum'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 import { filters } from '../../utils/filterengine/filterEngine'
 
@@ -20,10 +21,13 @@ export class RunsPage {
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
-    private runService: RunService
+    private runService: RunService,
+    private InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
 
@@ -32,6 +36,10 @@ export class RunsPage {
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )
+  }
+
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
   }
 
   /**

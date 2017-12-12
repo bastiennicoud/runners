@@ -1,1 +1,1 @@
-export const api = "http://SC-C333-PC08/api";
+export const api = "http://sc-c333-pc08/api";

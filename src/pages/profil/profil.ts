@@ -5,6 +5,7 @@ import { AuthStorage } from '../../storages/auth.storage'
 import { CallNumber } from 'ionic-native'
 
 import { UserService, User } from '../../services/user.service'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 /**
  * This class displays the profil of a user
@@ -24,10 +25,13 @@ export class ProfilPage {
     private navParams: NavParams,
     private loadingCtrl: LoadingController,
     private userService: UserService,
-    private authStorage: AuthStorage
+    private authStorage: AuthStorage,
+    private InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
     this.loadUser().subscribe(
@@ -36,6 +40,11 @@ export class ProfilPage {
       () => loader.dismiss()
     )
   }
+
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
+  }
+
   /**
    * Load the datas of the user
    *

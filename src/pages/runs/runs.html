@@ -2,7 +2,9 @@
 
   <ion-navbar>
     <ion-title>
-      <ion-icon name="ios-clipboard-outline"></ion-icon> Board</ion-title>
+      <ion-icon name="ios-clipboard-outline"></ion-icon> Board
+    </ion-title>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
   </ion-navbar>
 
   <div padding>
