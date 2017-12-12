@@ -11,6 +11,7 @@ import { AuthStorage } from '../../storages/auth.storage'
 import { RunnerPage } from '../runner/runner'
 import { Runner } from '../../models/runner' // FIXME: is this the proper way ? (maybe get Runner from RunnerPage or RunService)
 import { RunStatusEnum } from '../../enums/run-status.enum'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 /**
  * This class displays the details of a run when selected from the board
@@ -32,10 +33,13 @@ export class RunPage {
     private navParams: NavParams,
     private loadingCtrl: LoadingController,
     private runService: RunService,
-    private authStorage: AuthStorage
+    private authStorage: AuthStorage,
+    private InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
     this.loadRun().subscribe(
@@ -43,6 +47,10 @@ export class RunPage {
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )
+  }
+
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
   }
 
   /**

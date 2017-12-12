@@ -2,6 +2,7 @@
 
   <ion-navbar>
     <ion-title><ion-icon name="ios-car"></ion-icon> Véhicules</ion-title>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
   </ion-navbar>
 
 </ion-header>

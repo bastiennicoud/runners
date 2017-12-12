@@ -35,6 +35,7 @@ import { GroupRunsPipe } from '../pipes/group-runs.pipe';
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
 import {ApiTokenInterceptor} from "../services/interceptors/ApiTokenInterceptor";
 import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedInterceptor";
+import { InternetStatusProvider } from '../providers/internet-status/internet-status';
 
 
 @NgModule({
@@ -105,6 +106,7 @@ import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedIntercep
     VehicleService,
     RunService,
     RunnerService,
+    InternetStatusProvider,
   ],
 })
 export class AppModule {}
