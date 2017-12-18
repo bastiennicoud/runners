@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { NavController, LoadingController } from 'ionic-angular'
+import {NavController, LoadingController, ModalController} from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
@@ -19,13 +19,14 @@ export class RunsPage {
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
-    private runService: RunService
+    private runService: RunService,
+    private modalController: ModalController
   ) {}
 
   ionViewWillEnter() {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
-    
+
     this.loadRuns().subscribe(
       null,
       err => err.status != 401 && loader.dismiss(),
@@ -67,6 +68,13 @@ export class RunsPage {
    * @memberOf RunsPage
    */
   showRun({ id }: Run): void {
-    this.navCtrl.push(RunPage, { id })
+    const yourModal = this.modalController.create(RunPage, { id }, {
+      showBackdrop: false,
+      enableBackdropDismiss: false,
+      enterAnimation: 'modal-scale-up-enter',
+      leaveAnimation: 'modal-scale-up-leave'
+    });
+    yourModal.present();
+    // this.navCtrl.push(RunPage, { id })
   }
 }
