@@ -12,9 +12,11 @@ import { filterEngine, filters } from '../utils/filterengine/filterEngine'
 export class FilterRunsPipe {
   constructor(private authStorage: AuthStorage) {
     filters.hideCompleted.enable()
+    filters.hideNotReady.enable()
   }
 
   transform(runs: Run[]): Run[] {
+    console.log(runs)
     return filterEngine.filterList(runs)
   }
 }
