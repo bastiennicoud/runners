@@ -24,10 +24,10 @@ export class RunService {
  */
   all(): Observable<Run[]> {
     return this.httpService
-      .get<any[]>('/runs?status=needs_filling,empty,error')
+      .get<any[]>('/runs?finished=true')
       .map(array => array.map(data => Run.build(data)))
       .map(runs => runs.map(run => {
-        if(run.missingUsers())
+        //if(run.missingUsers())
           return run;
       }));
   }

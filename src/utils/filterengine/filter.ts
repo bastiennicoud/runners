@@ -3,6 +3,7 @@ export default class Filter {
   public control: any = () => true
   public onEnable = () => {}
   public onDisable = () => {}
+  public externalData: any = null
   constructor(control: any = () => true) {
     this.control = control
   }
