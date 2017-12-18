@@ -2,6 +2,7 @@
 
   <ion-navbar>
     <ion-title *ngIf="run">{{run.title}}</ion-title>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
   </ion-navbar>
 
 </ion-header>

@@ -3,8 +3,10 @@ import {NavController, LoadingController, ModalController} from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
-import { FilterByEnum } from '../../enums/filter-by.enum'
 import { RunStatusEnum } from '../../enums/run-status.enum'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
+
+import { filters } from '../../utils/filterengine/filterEngine'
 
 @Component({
   selector: 'page-runs',
@@ -12,18 +14,21 @@ import { RunStatusEnum } from '../../enums/run-status.enum'
 })
 export class RunsPage {
   runs: Run[] = []
-  FilterByEnum = FilterByEnum
   RunStatusEnum = RunStatusEnum
-  filteredBy: FilterByEnum = FilterByEnum.current
+  filters: any = filters
+  oldmode: string =  's'
 
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private runService: RunService,
     private modalController: ModalController
+    private InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
 
@@ -32,6 +37,10 @@ export class RunsPage {
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )
+  }
+
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
   }
 
   /**

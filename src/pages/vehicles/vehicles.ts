@@ -3,6 +3,7 @@ import { NavController, LoadingController } from 'ionic-angular'
 import { VehiclePage } from '../vehicle/vehicle'
 
 import { VehicleService, VehicleStatus } from '../../services/vehicle.service'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 /**
  * This class lists all vehicles available or in use.
@@ -20,10 +21,13 @@ export class VehiclesPage {
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
     this.loadVehicleStatus().subscribe(
@@ -31,6 +35,10 @@ export class VehiclesPage {
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )
+  }
+
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
   }
 
   /**

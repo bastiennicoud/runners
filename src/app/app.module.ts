@@ -41,8 +41,10 @@ import {ModalScaleUpEnterTransition} from "../pages/transitions/scale-up-enter.t
 //register i81n locale
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-
 registerLocaleData(localeFr, "fr")
+
+import { InternetStatusProvider } from '../providers/internet-status/internet-status';
+
 
 
 @NgModule({
@@ -117,6 +119,7 @@ registerLocaleData(localeFr, "fr")
     VehicleService,
     RunService,
     RunnerService,
+    InternetStatusProvider,
   ],
 })
 export class AppModule {
