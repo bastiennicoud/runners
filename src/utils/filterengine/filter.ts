@@ -1,6 +1,6 @@
 export default class Filter {
   protected enabled: boolean = false
-  protected control: any = () => true
+  public control: any = () => true
   public onEnable = () => {}
   public onDisable = () => {}
   constructor(control: any = () => true) {

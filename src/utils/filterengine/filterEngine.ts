@@ -8,7 +8,7 @@ interface FilterObject {
 export const filters: FilterObject = {
   all: new Filter(a => true),
   mine: new Filter(a => a.isFinished),
-
+  hideCompleted : new Filter(a=>!a.completed),
 }
 
 filters.all.onEnable = () => {

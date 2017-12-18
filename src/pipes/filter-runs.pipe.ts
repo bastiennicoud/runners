@@ -10,7 +10,9 @@ import { filterEngine, filters } from '../utils/filterengine/filterEngine'
 })
 @Injectable()
 export class FilterRunsPipe {
-  constructor(private authStorage: AuthStorage) {}
+  constructor(private authStorage: AuthStorage) {
+    filters.hideCompleted.enable()
+  }
 
   transform(runs: Run[]): Run[] {
     return filterEngine.filterList(runs)
