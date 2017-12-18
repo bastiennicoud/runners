@@ -4,6 +4,8 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 // import { HttpService } from './http.service';
 import { Run } from '../models/run';
 import {CacheService} from "ionic-cache";
+import {AuthService} from "./auth.service";
+import {AuthStorage} from "../storages/auth.storage";
 export {Run};
 /**
  * Allows you to retrieve or modify the status of a run.
@@ -14,7 +16,7 @@ export {Run};
 @Injectable()
 export class RunService {
 
-  constructor(private httpService: HttpClient, private cacheService : CacheService) {}
+  constructor(private httpService: HttpClient, private cacheService : CacheService, private authStorage: AuthStorage) {}
   protected saveRun(run : Run) : void {
     run.runners.forEach(runner => {
       this.cacheService.saveItem(`runners-${runner.id}`, runner)
@@ -39,6 +41,13 @@ export class RunService {
       )
       .distinctUntilChanged()
   }
+
+  createRunnerForCurrentUser(key:string){
+    return this.httpService.post(`/runs/${key}/runners`,{
+      user: this.authStorage.user.id
+    })
+  }
+
 /**
  * List all run
  *

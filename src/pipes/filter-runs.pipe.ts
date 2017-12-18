@@ -13,9 +13,9 @@ import { filter } from 'rxjs/operator/filter';
 export class FilterRunsPipe {
   constructor(private authStorage: AuthStorage) {
     filters.mine.externalData = this.authStorage.user
-    filters.hideCompleted.enable()
-    filters.hideNotReady.enable()
-    filters.mine.enable()
+    filters.hideCompleted.disable()
+    filters.hideNotReady.disable()
+    filters.mine.disable()
     console.log(filters)
   }
 
