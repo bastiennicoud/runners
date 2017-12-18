@@ -7,8 +7,12 @@ interface FilterObject {
 
 export const filters: FilterObject = {
   all: new Filter(a => true),
-  mine: new Filter(a => a.isFinished),
-
+  hideNotReady: new Filter(a => a.ready),
+  hideCompleted: new Filter(a => !a.completed),
+  mine: new Filter(function(a) {
+    const user = this.externalData
+    return user.belongsToRun(a)
+  }),
 }
 
 filters.all.onEnable = () => {
