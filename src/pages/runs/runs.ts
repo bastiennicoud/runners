@@ -39,6 +39,13 @@ export class RunsPage {
     )
   }
 
+  onFilterClick(filterName:string){
+    console.log(filterName)
+    this.filters[filterName].toggle()
+    this.refreshRuns({complete:()=>{}})
+  }
+
+
   ionViewWillLeave() {
     this.InternetStatus.stopCheckingConnection()
   }
