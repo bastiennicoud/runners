@@ -66,57 +66,33 @@ export class RunService {
    * @memberOf RunService
    */
   get(id: string): Observable<Run> {
-
+    //TODO find a way to load the specific ressource, and only if that is unnaccessible use the run list and filter
+    // right now, this only takes the list and filters
+    return this.all()
+      .do(runs => console.log(runs))
+      .map(runs => runs.filter(run => run.id == id))
+      .do(runs => console.log(runs))
+      .map(runs => runs.length ? runs[0] : null);
+    /*
     var maybe: Observable<Run> = Observable.empty()
 
     let normal: Observable<Run> = this.httpService
       .get<any>(`/runs/${id}`)
-      /*.map(data => Run.build(data))
-      .flatMap((run:Run) => {
-        if(run == null)
-          this.all()
-            .do(runs => console.log(runs))
-            .map(runs => runs.filter(run => run.id == id))
-            .do(runs => console.log(runs))
-            .map(runs => runs.length ? runs[0] : null)
-            .do(d => console.log(d))
-        else
-          return run
-            // .subscribe(r => run = r, (err) => console.log(err), () => console.log("finished"))
-      })*/
-
-      /*.catch((err) => {
-
-        console.log(err)
-        if (err instanceof HttpErrorResponse && !this.cacheService.isOnline()) {
-          console.log("AHBAMNSDASNDBMASD")
-          console.log(maybe)
-          maybe.publish
-          this.all()
-            .do(runs => console.log(runs))
-            .map(runs => runs.filter(run => run.id == id))
-            .do(runs => console.log(runs))
-            .map(runs => runs.length ? runs[0] : null)
-            .do(d => console.log(d))
-            .subscribe(run => maybe = Observable.of(run), (err) => console.log(err), () => console.log("finished"))
-          console.log(maybe)
-        }
-
-        else
-          Observable.throw(err)
-      })*/
-
-    return normal.merge(maybe)
-    /*return Observable.concat(
-      this.httpService
-        .get<any>(`/runs/${id}`)
-        .map(data => Run.build(data)),
-      this.all()
+      .isEmpty()
+      .filter(empty => {
+        console.log(empty)
+        return !empty
+      })
+      .flatMap(d => {
+        return this.all()
           .do(runs => console.log(runs))
           .map(runs => runs.filter(run => run.id == id))
           .do(runs => console.log(runs))
           .map(runs => runs.length ? runs[0] : null)
-    )*/
+      })
+
+    return normal.merge(maybe) */
+
   }
 
   /**

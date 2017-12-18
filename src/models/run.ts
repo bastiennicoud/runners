@@ -167,7 +167,6 @@ export class Run {
    * @memberOf Run
    */
   get problem(): boolean {
-    console.log(this._status)
     return this._status === "error";
   }
 
@@ -182,8 +181,8 @@ export class Run {
     if (this.problem) return RunStatusEnum.problem
     else if (this.completed) return RunStatusEnum.completed
     else if (this.inProgress) return RunStatusEnum.inProgress
-    else if (this.ready) return RunStatusEnum.ready
     else if (this.empty) return RunStatusEnum.empty
+    else if (this.ready) return RunStatusEnum.ready
     else if (this.organizingUsers) return RunStatusEnum.organizingUsers
     else if (this.organizingVehicles) return RunStatusEnum.organizingVehicles
     else throw new Error(`Run #${this.id} has no status, it's weird`)

@@ -68,13 +68,13 @@ export class RunsPage {
    * @memberOf RunsPage
    */
   showRun({ id }: Run): void {
-    const yourModal = this.modalController.create(RunPage, { id }, {
-      showBackdrop: false,
-      enableBackdropDismiss: false,
-      enterAnimation: 'modal-scale-up-enter',
-      leaveAnimation: 'modal-scale-up-leave'
-    });
-    yourModal.present();
-    // this.navCtrl.push(RunPage, { id })
+    // const yourModal = this.modalController.create(RunPage, { id }, {
+    //   showBackdrop: false,
+    //   enableBackdropDismiss: false,
+    //   enterAnimation: 'modal-scale-up-enter',
+    //   leaveAnimation: 'modal-scale-up-leave'
+    // });
+    // yourModal.present();
+    this.navCtrl.push(RunPage, { id })
   }
 }
