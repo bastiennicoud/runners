@@ -65,6 +65,7 @@ export class Run {
    * @memberOf Run
    */
   public runners: Runner[]
+  public _status: string;
 
   /**
    * Factory that uses json data for build Run instance
@@ -86,7 +87,7 @@ export class Run {
     b.endAt = data.end_at ? new Date(data.end_at) : null
     b.waypoints = data.waypoints.map(d => Waypoint.build(d)) || []
     b.runners = data.runners.map(d => Runner.build(d)) || []
-
+    b._status = data.status;
     return b
   }
 
@@ -99,7 +100,8 @@ export class Run {
    * @memberOf Run
    */
   get empty(): boolean {
-    return !this.runners.filter(r => r.user || r.vehicle).length
+    return this._status === "empty";
+    // return !this.runners.filter(r => r.user || r.vehicle).length
   }
 
   /**
@@ -132,7 +134,7 @@ export class Run {
    * @memberOf Run
    */
   get ready(): boolean {
-    return !this.runners.filter(r => !r.user || !r.vehicle).length
+    return this._status === "ready"
   }
 
   /**
@@ -165,7 +167,8 @@ export class Run {
    * @memberOf Run
    */
   get problem(): boolean {
-    return false
+    console.log(this._status)
+    return this._status === "error";
   }
 
   /**

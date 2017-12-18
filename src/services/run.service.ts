@@ -71,7 +71,7 @@ export class RunService {
 
     let normal: Observable<Run> = this.httpService
       .get<any>(`/runs/${id}`)
-      .map(data => Run.build(data))
+      /*.map(data => Run.build(data))
       .flatMap((run:Run) => {
         if(run == null)
           this.all()
@@ -83,7 +83,7 @@ export class RunService {
         else
           return run
             // .subscribe(r => run = r, (err) => console.log(err), () => console.log("finished"))
-      })
+      })*/
 
       /*.catch((err) => {
 
