@@ -22,7 +22,7 @@ export class RunsPage {
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private runService: RunService,
-    private modalController: ModalController
+    private modalController: ModalController,
     private InternetStatus: InternetStatusProvider
   ) {}
 
