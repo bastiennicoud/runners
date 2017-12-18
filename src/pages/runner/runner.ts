@@ -121,7 +121,8 @@ export class RunnerPage {
     this.runnerService
       .setVehicle(this.runner, vehicle)
       .subscribe(
-        runner => (this.runner = runner),
+        // runner => (this.runner = runner),
+        runner => {console.log("IHASJDHBASDJBASNF")},
         err => err.status != 401 && loader.dismiss(),
         () => loader.dismiss()
       )

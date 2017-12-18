@@ -18,7 +18,6 @@ export class AuthFailedInterceptor implements HttpInterceptor {
     this.authService = this.inj.get(AuthService);
     return next.handle(req).do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
-        console.log(event.body)
       }
     }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
