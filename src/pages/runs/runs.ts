@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { NavController, LoadingController } from 'ionic-angular'
+import {NavController, LoadingController, ModalController} from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
@@ -22,6 +22,7 @@ export class RunsPage {
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private runService: RunService,
+    private modalController: ModalController
     private InternetStatus: InternetStatusProvider
   ) {}
 
@@ -76,6 +77,13 @@ export class RunsPage {
    * @memberOf RunsPage
    */
   showRun({ id }: Run): void {
+    // const yourModal = this.modalController.create(RunPage, { id }, {
+    //   showBackdrop: false,
+    //   enableBackdropDismiss: false,
+    //   enterAnimation: 'modal-scale-up-enter',
+    //   leaveAnimation: 'modal-scale-up-leave'
+    // });
+    // yourModal.present();
     this.navCtrl.push(RunPage, { id })
   }
 }
