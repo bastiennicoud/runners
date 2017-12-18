@@ -40,7 +40,7 @@ export class RunsPage {
   }
 
   onFilterClick(filterName:string){
-    console.log(filterName)
+    console.log('reminder.temporaryFilter',filterName)
     this.filters[filterName].toggle()
     this.refreshRuns({complete:()=>{}})
   }
