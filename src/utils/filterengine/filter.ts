@@ -3,8 +3,10 @@ export default class Filter {
   protected control: any = () => true
   public onEnable = () => {}
   public onDisable = () => {}
-  constructor(control: any = () => true) {
+  public name: string
+  constructor(control: any = () => true, name: string) {
     this.control = control
+    this.name = name
   }
   public toggle(): void {
     this.enabled ? this.disable() : this.enable()
