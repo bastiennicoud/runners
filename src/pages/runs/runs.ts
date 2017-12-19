@@ -1,5 +1,9 @@
 import { Component } from '@angular/core'
-import { NavController, LoadingController } from 'ionic-angular'
+import {
+  NavController,
+  LoadingController,
+  ModalController,
+} from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
@@ -16,13 +20,14 @@ export class RunsPage {
   runs: Run[] = []
   RunStatusEnum = RunStatusEnum
   filters: any = filters
-  oldmode: string =  's'
+  oldmode: string = 's'
 
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private runService: RunService,
-    private InternetStatus: InternetStatusProvider
+    private InternetStatus: InternetStatusProvider,
+    private modal: ModalController
   ) {}
 
   ionViewWillEnter() {
@@ -42,6 +47,11 @@ export class RunsPage {
     this.InternetStatus.stopCheckingConnection()
   }
 
+  openModal() {
+    var filtersModal = this.modal.create('FiltersPage')
+
+    filtersModal.present()
+  }
   /**
    * Load all the runs
    *
