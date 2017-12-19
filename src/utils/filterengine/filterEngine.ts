@@ -1,14 +1,13 @@
 import FilterEngine from './engine'
 import Filter from './filter'
 
-interface FilterObject {
+export interface FilterObject {
   [key: string]: Filter
 }
 
 export const filters: FilterObject = {
-  all: new Filter(a => true),
-  mine: new Filter(a => a.isFinished),
-
+  all: new Filter(a => true, 'All'),
+  mine: new Filter(a => a.isFinished, 'Mine'),
 }
 
 filters.all.onEnable = () => {
