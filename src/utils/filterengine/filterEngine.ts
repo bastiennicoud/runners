@@ -1,6 +1,8 @@
 import FilterEngine from './engine'
 import Filter from './filter'
 
+import { RunStatusEnum } from '../../enums/run-status.enum'
+
 interface FilterObject {
   [key: string]: Filter
 }
@@ -13,6 +15,7 @@ export const filters: FilterObject = {
     const user = this.externalData
     return user.belongsToRun(a)
   }),
+  urgent: new Filter(a => a.problem),
 }
 
 filters.all.onEnable = () => {
