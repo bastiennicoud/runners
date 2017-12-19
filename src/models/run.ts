@@ -65,6 +65,7 @@ export class Run {
    * @memberOf Run
    */
   public runners: Runner[]
+  public _status: string;
 
   /**
    * Factory that uses json data for build Run instance
@@ -86,7 +87,7 @@ export class Run {
     b.endAt = data.end_at ? new Date(data.end_at) : null
     b.waypoints = data.waypoints.map(d => Waypoint.build(d)) || []
     b.runners = data.runners.map(d => Runner.build(d)) || []
-
+    b._status = data.status;
     return b
   }
 
@@ -99,7 +100,8 @@ export class Run {
    * @memberOf Run
    */
   get empty(): boolean {
-    return !this.runners.filter(r => r.user || r.vehicle).length
+    return this._status === "empty";
+    // return !this.runners.filter(r => r.user || r.vehicle).length
   }
 
   /**
@@ -132,7 +134,7 @@ export class Run {
    * @memberOf Run
    */
   get ready(): boolean {
-    return !this.runners.filter(r => !r.user || !r.vehicle).length
+    return this._status === "ready"
   }
 
   /**
@@ -165,7 +167,7 @@ export class Run {
    * @memberOf Run
    */
   get problem(): boolean {
-    return false
+    return this._status === "error";
   }
 
   /**
@@ -179,8 +181,8 @@ export class Run {
     if (this.problem) return RunStatusEnum.problem
     else if (this.completed) return RunStatusEnum.completed
     else if (this.inProgress) return RunStatusEnum.inProgress
-    else if (this.ready) return RunStatusEnum.ready
     else if (this.empty) return RunStatusEnum.empty
+    else if (this.ready) return RunStatusEnum.ready
     else if (this.organizingUsers) return RunStatusEnum.organizingUsers
     else if (this.organizingVehicles) return RunStatusEnum.organizingVehicles
     else throw new Error(`Run #${this.id} has no status, it's weird`)

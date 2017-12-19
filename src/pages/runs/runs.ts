@@ -43,6 +43,13 @@ export class RunsPage {
     )
   }
 
+  onFilterClick(filterName:string){
+    console.log('reminder.temporaryFilter',filterName)
+    this.filters[filterName].toggle()
+    this.refreshRuns({complete:()=>{}})
+  }
+
+
   ionViewWillLeave() {
     this.InternetStatus.stopCheckingConnection()
   }
@@ -86,6 +93,13 @@ export class RunsPage {
    * @memberOf RunsPage
    */
   showRun({ id }: Run): void {
+    // const yourModal = this.modalController.create(RunPage, { id }, {
+    //   showBackdrop: false,
+    //   enableBackdropDismiss: false,
+    //   enterAnimation: 'modal-scale-up-enter',
+    //   leaveAnimation: 'modal-scale-up-leave'
+    // });
+    // yourModal.present();
     this.navCtrl.push(RunPage, { id })
   }
 }

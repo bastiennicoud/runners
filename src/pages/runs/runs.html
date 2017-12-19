@@ -9,17 +9,18 @@
   </ion-navbar>
 
   <div padding>
-    <ion-segment [(ngModel)]="old">
-      <ion-segment-button [value]="x">
-        Tous les runs
-      </ion-segment-button>
-      <ion-segment-button [value]="x">
-        Mes runs
-      </ion-segment-button>
-      <ion-segment-button [value]="x">
-        Terminé
-      </ion-segment-button>
-    </ion-segment>
+    <ion-item>
+      <ion-label>Mes runs</ion-label>
+      <ion-checkbox (ionChange)="this.onFilterClick('mine')" checked="{{filters.mine.isEnabled}}"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Terminés</ion-label>
+      <ion-checkbox (ionChange)="this.onFilterClick('hideCompleted')" checked="{{filters.hideCompleted.isEnabled}}"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Prêts</ion-label>
+      <ion-checkbox (ionChange)="onFilterClick('hideNotReady')" checked="{{filters.hideNotReady.isEnabled}}"></ion-checkbox>
+    </ion-item>
   </div>
 </ion-header>
 
@@ -35,14 +36,14 @@
     <ion-item-group *ngFor="let group of runs | filterRuns | groupRuns">
 
       <ion-item-divider sticky>
-        <ion-label>{{group.date | date:'yMMMMEEEEd'}}</ion-label>
+        <ion-label>{{group.date | date:'d MMMM EEEE y'}}</ion-label>
       </ion-item-divider>
 
       <ion-item *ngFor="let run of group.runs" (click)="showRun(run)" [attr.status]="run.status">
         <ion-label>
           <h2>{{run.title}}</h2>
           <p>
-            <strong>{{run.beginAt | date:'yMMMd'}}</strong> {{run.beginAt | date:'jm'}}
+            <strong>{{run.beginAt | date:'d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}
           </p>
           <p>{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p>
         </ion-label>

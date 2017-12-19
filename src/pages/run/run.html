@@ -42,21 +42,21 @@
           <ion-item>
             <ion-icon name="calendar" item-left></ion-icon>
             <h2>Planifié :</h2>
-            <p><em>{{run.beginAt | date:'EEEE'}} à {{run.beginAt | date:'shortTime'}}</em></p>
+            <p><strong>{{run.beginAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
           </ion-item>
 
           <ion-item *ngIf="run.startAt">
             <ion-icon name="car" item-left></ion-icon>
             <span>
               <h2>Démarré :</h2>
-              <p><em>{{run.startAt | date:'EEEE'}} à {{run.startAt | date:'shortTime'}}</em></p>
+              <p><strong>{{run.startAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
             </span>
           </ion-item>
 
           <ion-item *ngIf="run.startAt && run.endAt">
             <ion-icon name="checkmark" item-left></ion-icon>
             <h2>Terminé :</h2>
-            <p><em>{{run.endAt | date:'EEEE'}} à {{run.endAt | date:'shortTime'}}</em></p>
+            <p><strong>{{run.endAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
           </ion-item>
 
         </ion-list>

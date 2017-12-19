@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { HttpService } from './http.service';
 import { Runner } from '../models/runner';
 import { Vehicle } from '../models/vehicle';
 import { User } from '../models/user';
@@ -45,11 +44,13 @@ export class RunnerService {
  * @memberOf RunnerService
  */
   setVehicle({ id }: Runner, vehicle: Vehicle): Observable<Runner> {
+
     return this.httpService
-      .patch(`/runners/${id}`, JSON.stringify({
-        vehicle,
-      }))
-      .map(data => Runner.build(data));
+      .patch(`/runners/${id}`, {
+        vehicle: vehicle.id,
+      })
+      .map(data => Runner.build(data))
+      ;
   }
 
   /**
@@ -63,9 +64,9 @@ export class RunnerService {
  */
   setUser({ id }: Runner, user: User): Observable<Runner> {
     return this.httpService
-      .patch(`/runners/${id}`, JSON.stringify({
+      .patch(`/runners/${id}`, {
         user: user.id,
-      }))
+      })
 
       .map(data => Runner.build(data));
   }
@@ -80,7 +81,7 @@ export class RunnerService {
  */
   availableVehicles({ id }: Runner): Observable<Vehicle[]> {
     return this.httpService
-      .get<any[]>(`/runners/${id}/vehicles?status=free`)
+      .get<any[]>(`/vehicles?status=free`)
       .map(datas => datas.map(data => Vehicle.build(data)));
   }
 
