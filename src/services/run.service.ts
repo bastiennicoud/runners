@@ -78,6 +78,7 @@ export class RunService {
     //TODO find a way to load the specific ressource, and only if that is unnaccessible use the run list and filter
     // right now, this only takes the list and filters
     return this.all()
+      .catch(err=> console.log(err))
       .do(runs => console.log(runs))
       .map(runs => runs.filter(run => run.id == id))
       .do(runs => console.log(runs))

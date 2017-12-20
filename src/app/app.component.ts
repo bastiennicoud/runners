@@ -14,9 +14,9 @@ export class MyApp {
     platform.ready().then(() => {
       // Set TTL to 12h
       cache.setDefaultTTL(60 * 60 * 12);
-
+      cache.getItem("http://sc-c333-pc08/api/runs?finished=true").then(d => console.log(d)).catch(err => console.log(err))
       // Keep our cached results when device is offline!
-      cache.setOfflineInvalidate(false);
+      // cache.setOfflineInvalidate(false);
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

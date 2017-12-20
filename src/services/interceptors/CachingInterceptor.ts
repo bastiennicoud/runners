@@ -43,6 +43,7 @@ export class CachingInterceptor implements HttpInterceptor {
       }
     })
       .catch((err: HttpErrorResponse) => {
+        console.log(err)
         if (err.status >= 200 && err.status < 300) {
           const res = new HttpResponse({
             body: null,
@@ -56,7 +57,7 @@ export class CachingInterceptor implements HttpInterceptor {
         } else {
           return Observable.throw(err);
         }
-      });;
+      });
 
     // Now, combine the two and send the cached response first (if there is
     // one), and the network response second.

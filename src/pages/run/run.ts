@@ -46,7 +46,7 @@ export class RunPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
     this.loadRun().subscribe(
-      null,
+      r => console.log(r),
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )
