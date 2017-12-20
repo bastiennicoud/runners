@@ -21,28 +21,42 @@ export class CachingInterceptor implements HttpInterceptor {
     this.cache = this.injector.get(CacheService)
     // This will be an Observable of the cached value if there is one,
     // or an empty Observable otherwise. It starts out empty.
-    let maybeCachedResponse: Observable<HttpEvent<any>> = Observable.empty();
+    var maybeCachedResponse: Observable<HttpEvent<any>> = Observable.empty();
 
     // Check the cache.
-    this.cache.getItem(req.url)
-      .then((cachedResponse)=>{
+    maybeCachedResponse = Observable.fromPromise(new Promise((resolve, reject) => {
+      // réaliser une tâche asynchrone et appeler :
+      resolve(this.cache.getItem(req.url).then((cachedResponse)=> {
+        let c = new HttpResponse(cachedResponse)
+        console.log("getting from cache : "+req.url)
+        console.debug(c)
+        return c;
+      }).catch(err => reject(err)))
+      // resolve(uneValeur); // si la promesse est tenue
+      // ou
+      // reject("raison d'echec"); // si elle est rompue
+    }))
+
+   /* this.cache.getItem(req.url).then((cachedResponse)=>{
         console.log("getting from cache : "+req.url)
         console.debug(cachedResponse)
-        maybeCachedResponse = Observable.of(cachedResponse);
+
+        maybeCachedResponse = Observable.of(new HttpResponse(cachedResponse));
       })
       .catch(()=>{
         console.log("No cache entry for : "+req.url)
-      });
+      });*/
 
     // Create an Observable (but don't subscribe) that represents making
     // the network request and caching the value.
     const networkResponse = next.handle(req).do(event => {
       // Just like before, check for the HttpResponse event and cache it.
       if (event instanceof HttpResponse) {
-        this.cache.saveItem(req.url, event);
+        this.cache.saveItem(req.url, event).catch(err => console.log("Error saving "+req.url+" in cache\n"+err));
       }
     })
       .catch((err: HttpErrorResponse) => {
+      console.log(maybeCachedResponse)
         console.log(err)
         if (err.status >= 200 && err.status < 300) {
           const res = new HttpResponse({

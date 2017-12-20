@@ -44,12 +44,14 @@ export class RunPage {
     this.user = this.authStorage.user
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present()
-    this.loadRun().subscribe(
-      r => console.log(r),
-      err => err.status != 401 && loader.dismiss(),
-      () => loader.dismiss()
-    )
+    loader.present().then(()=>{
+      this.loadRun().subscribe(
+        ()=>loader.dismissAll(),
+        err => err.status != 401 && loader.dismiss(),
+        // () => loader.dismiss()
+      )
+    })
+
   }
 
   ionViewWillLeave() {

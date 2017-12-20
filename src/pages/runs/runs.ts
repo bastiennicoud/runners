@@ -30,13 +30,13 @@ export class RunsPage {
     this.InternetStatus.checkConnection()
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present()
-
-    this.loadRuns().subscribe(
-      null,
-      err => err.status != 401 && loader.dismiss(),
-      () => loader.dismiss()
-    )
+    loader.present().then(()=> {
+      this.loadRuns().subscribe(
+        () => loader.dismissAll(),
+        err => err.status != 401 && loader.dismiss(),
+        // () => loader.dismiss()
+      )
+    })
   }
 
   ionViewWillLeave() {
