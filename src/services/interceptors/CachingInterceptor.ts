@@ -24,28 +24,11 @@ export class CachingInterceptor implements HttpInterceptor {
     var maybeCachedResponse: Observable<HttpEvent<any>> = Observable.empty();
 
     // Check the cache.
-    maybeCachedResponse = Observable.fromPromise(new Promise((resolve, reject) => {
-      // réaliser une tâche asynchrone et appeler :
-      resolve(this.cache.getItem(req.url).then((cachedResponse)=> {
-        let c = new HttpResponse(cachedResponse)
-        console.log("getting from cache : "+req.url)
-        console.debug(c)
-        return c;
-      }).catch(err => reject(err)))
-      // resolve(uneValeur); // si la promesse est tenue
-      // ou
-      // reject("raison d'echec"); // si elle est rompue
-    }))
 
-   /* this.cache.getItem(req.url).then((cachedResponse)=>{
-        console.log("getting from cache : "+req.url)
-        console.debug(cachedResponse)
+    maybeCachedResponse = Observable.fromPromise(this.cache.getItem(req.url))
+      .do(raw => console.log("getting from cache : "+req.url))
+      .map(raw => new HttpResponse(raw))
 
-        maybeCachedResponse = Observable.of(new HttpResponse(cachedResponse));
-      })
-      .catch(()=>{
-        console.log("No cache entry for : "+req.url)
-      });*/
 
     // Create an Observable (but don't subscribe) that represents making
     // the network request and caching the value.
