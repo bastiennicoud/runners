@@ -39,7 +39,7 @@ export class CachingInterceptor implements HttpInterceptor {
         .then((cachedResponse)=>{
           console.log("getting from cache : "+req.url)
           console.debug(cachedResponse)
-          if(cachedResponse)
+          if(cachedResponse && maybeCachedResponse.isEmpty())
           maybeCachedResponse = Observable.of(new HttpResponse(cachedResponse));
         })
     })
@@ -77,6 +77,9 @@ export class CachingInterceptor implements HttpInterceptor {
 
     // Now, combine the two and send the cached response first (if there is
     // one), and the network response second.
-    return Observable.concat(maybeCachedResponse, networkResponse);
+    let c = Observable.merge(maybeCachedResponse, Observable.fromPromise(this.cache.getItem(req.url).catch((err) => console.log(err)))
+      .do(raw => console.log("getting from cache : "+req.url))
+      .map(raw => new HttpResponse(raw)))
+    return Observable.concat(c, networkResponse );
   }
 }

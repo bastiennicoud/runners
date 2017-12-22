@@ -179,11 +179,7 @@ export class Run {
    * @memberOf Run
    */
   get status(): RunStatusEnum {
-    console.log(this)
-    console.log(this._status)
-    console.log(this.inProgress)
-    console.log(this.organizingUsers)
-    console.log(this.organizingVehicles)
+
     if (this.problem) return RunStatusEnum.problem
     else if (this.completed) return RunStatusEnum.completed
     else if (this.inProgress) return RunStatusEnum.inProgress

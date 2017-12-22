@@ -46,9 +46,8 @@ export class RunPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(()=>{
       this.loadRun().subscribe(
-        ()=>loader.dismissAll(),
-        err => err.status != 401 && loader.dismiss(),
-        () => loader.dismiss()
+        ()=>loader.dismiss().catch(err => console.log(err)),
+        err => err.status != 401 && loader.dismiss().catch(err => console.log(err)), //TODO temporary dismiss
       )
     })
 
