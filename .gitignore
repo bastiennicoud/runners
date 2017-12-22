@@ -36,4 +36,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 .prettierrc
-.sourcemaps
+.sourcemaps/

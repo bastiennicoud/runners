@@ -4,8 +4,10 @@ export default class Filter {
   public onEnable = () => {}
   public onDisable = () => {}
   public externalData: any = null
-  constructor(control: any = () => true) {
+  public name: string
+  constructor(control: any = () => true, name: string) {
     this.control = control
+    this.name = name
   }
   public toggle(): void {
     this.enabled ? this.disable() : this.enable()

@@ -1,0 +1,29 @@
+.modal {
+  background: #0090bf;
+}
+
+.modal__close {
+  font-size: 60px;
+  margin: 5px;
+  color: #fff;
+}
+
+.modal__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+}
+
+.modal__item {
+  text-align: center;
+  border: none !important;
+  font-size: 25px;
+  background: none;
+  a {
+    color: #fff;
+  }
+  .item-inner {
+    border: none !important;
+  }
+}

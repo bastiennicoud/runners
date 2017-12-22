@@ -1,5 +1,9 @@
 import { Component } from '@angular/core'
-import {NavController, LoadingController, ModalController} from 'ionic-angular'
+import {
+  NavController,
+  LoadingController,
+  ModalController,
+} from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
@@ -16,14 +20,14 @@ export class RunsPage {
   runs: Run[] = []
   RunStatusEnum = RunStatusEnum
   filters: any = filters
-  oldmode: string =  's'
+  oldmode: string = 's'
 
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private runService: RunService,
-    private modalController: ModalController,
-    private InternetStatus: InternetStatusProvider
+    private InternetStatus: InternetStatusProvider,
+    private modalCtrl: ModalController
   ) {}
 
   ionViewWillEnter() {
@@ -39,17 +43,24 @@ export class RunsPage {
     )
   }
 
-  onFilterClick(filterName:string){
-    console.log('reminder.temporaryFilter',filterName)
+  onFilterClick(filterName: string) {
     this.filters[filterName].toggle()
-    this.refreshRuns({complete:()=>{}})
+    this.refreshRuns({ complete: () => {} })
   }
-
 
   ionViewWillLeave() {
     this.InternetStatus.stopCheckingConnection()
   }
 
+  openModal() {
+    var filtersModal = this.modalCtrl.create('FiltersPage')
+
+    filtersModal.onDidDismiss(() => {
+      this.loadRuns().subscribe()
+    })
+
+    filtersModal.present()
+  }
   /**
    * Load all the runs
    *
@@ -84,13 +95,6 @@ export class RunsPage {
    * @memberOf RunsPage
    */
   showRun({ id }: Run): void {
-    // const yourModal = this.modalController.create(RunPage, { id }, {
-    //   showBackdrop: false,
-    //   enableBackdropDismiss: false,
-    //   enterAnimation: 'modal-scale-up-enter',
-    //   leaveAnimation: 'modal-scale-up-leave'
-    // });
-    // yourModal.present();
     this.navCtrl.push(RunPage, { id })
   }
 }
