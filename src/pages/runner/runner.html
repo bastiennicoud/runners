@@ -33,7 +33,7 @@
     <ion-item *ngIf="!runner.vehicle">
       <ion-icon name="car" item-left></ion-icon>
       <h2>Sélectionne un véhicule</h2>
-      <ion-select class="select-vehicle" (ionChange)="selectVehicle($event)" [placeholder]="'Choisi une ' + runner.vehicleCategory.type">
+      <ion-select class="select-vehicle" (ionChange)="selectVehicle($event)" [placeholder]="'Choisi une ' + runner.vehicleCategory != null ? runner.vehicleCategory.type : 'voiture'">
         <ion-option *ngFor="let vehicle of availableVehicles" [value]="vehicle">{{vehicle.name}}</ion-option>
       </ion-select>
     </ion-item>

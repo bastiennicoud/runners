@@ -12,6 +12,7 @@ import { RunnerPage } from '../runner/runner'
 import { Runner } from '../../models/runner' // FIXME: is this the proper way ? (maybe get Runner from RunnerPage or RunService)
 import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
+import {User} from "../../models/user";
 
 /**
  * This class displays the details of a run when selected from the board
@@ -26,6 +27,7 @@ import { InternetStatusProvider } from '../../providers/internet-status/internet
 export class RunPage {
   run: Run
   RunStatusEnum = RunStatusEnum
+  user : User
 
   constructor(
     private navCtrl: NavController,
@@ -39,14 +41,17 @@ export class RunPage {
 
   ionViewWillEnter() {
     this.InternetStatus.checkConnection()
+    this.user = this.authStorage.user
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present()
-    this.loadRun().subscribe(
-      null,
-      err => err.status != 401 && loader.dismiss(),
-      () => loader.dismiss()
-    )
+    loader.present().then(()=>{
+      this.loadRun().subscribe(
+        ()=>loader.dismissAll(),
+        err => err.status != 401 && loader.dismiss(),
+        () => loader.dismiss()
+      )
+    })
+
   }
 
   ionViewWillLeave() {
@@ -64,6 +69,16 @@ export class RunPage {
     return this.runService
       .get(this.navParams.get('id'))
       .do(run => (this.run = run))
+  }
+  participateInRun({id}:Run){
+    const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
+    loader.present()
+    return this.runService.createRunnerForCurrentUser(id)
+      .subscribe(
+        null,
+        err => err.status != 401 && loader.dismiss(),
+        () => loader.dismiss() && this.navCtrl.push(this.navCtrl.getActive().component,{id: this.run.id})
+      )
   }
 
   /**
@@ -88,8 +103,11 @@ export class RunPage {
    *
    * @memberOf RunPage
    */
-  showRunner({ id }: Runner, { title }: Run) {
-    this.navCtrl.push(RunnerPage, { id, title })
+  showRunner({ id, user }: Runner, { title }: Run) {
+    if(user && user.id == this.authStorage.user.id)
+      this.navCtrl.push(RunnerPage, { id, title })
+    else
+      alert("This isn't your convoy")
   }
 
   /**

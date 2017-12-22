@@ -5,7 +5,11 @@ import {
 } from '@angular/common/http';
 import {CacheService} from "ionic-cache"
 import {Observable} from 'rxjs/Observable';
+import "rxjs/Rx"
 import {AuthService} from "../auth.service";
+import "rxjs/add/operator/catch"
+import "rxjs/add/observable/throw"
+import "rxjs/add/operator/map"
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
@@ -24,25 +28,38 @@ export class CachingInterceptor implements HttpInterceptor {
     let maybeCachedResponse: Observable<HttpEvent<any>> = Observable.empty();
 
     // Check the cache.
-    this.cache.getItem(req.url)
-      .then((cachedResponse)=>{
-        console.log("getting from cache : "+req.url)
-        console.debug(cachedResponse)
-        maybeCachedResponse = Observable.of(cachedResponse);
-      })
-      .catch(()=>{
-        console.log("No cache entry for : "+req.url)
-      });
 
+    // maybeCachedResponse = Observable.fromPromise(this.cache.getItem(req.url).catch((err) => console.log(err)))
+    //   .do(raw => console.log("getting from cache : "+req.url))
+    //   .map(raw => new HttpResponse(raw))
+
+    this.cache.getItem(req.url).then((cachedResponse)=>{
+      console.log("getting from cache")
+      this.cache.getItem(req.url)
+        .then((cachedResponse)=>{
+          console.log("getting from cache : "+req.url)
+          console.debug(cachedResponse)
+          if(cachedResponse)
+          maybeCachedResponse = Observable.of(new HttpResponse(cachedResponse));
+        })
+    })
+      .catch(()=>{
+        console.log("No cache entry for : "+req.urlWithParams)
+        console.log("No cache entry for : "+req.url)
+    });
     // Create an Observable (but don't subscribe) that represents making
     // the network request and caching the value.
     const networkResponse = next.handle(req).do(event => {
       // Just like before, check for the HttpResponse event and cache it.
+      console.log(event)
       if (event instanceof HttpResponse) {
-        this.cache.saveItem(req.url, event);
+        this.cache.saveItem(req.url, event)
+          .catch(err => console.log("Error saving "+req.url+" in cache\n"+err));
       }
     })
       .catch((err: HttpErrorResponse) => {
+        console.log(err)
+        //maybe status is 201, which is still an ok http response
         if (err.status >= 200 && err.status < 300) {
           const res = new HttpResponse({
             body: null,
@@ -56,7 +73,7 @@ export class CachingInterceptor implements HttpInterceptor {
         } else {
           return Observable.throw(err);
         }
-      });;
+      });
 
     // Now, combine the two and send the cached response first (if there is
     // one), and the network response second.

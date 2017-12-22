@@ -4,6 +4,8 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 // import { HttpService } from './http.service';
 import { Run } from '../models/run';
 import {CacheService} from "ionic-cache";
+import {AuthService} from "./auth.service";
+import {AuthStorage} from "../storages/auth.storage";
 export {Run};
 /**
  * Allows you to retrieve or modify the status of a run.
@@ -14,7 +16,7 @@ export {Run};
 @Injectable()
 export class RunService {
 
-  constructor(private httpService: HttpClient, private cacheService : CacheService) {}
+  constructor(private httpClient: HttpClient, private cacheService : CacheService, private authStorage: AuthStorage) {}
   protected saveRun(run : Run) : void {
     run.runners.forEach(runner => {
       this.cacheService.saveItem(`runners-${runner.id}`, runner)
@@ -34,11 +36,18 @@ export class RunService {
 
     return cached$
       .merge(
-        this.httpService.get('endpoint')
+        this.httpClient.get('endpoint')
           .do(result => this.cacheService.saveItem('key', result))
       )
       .distinctUntilChanged()
   }
+
+  createRunnerForCurrentUser(key:string){
+    return this.httpClient.post(`/runs/${key}/runners`,{
+      user: this.authStorage.user.id
+    })
+  }
+
 /**
  * List all run
  *
@@ -47,7 +56,8 @@ export class RunService {
  * @memberOf RunService
  */
   all(): Observable<Run[]> {
-    return this.httpService
+
+  return this.httpClient
       .get<any[]>('/runs?finished=true')
       .map(array => array.map(data => Run.build(data)))
       .map(runs => runs.map(run => {
@@ -69,9 +79,10 @@ export class RunService {
     //TODO find a way to load the specific ressource, and only if that is unnaccessible use the run list and filter
     // right now, this only takes the list and filters
     return this.all()
-      .do(runs => console.log(runs))
+      // .catch(err=> console.log(err))
+      .do(runs => console.debug(runs))
       .map(runs => runs.filter(run => run.id == id))
-      .do(runs => console.log(runs))
+      .do(runs => console.debug(runs))
       .map(runs => runs.length ? runs[0] : null);
     /*
     var maybe: Observable<Run> = Observable.empty()
@@ -105,7 +116,7 @@ export class RunService {
    * @memberOf RunService
    */
   start({ id }: Run): Observable<any> {
-    return this.httpService.post(`/runs/${id}/start`, '');
+    return this.httpClient.post(`/runs/${id}/start`, '');
   }
 
 /**
@@ -118,7 +129,7 @@ export class RunService {
  * @memberOf RunService
  */
   stop({ id }: Run): Observable<any> {
-    return this.httpService.post(`/runs/${id}/stop`, '');
+    return this.httpClient.post(`/runs/${id}/stop`, '');
   }
 
 }

@@ -32,12 +32,14 @@ export class VehiclePage {
     this.InternetStatus.checkConnection()
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present()
-    this.loadVehicleStatus().subscribe(
-      null,
-      err => err.status != 401 && loader.dismiss(),
-      () => loader.dismiss()
-    )
+    loader.present().then(()=>{
+      this.loadVehicleStatus().subscribe(
+        null,
+        err => err.status != 401 && loader.dismiss(),
+        () => loader.dismiss()
+      )
+    })
+
   }
 
   ionViewWillLeave() {
