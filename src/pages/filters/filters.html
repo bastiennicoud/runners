@@ -5,8 +5,8 @@
 
 <ion-content class="modal">
     <ion-list class="modal__content">
-        <ion-item class="modal__item" *ngFor="let filter of filterkeys">
-            {{ filters[filter].name }}
+        <ion-item class="modal__item" *ngFor="let key of filterkeys">
+            <a (click)="onFilterClick(key)">{{ filters[key].name }}</a>
         </ion-item>
     </ion-list>
 </ion-content>

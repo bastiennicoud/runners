@@ -25,4 +25,8 @@ export class FiltersPage {
   close() {
     this.viewCtrl.dismiss()
   }
+
+  onFilterClick(filterName: string) {
+    this.filters[filterName].toggle()
+  }
 }
