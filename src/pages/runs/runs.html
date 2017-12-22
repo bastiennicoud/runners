@@ -7,21 +7,6 @@
     <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
     <ion-icon class="open-filters" name="color-wand" (click)="openModal()"></ion-icon>
   </ion-navbar>
-
-  <div padding>
-    <ion-item>
-      <ion-label>Mes runs</ion-label>
-      <ion-checkbox (ionChange)="this.onFilterClick('mine')" checked="{{filters.mine.isEnabled}}"></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-label>Terminés</ion-label>
-      <ion-checkbox (ionChange)="this.onFilterClick('hideCompleted')" checked="{{filters.hideCompleted.isEnabled}}"></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-label>Prêts</ion-label>
-      <ion-checkbox (ionChange)="onFilterClick('hideNotReady')" checked="{{filters.hideNotReady.isEnabled}}"></ion-checkbox>
-    </ion-item>
-  </div>
 </ion-header>
 
 
