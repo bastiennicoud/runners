@@ -48,7 +48,7 @@ export class RunPage {
       this.loadRun().subscribe(
         ()=>loader.dismissAll(),
         err => err.status != 401 && loader.dismiss(),
-        // () => loader.dismiss()
+        () => loader.dismiss()
       )
     })
 
@@ -107,7 +107,7 @@ export class RunPage {
     if(user && user.id == this.authStorage.user.id)
       this.navCtrl.push(RunnerPage, { id, title })
     else
-      alert("wtf man?")
+      alert("This isn't your convoy")
   }
 
   /**

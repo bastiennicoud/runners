@@ -34,7 +34,7 @@ export class RunsPage {
       this.loadRuns().subscribe(
         () => loader.dismissAll(),
         err => err.status != 401 && loader.dismiss(),
-        // () => loader.dismiss()
+        () => loader.dismiss()
       )
     })
   }
