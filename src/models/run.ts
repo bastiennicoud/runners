@@ -124,7 +124,7 @@ export class Run {
    */
   get organizingVehicles(): boolean {
     return this._status === "needs_filling" //TODO remove this is temporary
-    return !!this.runners.filter(r => !r.vehicle).length
+    // return !!this.runners.filter(r => !r.vehicle).length
   }
 
   /**
