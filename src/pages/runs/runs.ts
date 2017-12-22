@@ -27,7 +27,7 @@ export class RunsPage {
     private loadingCtrl: LoadingController,
     private runService: RunService,
     private InternetStatus: InternetStatusProvider,
-    private modal: ModalController
+    private modalCtrl: ModalController
   ) {}
 
   ionViewWillEnter() {
@@ -43,19 +43,21 @@ export class RunsPage {
     )
   }
 
-  onFilterClick(filterName:string){
-    console.log('reminder.temporaryFilter',filterName)
+  onFilterClick(filterName: string) {
     this.filters[filterName].toggle()
-    this.refreshRuns({complete:()=>{}})
+    this.refreshRuns({ complete: () => {} })
   }
-
 
   ionViewWillLeave() {
     this.InternetStatus.stopCheckingConnection()
   }
 
   openModal() {
-    var filtersModal = this.modal.create('FiltersPage')
+    var filtersModal = this.modalCtrl.create('FiltersPage')
+
+    filtersModal.onDidDismiss(() => {
+      this.loadRuns().subscribe()
+    })
 
     filtersModal.present()
   }
@@ -93,13 +95,6 @@ export class RunsPage {
    * @memberOf RunsPage
    */
   showRun({ id }: Run): void {
-    // const yourModal = this.modalController.create(RunPage, { id }, {
-    //   showBackdrop: false,
-    //   enableBackdropDismiss: false,
-    //   enterAnimation: 'modal-scale-up-enter',
-    //   leaveAnimation: 'modal-scale-up-leave'
-    // });
-    // yourModal.present();
     this.navCtrl.push(RunPage, { id })
   }
 }
