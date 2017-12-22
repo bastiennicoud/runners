@@ -37,8 +37,6 @@ export class AuthService {
 
   return this.userService
       .me()
-    .do(d => console.log("enculé"))
-
     .do(data => this.authStorage.user = User.build(data));
   }
 

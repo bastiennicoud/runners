@@ -10,6 +10,7 @@ import {AuthService} from "../auth.service";
 import "rxjs/add/operator/catch"
 import "rxjs/add/observable/throw"
 import "rxjs/add/operator/map"
+
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
   /**
@@ -28,11 +29,24 @@ export class CachingInterceptor implements HttpInterceptor {
 
     // Check the cache.
 
-    maybeCachedResponse = Observable.fromPromise(this.cache.getItem(req.url))
-      .do(raw => console.log("getting from cache : "+req.url))
-      .map(raw => new HttpResponse(raw))
-      .catch((err) => console.log(err))
+    // maybeCachedResponse = Observable.fromPromise(this.cache.getItem(req.url).catch((err) => console.log(err)))
+    //   .do(raw => console.log("getting from cache : "+req.url))
+    //   .map(raw => new HttpResponse(raw))
 
+    this.cache.getItem(req.url).then((cachedResponse)=>{
+      console.log("getting from cache")
+      this.cache.getItem(req.url)
+        .then((cachedResponse)=>{
+          console.log("getting from cache : "+req.url)
+          console.debug(cachedResponse)
+          if(cachedResponse)
+          maybeCachedResponse = Observable.of(new HttpResponse(cachedResponse));
+        })
+    })
+      .catch(()=>{
+        console.log("No cache entry for : "+req.urlWithParams)
+        console.log("No cache entry for : "+req.url)
+    });
     // Create an Observable (but don't subscribe) that represents making
     // the network request and caching the value.
     const networkResponse = next.handle(req).do(event => {
@@ -45,7 +59,7 @@ export class CachingInterceptor implements HttpInterceptor {
     })
       .catch((err: HttpErrorResponse) => {
         console.log(err)
-        //maybe status is 2001, which is still an ok http response
+        //maybe status is 201, which is still an ok http response
         if (err.status >= 200 && err.status < 300) {
           const res = new HttpResponse({
             body: null,
@@ -63,6 +77,6 @@ export class CachingInterceptor implements HttpInterceptor {
 
     // Now, combine the two and send the cached response first (if there is
     // one), and the network response second.
-    return Observable.merge(maybeCachedResponse, networkResponse);
+    return Observable.concat(maybeCachedResponse, networkResponse);
   }
 }

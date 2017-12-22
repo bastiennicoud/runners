@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../../services/auth.service';
 import { AuthStorage } from '../../storages/auth.storage';
 import { TabsPage } from '../tabs/tabs';
+import {HttpClient} from "@angular/common/http";
 
 /**
  * This class displays the login page
@@ -19,7 +20,7 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class LoginPage {
 
-  constructor(private platform: Platform, private navCtrl: NavController, private toastCtrl: ToastController, private authService: AuthService, private authStorage: AuthStorage, private splashScreen: SplashScreen, private barcodeScanner: BarcodeScanner) {
+  constructor(private platform: Platform, private navCtrl: NavController, private toastCtrl: ToastController, private authService: AuthService, private authStorage: AuthStorage, private splashScreen: SplashScreen, private barcodeScanner: BarcodeScanner, private http: HttpClient) {
     this.platform.ready()
       .then(() => this.authService.isAuthenticated ? this.navCtrl.setRoot(TabsPage) : null)
       .then(() => this.splashScreen.hide());
@@ -80,9 +81,11 @@ export class LoginPage {
  */
   login(key: string): void {
     this.authService.login(key)
-      .do(d=>console.log("ntm"))
       .subscribe(
       user => {
+        if(user == null){
+          return;
+        }
         this.toastCtrl.create({
           message: `Bonjour ${user.fullname}, vous êtes connecté`,
           duration: 3000,
