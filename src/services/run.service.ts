@@ -56,7 +56,8 @@ export class RunService {
  * @memberOf RunService
  */
   all(): Observable<Run[]> {
-    return this.httpClient
+
+  return this.httpClient
       .get<any[]>('/runs?finished=true')
       .map(array => array.map(data => Run.build(data)))
       .map(runs => runs.map(run => {
@@ -79,9 +80,9 @@ export class RunService {
     // right now, this only takes the list and filters
     return this.all()
       // .catch(err=> console.log(err))
-      .do(runs => console.log(runs))
+      .do(runs => console.debug(runs))
       .map(runs => runs.filter(run => run.id == id))
-      .do(runs => console.log(runs))
+      .do(runs => console.debug(runs))
       .map(runs => runs.length ? runs[0] : null);
     /*
     var maybe: Observable<Run> = Observable.empty()

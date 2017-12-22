@@ -79,7 +79,9 @@ export class LoginPage {
  * @memberOf LoginPage
  */
   login(key: string): void {
-    this.authService.login(key).subscribe(
+    this.authService.login(key)
+      .do(d=>console.log("ntm"))
+      .subscribe(
       user => {
         this.toastCtrl.create({
           message: `Bonjour ${user.fullname}, vous êtes connecté`,
