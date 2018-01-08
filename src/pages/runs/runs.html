@@ -5,8 +5,24 @@
       <ion-icon name="ios-clipboard-outline"></ion-icon> Board
     </ion-title>
     <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
-    <ion-icon class="open-filters" name="color-wand" (click)="openModal()"></ion-icon>
+    <!-- <ion-icon class="open-filters" name="color-wand" (click)="openModal()"></ion-icon> -->
   </ion-navbar>
+  <div class="filters" padding>
+    <div class="filter" style="display: inline-block;">
+        <ion-checkbox (ionChange)="this.onFilterClick('mine')" checked="{{filters.mine.isEnabled}}"></ion-checkbox>
+        <ion-label style="display: inline-block;">Mes runs</ion-label>
+    </div>
+
+    <div class="filter" style="display: inline-block;">
+        <ion-checkbox (ionChange)="this.onFilterClick('hideCompleted')" checked="{{filters.hideCompleted.isEnabled}}"></ion-checkbox>
+        <ion-label style="display: inline-block;">Terminés</ion-label>
+    </div>
+
+    <div class="filter" style="display: inline-block;">
+        <ion-checkbox (ionChange)="onFilterClick('hideNotReady')" checked="{{filters.hideNotReady.isEnabled}}"></ion-checkbox>
+        <ion-label style="display: inline-block;">Prêts</ion-label>
+    </div>
+  </div>
 </ion-header>
 
 

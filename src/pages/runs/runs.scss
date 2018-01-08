@@ -10,4 +10,17 @@ page-runs {
     float: right;
     margin-right: 15px;
   }
+
+  .filters {
+    .filter,
+    ion-label {
+      display: inline-block;
+    }
+
+    ion-label {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 5px;
+    }
+  }
 }
