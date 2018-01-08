@@ -2,22 +2,11 @@
 
   <ion-navbar>
     <ion-title>
-      <ion-icon name="ios-clipboard-outline"></ion-icon> Board</ion-title>
+      <ion-icon name="ios-clipboard-outline"></ion-icon> Board
+    </ion-title>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
+    <ion-icon class="open-filters" name="color-wand" (click)="openModal()"></ion-icon>
   </ion-navbar>
-
-  <div padding>
-    <ion-segment [(ngModel)]="filteredBy">
-      <ion-segment-button [value]="FilterByEnum.current">
-        Tous les runs
-      </ion-segment-button>
-      <ion-segment-button [value]="FilterByEnum.mine">
-        Mes runs
-      </ion-segment-button>
-      <ion-segment-button [value]="FilterByEnum.old">
-        Terminé
-      </ion-segment-button>
-    </ion-segment>
-  </div>
 </ion-header>
 
 
@@ -29,17 +18,17 @@
 
   <ion-list>
 
-    <ion-item-group *ngFor="let group of runs | filterRuns:filteredBy | groupRuns">
+    <ion-item-group *ngFor="let group of runs | filterRuns | groupRuns">
 
       <ion-item-divider sticky>
-        <ion-label>{{group.date | date:'yMMMMEEEEd'}}</ion-label>
+        <ion-label>{{group.date | date:'d MMMM EEEE y'}}</ion-label>
       </ion-item-divider>
 
       <ion-item *ngFor="let run of group.runs" (click)="showRun(run)" [attr.status]="run.status">
         <ion-label>
           <h2>{{run.title}}</h2>
           <p>
-            <strong>{{run.beginAt | date:'yMMMd'}}</strong> {{run.beginAt | date:'jm'}}
+            <strong>{{run.beginAt | date:'d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}
           </p>
           <p>{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p>
         </ion-label>
@@ -47,7 +36,7 @@
 
     </ion-item-group>
 
-    <ion-item *ngIf="!(runs | filterRuns:filteredBy).length">
+    <ion-item *ngIf="!(runs | filterRuns).length">
       <ion-label>
         <p>Aucun run</p>
       </ion-label>

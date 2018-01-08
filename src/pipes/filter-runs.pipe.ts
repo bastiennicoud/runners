@@ -1,38 +1,25 @@
-import { Injectable, Pipe } from '@angular/core';
+import { Injectable, Pipe } from '@angular/core'
 
-import { Run } from '../models/run';
-import { AuthStorage } from '../storages/auth.storage';
-import { FilterByEnum } from '../enums/filter-by.enum';
+import { Run } from '../models/run'
+import { AuthStorage } from '../storages/auth.storage'
+
+import { filterEngine, filters } from '../utils/filterengine/filterEngine'
+import { filter } from 'rxjs/operator/filter';
 
 @Pipe({
-  name: 'filterRuns'
+  name: 'filterRuns',
 })
 @Injectable()
 export class FilterRunsPipe {
-
-  constructor(private authStorage: AuthStorage) {}
-
-  private onlyCurrent(run: Run): boolean {
-    return !run.completed;
+  constructor(private authStorage: AuthStorage) {
+    filters.mine.externalData = this.authStorage.user
+    filters.hideCompleted.disable()
+    filters.hideNotReady.disable()
+    filters.mine.disable()
+    console.log(filters)
   }
 
-  private onlyMine(run: Run): boolean {
-    return this.authStorage.user.belongsToRun(run);
+  transform(runs: Run[]): Run[] {
+    return filterEngine.filterList(runs)
   }
-
-  private onlyOld(run: Run): boolean {
-    return run.completed;
-  }
-
-  private methods: any = {
-    [FilterByEnum.current]: this.onlyCurrent.bind(this),
-    [FilterByEnum.mine]: this.onlyMine.bind(this),
-    [FilterByEnum.old]: this.onlyOld.bind(this),
-    default: () => true,
-  };
-
-  transform(runs: Run[], by: FilterByEnum): Run[] {
-    return runs.filter(this.methods[by] || this.methods.default);
-  }
-
 }

@@ -4,6 +4,7 @@ import { ProfilPage } from '../../pages/profil/profil'
 import { User } from '../../models/user'
 import { NavController, NavParams, LoadingController } from 'ionic-angular'
 import { VehicleStatusEnum } from '../../enums/vehicle-status.enum'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 /**
  * This class displays the profile of a vehicle
@@ -23,19 +24,26 @@ export class VehiclePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
-    private vehicleService: VehicleService
-  ) {
+    private vehicleService: VehicleService,
+    private InternetStatus: InternetStatusProvider
+  ) {}
+
+  ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
+    const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
+    loader.present().then(()=>{
+      this.loadVehicleStatus().subscribe(
+        null,
+        err => err.status != 401 && loader.dismiss(),
+        () => loader.dismiss()
+      )
+    })
 
   }
 
-  ionViewWillEnter() {
-    const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present()
-    this.loadVehicleStatus().subscribe(
-      null,
-      err => err.status != 401 && loader.dismiss(),
-      () => loader.dismiss()
-    )
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
   }
 
   /**

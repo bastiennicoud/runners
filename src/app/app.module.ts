@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler, Config} from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 
 import { CacheModule } from "ionic-cache";
 
@@ -12,7 +12,6 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { api } from '../runners.config';
 import { API_ENDPOINT } from '../tokens/api-endpoint';
 
-import { HttpService } from '../services/http.service';
 import { VehicleService } from '../services/vehicle.service';
 import { UserService } from '../services/user.service';
 import { RunService } from '../services/run.service';
@@ -35,6 +34,17 @@ import { GroupRunsPipe } from '../pipes/group-runs.pipe';
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe';
 import {ApiTokenInterceptor} from "../services/interceptors/ApiTokenInterceptor";
 import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedInterceptor";
+import {CachingInterceptor} from "../services/interceptors/CachingInterceptor";
+import {ModalScaleUpLeaveTransition} from "../pages/transitions/scale-up-leave.transition";
+import {ModalScaleUpEnterTransition} from "../pages/transitions/scale-up-enter.transition";
+
+//register i81n locale
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, "fr")
+
+import { InternetStatusProvider } from '../providers/internet-status/internet-status';
+
 
 
 @NgModule({
@@ -82,7 +92,7 @@ import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedIntercep
     },
     {
       provide: LOCALE_ID,
-      useValue: 'en-US',
+      useValue: 'fr-CH',
     },
     {
       provide: ErrorHandler,
@@ -98,13 +108,23 @@ import {AuthFailedInterceptor} from "../services/interceptors/AuthFailedIntercep
       useClass: AuthFailedInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CachingInterceptor,
+      multi: true
+    },
     AuthStorage,
-    HttpService,
     UserService,
     AuthService,
     VehicleService,
     RunService,
     RunnerService,
+    InternetStatusProvider,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private config:Config){
+      this.config.setTransition('modal-scale-up-leave', ModalScaleUpLeaveTransition);
+      this.config.setTransition('modal-scale-up-enter', ModalScaleUpEnterTransition);
+  }
+}

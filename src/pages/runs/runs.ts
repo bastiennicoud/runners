@@ -1,10 +1,16 @@
 import { Component } from '@angular/core'
-import { NavController, LoadingController } from 'ionic-angular'
+import {
+  NavController,
+  LoadingController,
+  ModalController,
+} from 'ionic-angular'
 
 import { RunService, Run } from '../../services/run.service'
 import { RunPage } from '../run/run'
-import { FilterByEnum } from '../../enums/filter-by.enum'
 import { RunStatusEnum } from '../../enums/run-status.enum'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
+
+import { filters } from '../../utils/filterengine/filterEngine'
 
 @Component({
   selector: 'page-runs',
@@ -12,27 +18,48 @@ import { RunStatusEnum } from '../../enums/run-status.enum'
 })
 export class RunsPage {
   runs: Run[] = []
-  FilterByEnum = FilterByEnum
   RunStatusEnum = RunStatusEnum
-  filteredBy: FilterByEnum = FilterByEnum.current
+  filters: any = filters
+  oldmode: string = 's'
 
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
-    private runService: RunService
+    private runService: RunService,
+    private InternetStatus: InternetStatusProvider,
+    private modalCtrl: ModalController
   ) {}
 
   ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present()
-    
-    this.loadRuns().subscribe(
-      null,
-      err => err.status != 401 && loader.dismiss(),
-      () => loader.dismiss()
-    )
+    loader.present().then(()=> {
+      this.loadRuns().subscribe(
+        () => loader.dismiss().catch(err => console.log(err)),  //TODO temporary dismiss
+        err => err.status != 401 && loader.dismiss().catch(err => console.log(err)),
+      )
+    })
   }
 
+  onFilterClick(filterName: string) {
+    this.filters[filterName].toggle()
+    this.refreshRuns({ complete: () => {} })
+  }
+
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
+  }
+
+  openModal() {
+    var filtersModal = this.modalCtrl.create('FiltersPage')
+
+    filtersModal.onDidDismiss(() => {
+      this.loadRuns().subscribe()
+    })
+
+    filtersModal.present()
+  }
   /**
    * Load all the runs
    *

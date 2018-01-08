@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 // import { HttpService } from './http.service';
 import { Run } from '../models/run';
+import {CacheService} from "ionic-cache";
+import {AuthService} from "./auth.service";
+import {AuthStorage} from "../storages/auth.storage";
 export {Run};
 /**
  * Allows you to retrieve or modify the status of a run.
@@ -13,7 +16,37 @@ export {Run};
 @Injectable()
 export class RunService {
 
-  constructor(private httpService: HttpClient) {}
+  constructor(private httpClient: HttpClient, private cacheService : CacheService, private authStorage: AuthStorage) {}
+  protected saveRun(run : Run) : void {
+    run.runners.forEach(runner => {
+      this.cacheService.saveItem(`runners-${runner.id}`, runner)
+      if(runner.vehicle)
+        this.cacheService.saveItem(`vehicles-${runner.vehicle.id}`, runner.vehicle)
+    })
+  }
+  protected saveRunList(runs: Run[]) : void{
+    this.cacheService.saveItem("runs",runs);
+    runs.forEach(run => {
+      this.cacheService.saveItem(`runs-${run.id}`, run)
+      this.saveRun(run)
+    })
+  }
+  protected getListFromCache(key : string){
+    const cached$ = Observable.fromPromise(this.cacheService.getItem(key))
+
+    return cached$
+      .merge(
+        this.httpClient.get('endpoint')
+          .do(result => this.cacheService.saveItem('key', result))
+      )
+      .distinctUntilChanged()
+  }
+
+  createRunnerForCurrentUser(key:string){
+    return this.httpClient.post(`/runs/${key}/runners`,{
+      user: this.authStorage.user.id
+    })
+  }
 
 /**
  * List all run
@@ -23,10 +56,15 @@ export class RunService {
  * @memberOf RunService
  */
   all(): Observable<Run[]> {
-    return this.httpService
-      .get<any>('/runs')
-      .map(array => array.map(data => Run.build(data)));
 
+  return this.httpClient
+      .get<any[]>('/runs?finished=true')
+      .map(array => array.map(data => Run.build(data)))
+      .map(runs => runs.map(run => {
+        //if(run.missingUsers())
+          return run;
+      }))
+      // .do(runs => this.saveRunList(runs));
   }
 
   /**
@@ -38,10 +76,34 @@ export class RunService {
    * @memberOf RunService
    */
   get(id: string): Observable<Run> {
-    return this.httpService
-      .get(`/runs/${id}`)
+    //TODO find a way to load the specific ressource, and only if that is unnaccessible use the run list and filter
+    // right now, this only takes the list and filters
+    return this.all()
+      // .catch(err=> console.log(err))
+      .do(runs => console.debug(runs))
+      .map(runs => runs.filter(run => run.id == id))
+      .do(runs => console.debug(runs))
+      .map(runs => runs.length ? runs[0] : null);
+    /*
+    var maybe: Observable<Run> = Observable.empty()
 
-      .map(data => Run.build(data));
+    let normal: Observable<Run> = this.httpService
+      .get<any>(`/runs/${id}`)
+      .isEmpty()
+      .filter(empty => {
+        console.log(empty)
+        return !empty
+      })
+      .flatMap(d => {
+        return this.all()
+          .do(runs => console.log(runs))
+          .map(runs => runs.filter(run => run.id == id))
+          .do(runs => console.log(runs))
+          .map(runs => runs.length ? runs[0] : null)
+      })
+
+    return normal.merge(maybe) */
+
   }
 
   /**
@@ -54,7 +116,7 @@ export class RunService {
    * @memberOf RunService
    */
   start({ id }: Run): Observable<any> {
-    return this.httpService.post(`/runs/${id}/start`, '');
+    return this.httpClient.post(`/runs/${id}/start`, '');
   }
 
 /**
@@ -67,7 +129,7 @@ export class RunService {
  * @memberOf RunService
  */
   stop({ id }: Run): Observable<any> {
-    return this.httpService.post(`/runs/${id}/stop`, '');
+    return this.httpClient.post(`/runs/${id}/stop`, '');
   }
 
 }

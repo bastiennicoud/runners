@@ -16,6 +16,7 @@ npm-debug.log*
 .sass-cache/
 .tmp/
 .versions/
+.sourcemaps/
 coverage/
 dist/
 node_modules/
@@ -35,4 +36,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 .prettierrc
-.sourcemaps
+.sourcemaps/

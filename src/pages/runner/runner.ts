@@ -6,6 +6,7 @@ import { RunnerService, Runner } from '../../services/runner.service'
 import { UserService, User } from '../../services/user.service'
 import { AuthStorage } from '../../storages/auth.storage'
 import { ProfilPage } from '../profil/profil'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 import { Vehicle } from '../../models/vehicle'
 import { Run } from '../../models/run'
@@ -31,10 +32,13 @@ export class RunnerPage {
     private loadingCtrl: LoadingController,
     private runnerService: RunnerService,
     private userService: UserService,
-    private authStorage: AuthStorage
+    private authStorage: AuthStorage,
+    private InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewWillEnter() {
+    this.InternetStatus.checkConnection()
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
 
@@ -44,6 +48,10 @@ export class RunnerPage {
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )
+  }
+
+  ionViewWillLeave() {
+    this.InternetStatus.stopCheckingConnection()
   }
 
   /**
@@ -57,6 +65,7 @@ export class RunnerPage {
     return this.runnerService
       .get(this.navParams.get('id'))
       .do(runner => (this.runner = runner))
+      .do(runner => console.log(runner))
       .do(runner => !runner.vehicle && this.loadAvailableVehicles().subscribe())
   }
 
@@ -121,7 +130,8 @@ export class RunnerPage {
     this.runnerService
       .setVehicle(this.runner, vehicle)
       .subscribe(
-        runner => (this.runner = runner),
+        // runner => (this.runner = runner),
+        runner => {console.log("IHASJDHBASDJBASNF")},
         err => err.status != 401 && loader.dismiss(),
         () => loader.dismiss()
       )
