@@ -4,7 +4,7 @@ import { Run } from '../models/run'
 import { AuthStorage } from '../storages/auth.storage'
 
 import { filterEngine, filters } from '../utils/filterengine/filterEngine'
-import { filter } from 'rxjs/operator/filter';
+import { filter } from 'rxjs/operator/filter'
 
 @Pipe({
   name: 'filterRuns',
@@ -16,6 +16,7 @@ export class FilterRunsPipe {
     filters.hideCompleted.disable()
     filters.hideNotReady.disable()
     filters.mine.disable()
+    filters.urgent.disable()
     console.log(filters)
   }
 
