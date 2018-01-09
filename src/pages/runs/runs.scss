@@ -23,4 +23,15 @@ page-runs {
       margin-left: 5px;
     }
   }
+
+  .run {
+    .run__title {
+      display: inline-block;
+    }
+
+    .run__time {
+      display: inline-block;
+      float: right;
+    }
+  }
 }

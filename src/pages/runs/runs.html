@@ -41,12 +41,10 @@
       </ion-item-divider>
 
       <ion-item *ngFor="let run of group.runs" (click)="showRun(run)" [attr.status]="run.status">
-        <ion-label>
-          <h2>{{run.title}}</h2>
-          <p>
-            <strong>{{run.beginAt | date:'d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}
-          </p>
-          <p>{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p>
+        <ion-label class="run">
+          <h2 class="run__title">{{run.title}}</h2>
+          <p class="run__time">{{run.beginAt | date:'shortTime'}}</p>
+          <p class="run__waypoint">{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p>
         </ion-label>
       </ion-item>
 
