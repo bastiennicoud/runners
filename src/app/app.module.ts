@@ -44,6 +44,7 @@ import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, "fr")
 
 import { InternetStatusProvider } from '../providers/internet-status/internet-status';
+import {SettingsPage} from "../pages/settings/settings";
 
 
 
@@ -61,6 +62,7 @@ import { InternetStatusProvider } from '../providers/internet-status/internet-st
     FilterRunsPipe,
     GroupRunsPipe,
     GroupVehicleStatusPipe,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -81,6 +83,7 @@ import { InternetStatusProvider } from '../providers/internet-status/internet-st
     VehiclePage,
     RunnerPage,
     ProfilPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,

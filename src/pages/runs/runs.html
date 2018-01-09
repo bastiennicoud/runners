@@ -6,6 +6,7 @@
     </ion-title>
     <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
     <ion-icon class="open-filters" name="color-wand" (click)="openModal()"></ion-icon>
+    <ion-icon name="settings" icon-right (click)="openSettings()"></ion-icon>
   </ion-navbar>
 </ion-header>
 

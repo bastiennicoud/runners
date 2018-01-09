@@ -11,6 +11,7 @@ import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 import { filters } from '../../utils/filterengine/filterEngine'
+import {SettingsPage} from "../settings/settings";
 
 @Component({
   selector: 'page-runs',
@@ -95,5 +96,9 @@ export class RunsPage {
    */
   showRun({ id }: Run): void {
     this.navCtrl.push(RunPage, { id })
+  }
+
+  openSettings() {
+    this.navCtrl.push(SettingsPage);
   }
 }
