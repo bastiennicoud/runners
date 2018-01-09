@@ -16,7 +16,7 @@ export class CachingInterceptor implements HttpInterceptor {
   /**
    * @var CacheService
    */
-  private cache;
+  private cache : CacheService;
   constructor(private injector: Injector){}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.method !== 'GET') {
@@ -40,12 +40,12 @@ export class CachingInterceptor implements HttpInterceptor {
           console.log("getting from cache : "+req.url)
           console.debug(cachedResponse)
           if(cachedResponse && maybeCachedResponse.isEmpty())
-          maybeCachedResponse = Observable.of(new HttpResponse(cachedResponse));
+            maybeCachedResponse = Observable.of(new HttpResponse(cachedResponse));
         })
     })
       .catch(()=>{
         console.log("No cache entry for : "+req.urlWithParams)
-        console.log("No cache entry for : "+req.url)
+        this.cache.removeItem(req.url).catch(e => null)
     });
     // Create an Observable (but don't subscribe) that represents making
     // the network request and caching the value.
@@ -77,9 +77,9 @@ export class CachingInterceptor implements HttpInterceptor {
 
     // Now, combine the two and send the cached response first (if there is
     // one), and the network response second.
-    let c = Observable.merge(maybeCachedResponse, Observable.fromPromise(this.cache.getItem(req.url).catch((err) => console.log(err)))
+    let maybCachedButFromPromise = Observable.fromPromise(this.cache.getItem(req.url).catch((err) => console.log(err)))
       .do(raw => console.log("getting from cache : "+req.url))
-      .map(raw => new HttpResponse(raw)))
-    return Observable.concat(c, networkResponse );
+      .map(raw => new HttpResponse(raw))
+    return Observable.concat(maybCachedButFromPromise,maybeCachedResponse, networkResponse );
   }
 }
