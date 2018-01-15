@@ -86,13 +86,13 @@ export class RunService {
       .catch(err => fromList())
 
 
-    if(this.cacheService.isOnline())
-      return this.httpClient
-        .get<any>(`/runs/${id}`)
-        .map(data => Run.build(data))
-        .catch(err => fromList())
-    else
-      return fromList()
+    // if(this.cacheService.isOnline())
+    //   return this.httpClient
+    //     .get<any>(`/runs/${id}`)
+    //     .map(data => Run.build(data))
+    //     .catch(err => fromList())
+    // else
+    //   return fromList()
 
   }
 

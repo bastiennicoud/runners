@@ -84,6 +84,7 @@ export class CachingInterceptor implements HttpInterceptor {
       .filter(raw => raw !== null)
       .map(raw => new HttpResponse(raw))
       .catch(()=>null)
+      .distinctUntilChanged()
 
 
     return Observable.concat(maybeCachedButFromPromise, networkResponse  );
