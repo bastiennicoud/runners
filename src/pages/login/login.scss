@@ -13,13 +13,13 @@ page-login {
   }
 
   .qrcode {
-    background: #0090BF;
+    background: #0090bf;
     color: white;
     font-size: 23px;
     font-weight: bold;
     padding: 7.5px 15px 7.5px 15px;
     border-radius: 4px;
-    box-shadow: -2px 2px 20px rgba(0,0,0,0.7);
+    box-shadow: -2px 2px 20px rgba(0, 0, 0, 0.7);
   }
 
   #manual-input {
@@ -27,7 +27,7 @@ page-login {
     height: 60px;
     padding: 7.5px 15px 7.5px 15px;
     border-radius: 4px;
-    box-shadow: -2px 2px 20px rgba(0,0,0,0.7);
+    box-shadow: -2px 2px 20px rgba(0, 0, 0, 0.7);
     border: none;
     margin-right: 10px;
   }
@@ -36,10 +36,10 @@ page-login {
     font-size: 15px;
     width: 60px;
     height: 60px;
-    background: #0090BF;
+    background: #0090bf;
     color: white;
     border-radius: 4px;
-    box-shadow: -2px 2px 20px rgba(0,0,0,0.7);
+    box-shadow: -2px 2px 20px rgba(0, 0, 0, 0.7);
   }
 
   #bg-login {
@@ -48,5 +48,6 @@ page-login {
     height: 100%;
     background: url(../assets/bg.png) no-repeat center fixed;
     background-size: cover;
+    background-color: #000;
   }
 }
