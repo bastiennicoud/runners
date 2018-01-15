@@ -25,7 +25,7 @@
         <ion-label>{{group.date | date:'d MMMM EEEE y'}}</ion-label>
       </ion-item-divider>
 
-      <ion-item *ngFor="let run of group.runs" (click)="showRun(run)" [attr.status]="run.status">
+      <ion-item *ngFor="let run of group.runs" (click)="showRun(run, $event)" [attr.status]="run.status">
         <ion-label>
           <h2>{{run.title}}</h2>
           <p>

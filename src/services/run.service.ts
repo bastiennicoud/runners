@@ -60,11 +60,7 @@ export class RunService {
   return this.httpClient
       .get<any[]>('/runs?finished=true')
       .map(array => array.map(data => Run.build(data)))
-      .map(runs => runs.map(run => {
-        //if(run.missingUsers())
-          return run;
-      }))
-      // .do(runs => this.saveRunList(runs));
+
   }
 
   /**
@@ -76,14 +72,19 @@ export class RunService {
    * @memberOf RunService
    */
   get(id: string): Observable<Run> {
-    //TODO find a way to load the specific ressource, and only if that is unnaccessible use the run list and filter
-    // right now, this only takes the list and filters
+
     let fromList = () => this.all()
-    // .catch(err=> console.log(err))
+      .do( () => console.log("taking single run from list"))
       .do(runs => console.debug(runs))
       .map(runs => runs.filter(run => run.id == id))
       .do(runs => console.debug(runs))
       .map(runs => runs.length ? runs[0] : null);
+
+    return this.httpClient
+      .get<any>(`/runs/${id}`)
+      .map(data => Run.build(data))
+      .catch(err => fromList())
+
 
     if(this.cacheService.isOnline())
       return this.httpClient
