@@ -37,3 +37,4 @@ UserInterfaceState.xcuserstate
 
 .prettierrc
 .sourcemaps/
+src/runners.config.ts
