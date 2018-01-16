@@ -14,7 +14,6 @@ export class MyApp {
     platform.ready().then(() => {
       // Set TTL to 12h
       cache.setDefaultTTL(60 * 60 * 12);
-
       // Keep our cached results when device is offline!
       cache.setOfflineInvalidate(false);
 

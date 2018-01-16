@@ -65,6 +65,7 @@ export class RunnerPage {
     return this.runnerService
       .get(this.navParams.get('id'))
       .do(runner => (this.runner = runner))
+      .do(runner => console.log(runner))
       .do(runner => !runner.vehicle && this.loadAvailableVehicles().subscribe())
   }
 

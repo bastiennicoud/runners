@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler, Config} from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 
 import { CacheModule } from "ionic-cache";
 
@@ -44,6 +44,7 @@ import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, "fr")
 
 import { InternetStatusProvider } from '../providers/internet-status/internet-status';
+import {SettingsPage} from "../pages/settings/settings";
 
 
 
@@ -61,6 +62,7 @@ import { InternetStatusProvider } from '../providers/internet-status/internet-st
     FilterRunsPipe,
     GroupRunsPipe,
     GroupVehicleStatusPipe,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -81,6 +83,7 @@ import { InternetStatusProvider } from '../providers/internet-status/internet-st
     VehiclePage,
     RunnerPage,
     ProfilPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,
@@ -126,6 +129,5 @@ export class AppModule {
   constructor(private config:Config){
       this.config.setTransition('modal-scale-up-leave', ModalScaleUpLeaveTransition);
       this.config.setTransition('modal-scale-up-enter', ModalScaleUpEnterTransition);
-
   }
 }
