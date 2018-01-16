@@ -46,7 +46,7 @@ export class RunPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(()=>{
       this.loadRun().subscribe(
-        ()=>loader.dismiss().catch(err => console.log(err)),
+        () => loader.dismiss().catch(err => console.log(err)),
         err => err.status != 401 && loader.dismiss().catch(err => console.log(err)), //TODO temporary dismiss
       )
     })
@@ -68,16 +68,9 @@ export class RunPage {
     return this.runService
       .get(this.navParams.get('id'))
       .do(run => (this.run = run))
-  }
-  participateInRun({id}:Run){
-    const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present()
-    return this.runService.createRunnerForCurrentUser(id)
-      .subscribe(
-        null,
-        err => err.status != 401 && loader.dismiss(),
-        () => loader.dismiss() && this.navCtrl.push(this.navCtrl.getActive().component,{id: this.run.id})
-      )
+      .do(r  => console.log("LOADED RUN ",r))
+
+
   }
 
   /**
@@ -103,10 +96,11 @@ export class RunPage {
    * @memberOf RunPage
    */
   showRunner({ id, user }: Runner, { title }: Run) {
-    if(user && user.id == this.authStorage.user.id)
-      this.navCtrl.push(RunnerPage, { id, title })
-    else
-      alert("This isn't your convoy")
+    this.navCtrl.push(RunnerPage, { id, title })
+    // if(user && user.id == this.authStorage.user.id)
+    //   this.navCtrl.push(RunnerPage, { id, title })
+    // else
+    //   alert("This isn't your convoy")
   }
 
   /**
