@@ -45,6 +45,7 @@ registerLocaleData(localeFr, "fr")
 
 import { InternetStatusProvider } from '../providers/internet-status/internet-status';
 import {SettingsPage} from "../pages/settings/settings";
+import {HomePage} from "../pages/home/home";
 
 
 
@@ -62,15 +63,14 @@ import {SettingsPage} from "../pages/settings/settings";
     FilterRunsPipe,
     GroupRunsPipe,
     GroupVehicleStatusPipe,
-    SettingsPage
+    SettingsPage,
+    HomePage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
-
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -83,7 +83,8 @@ import {SettingsPage} from "../pages/settings/settings";
     VehiclePage,
     RunnerPage,
     ProfilPage,
-    SettingsPage
+    SettingsPage,
+    HomePage
   ],
   providers: [
     StatusBar,
