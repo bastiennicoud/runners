@@ -5,6 +5,7 @@ import { UserService, User } from './user.service';
 import { AuthStorage } from '../storages/auth.storage';
 import { HttpClient } from "@angular/common/http";
 
+
 /**
  * Mangage the authentication logic.
  * Allows the user to log in and log out.
@@ -34,9 +35,9 @@ export class AuthService {
   login(key: string): Observable<User> {
     this.authStorage.key = key;
 
-    return this.userService
+  return this.userService
       .me()
-      .do(data => this.authStorage.user = User.build(data));
+    .do(data => this.authStorage.user = User.build(data));
   }
 
 /**

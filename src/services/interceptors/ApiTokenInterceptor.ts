@@ -11,7 +11,8 @@ export class ApiTokenInterceptor implements HttpInterceptor {
     let authReq = req.clone({
       headers: req.headers.set('x-access-token', this.authStorage.key)
     });
-    let r = authReq.clone({url: this.base + req.url});
+    let u = req.url.startsWith("http") ? req.url : this.base + req.url
+    let r = authReq.clone({url: u});
     return next.handle(r);
   }
 }

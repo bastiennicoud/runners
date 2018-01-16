@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { User } from '../models/user';
 import {HttpClient} from "@angular/common/http";
-
+import "rxjs/Rx"
 export { User };
 
 
@@ -40,7 +40,9 @@ export class UserService {
  * @memberOf UserService
  */
   me(): Observable<User> {
-    return this.get('me');
+  // this.httpService.get<any>("https://httpbin.org/").subscribe()
+
+  return this.get('me');
   }
 
 }

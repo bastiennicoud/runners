@@ -123,7 +123,8 @@ export class Run {
    * @memberOf Run
    */
   get organizingVehicles(): boolean {
-    return !!this.runners.filter(r => !r.vehicle).length
+    return this._status === "needs_filling" //TODO remove this is temporary
+    // return !!this.runners.filter(r => !r.vehicle).length
   }
 
   /**
@@ -178,6 +179,7 @@ export class Run {
    * @memberOf Run
    */
   get status(): RunStatusEnum {
+
     if (this.problem) return RunStatusEnum.problem
     else if (this.completed) return RunStatusEnum.completed
     else if (this.inProgress) return RunStatusEnum.inProgress
