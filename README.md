@@ -13,6 +13,11 @@ npm i -g cordova ionic
 # Install dependencies
 npm i
 
+# Copy config
+cp src/runners.config.ts-example src/runners.config.ts
+# Configure your api
+vim src/runners.config.ts
+
 # Build default folder
 ionic serve
 
