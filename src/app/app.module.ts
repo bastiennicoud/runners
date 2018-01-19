@@ -33,7 +33,6 @@ import { VehiclesPage } from '../pages/vehicles/vehicles'
 import { VehiclePage } from '../pages/vehicle/vehicle'
 import { RunnerPage } from '../pages/runner/runner'
 
-import { FilterRunsPipe } from '../pipes/filter-runs.pipe'
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe'
 import { ApiTokenInterceptor } from '../services/interceptors/ApiTokenInterceptor'
@@ -41,6 +40,8 @@ import { AuthFailedInterceptor } from '../services/interceptors/AuthFailedInterc
 import { CachingInterceptor } from '../services/interceptors/CachingInterceptor'
 import { ModalScaleUpLeaveTransition } from '../pages/transitions/scale-up-leave.transition'
 import { ModalScaleUpEnterTransition } from '../pages/transitions/scale-up-enter.transition'
+
+import { filterEngine, filters } from '../utils/filterengine/filterEngine'
 
 //register i81n locale
 import { registerLocaleData } from '@angular/common'
@@ -61,7 +62,6 @@ import { SettingsPage } from '../pages/settings/settings'
     VehiclePage,
     RunnerPage,
     ProfilPage,
-    FilterRunsPipe,
     GroupRunsPipe,
     GroupVehicleStatusPipe,
     SettingsPage,
@@ -126,7 +126,7 @@ import { SettingsPage } from '../pages/settings/settings'
   ],
 })
 export class AppModule {
-  constructor(private config: Config) {
+  constructor(private config: Config, private authStorage : AuthStorage) {
     this.config.setTransition(
       'modal-scale-up-leave',
       ModalScaleUpLeaveTransition
@@ -135,5 +135,10 @@ export class AppModule {
       'modal-scale-up-enter',
       ModalScaleUpEnterTransition
     )
+    filters.mine.externalData = this.authStorage.user
+    filters.hideCompleted.disable()
+    filters.hideNotReady.disable()
+    filters.mine.disable()
+    filters.urgent.disable()
   }
 }
