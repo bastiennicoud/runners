@@ -17,14 +17,16 @@
 $warning: #fd8b2d;
 $error: #ff0000;
 $great: #69bb7b;
+$ended: #ce50e1;
+$darken: rgba(0,0,0,.1);
 
 $runStatus: (
-  empty: transparent,
+  empty: $darken,
   organizing-users: $warning,
   organizing-vehicles: $warning,
   ready: $great,
   inProgress: $great,
-  completed: $great,
+  completed: $ended,
   problem: $error
 );
 
