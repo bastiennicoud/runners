@@ -101,11 +101,6 @@
             <p *ngIf="!runner.user">-</p>
           </button>
 
-          <button ion-item  color="primary" *ngIf="run.runners.length && run.status != RunStatusEnum.completed && !user.belongsToRun(run)" (click)="participateInRun(run)">
-            <ion-icon name="person" item-left></ion-icon>
-            <p>Participer au run</p>
-          </button>
-
         </ion-list>
 
       </ion-card-content>

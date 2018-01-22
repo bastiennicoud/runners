@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { AuthStorage } from '../../storages/auth.storage';
 import { TabsPage } from '../tabs/tabs';
 import {HttpClient} from "@angular/common/http";
+import {HomePage} from "../home/home";
 
 /**
  * This class displays the login page
@@ -19,10 +20,11 @@ import {HttpClient} from "@angular/common/http";
   templateUrl: 'login.html'
 })
 export class LoginPage {
-
+  gotoPage:any = HomePage;
+  // gotoPage:any = TabsPage; //legacy
   constructor(private platform: Platform, private navCtrl: NavController, private toastCtrl: ToastController, private authService: AuthService, private authStorage: AuthStorage, private splashScreen: SplashScreen, private barcodeScanner: BarcodeScanner, private http: HttpClient) {
     this.platform.ready()
-      .then(() => this.authService.isAuthenticated ? this.navCtrl.setRoot(TabsPage) : null)
+      .then(() => this.authService.isAuthenticated ? this.navCtrl.setRoot(this.gotoPage) : null)
       .then(() => this.splashScreen.hide());
   }
 
@@ -92,7 +94,7 @@ export class LoginPage {
           position: 'top',
           showCloseButton: true,
         }).present();
-        this.navCtrl.setRoot(TabsPage);
+        this.navCtrl.setRoot(this.gotoPage);
       },
       err => {
         if (err.status == 401) this.toastCtrl.create({

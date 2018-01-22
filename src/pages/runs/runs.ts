@@ -10,7 +10,8 @@ import { RunPage } from '../run/run'
 import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
-import { filters } from '../../utils/filterengine/filterEngine'
+import { filters, filterEngine } from '../../utils/filterengine/filterEngine'
+import { SettingsPage } from '../settings/settings'
 
 @Component({
   selector: 'page-runs',
@@ -34,17 +35,18 @@ export class RunsPage {
     this.InternetStatus.checkConnection()
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present().then(()=> {
+    loader.present().then(() => {
       this.loadRuns().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)),  //TODO temporary dismiss
-        err => err.status != 401 && loader.dismiss().catch(err => console.log(err)),
+        () => loader.dismiss().catch(err => console.log(err)), //TODO temporary dismiss
+        err =>
+          err.status != 401 && loader.dismiss().catch(err => console.log(err))
       )
     })
   }
 
   onFilterClick(filterName: string) {
     this.filters[filterName].toggle()
-    this.refreshRuns({ complete: () => {} })
+    //this.refreshRuns({ cancel:()=>null, complete: () => null })
   }
 
   ionViewWillLeave() {
@@ -60,6 +62,15 @@ export class RunsPage {
 
     filtersModal.present()
   }
+
+  /**
+   * Get the run list filtered
+   * @returns {any[]}
+   */
+  getRuns(){
+    return filterEngine.filterList(this.runs)
+  }
+
   /**
    * Load all the runs
    *
@@ -81,7 +92,7 @@ export class RunsPage {
   refreshRuns(refresher) {
     this.loadRuns().subscribe(
       null,
-      err => err.status != 401 && refresher.cancel(),
+      err => err.status != 401 && refresher.cancel().catch(err => console.log(err)),
       () => refresher.complete()
     )
   }
@@ -95,5 +106,15 @@ export class RunsPage {
    */
   showRun({ id }: Run): void {
     this.navCtrl.push(RunPage, { id })
+  }
+
+  openSettings() {
+    this.navCtrl.push(SettingsPage)
+  }
+
+  nbUrgentRuns() {
+    return this.runs.filter(a => {
+      return a.problem
+    }).length
   }
 }

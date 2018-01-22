@@ -10,4 +10,49 @@ page-runs {
     float: right;
     margin-right: 15px;
   }
+
+  .filters {
+    .filter,
+    ion-label {
+      display: inline-block;
+    }
+
+    ion-label {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 5px;
+    }
+  }
+
+  .filter__urgent {
+    font-family: inherit;
+    font-size: 11px;
+    width: 25px;
+    height: 25px;
+    padding-top: 8px;
+    border-radius: 15px;
+    background-color: $error;
+    text-align: center;
+    color: #fff;
+    margin-left: 40px;
+  }
+
+  .filter__urgent--enabled {
+    background-color: transparent;
+    border: 0.2rem solid $error;
+    color: $error;
+    padding-top: 6px;
+    font-weight: bold;
+  }
+
+  .run {
+    .run__title {
+      display: inline-block;
+    }
+
+    .run__time {
+      display: inline-block;
+      float: right;
+    }
+  }
 }

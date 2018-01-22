@@ -4,7 +4,7 @@ import { User } from '../models/user';
 
 /**
  * Store the key and the authenticated user
- * 
+ *
  * @export
  * @class AuthStorage
  */

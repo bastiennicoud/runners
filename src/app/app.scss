@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -15,18 +14,25 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+$warning: #fd8b2d;
+$error: #ff0000;
+$great: #69bb7b;
+
 $runStatus: (
   empty: transparent,
-  organizing-users: #fd8b2d,
-  organizing-vehicles: #fd8b2d,
-  ready: #69bb7b,
-  inProgress: #69bb7b,
-  completed: #69bb7b,
-  problem: #ff0000,
+  organizing-users: $warning,
+  organizing-vehicles: $warning,
+  ready: $great,
+  inProgress: $great,
+  completed: $great,
+  problem: $error
 );
 
 .wifi-status {
-    float: right;
-    margin-right: 15px;
-    color: #ff0000;
+  float: right;
+  margin-right: 15px;
+  font-size: 16px;
+  margin-top: auto;
+  margin-bottom: auto;
+  color: $error;
 }
