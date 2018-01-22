@@ -37,7 +37,7 @@
 
   <ion-list>
 
-    <ion-item-group *ngFor="let group of runs | filterRuns | groupRuns">
+    <ion-item-group *ngFor="let group of getRuns() | groupRuns">
 
       <ion-item-divider sticky>
         <ion-label>{{group.date | date:'d MMMM EEEE y'}}</ion-label>
@@ -53,7 +53,7 @@
 
     </ion-item-group>
 
-    <ion-item *ngIf="!(runs | filterRuns).length">
+    <ion-item *ngIf="!getRuns().length">
       <ion-label>
         <p>Aucun run</p>
       </ion-label>

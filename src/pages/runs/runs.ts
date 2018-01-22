@@ -10,7 +10,7 @@ import { RunPage } from '../run/run'
 import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
-import { filters } from '../../utils/filterengine/filterEngine'
+import { filters, filterEngine } from '../../utils/filterengine/filterEngine'
 import { SettingsPage } from '../settings/settings'
 
 @Component({
@@ -46,7 +46,7 @@ export class RunsPage {
 
   onFilterClick(filterName: string) {
     this.filters[filterName].toggle()
-    this.refreshRuns({ complete: () => {} })
+    //this.refreshRuns({ cancel:()=>null, complete: () => null })
   }
 
   ionViewWillLeave() {
@@ -62,6 +62,15 @@ export class RunsPage {
 
     filtersModal.present()
   }
+
+  /**
+   * Get the run list filtered
+   * @returns {any[]}
+   */
+  getRuns(){
+    return filterEngine.filterList(this.runs)
+  }
+
   /**
    * Load all the runs
    *
@@ -83,7 +92,7 @@ export class RunsPage {
   refreshRuns(refresher) {
     this.loadRuns().subscribe(
       null,
-      err => err.status != 401 && refresher.cancel(),
+      err => err.status != 401 && refresher.cancel().catch(err => console.log(err)),
       () => refresher.complete()
     )
   }
