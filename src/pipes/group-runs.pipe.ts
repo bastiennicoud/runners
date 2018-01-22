@@ -10,7 +10,7 @@ export class GroupRunsPipe {
 
   transform(runs: Run[]): any[] {
     const groupedRuns = runs.reduce((prev: any[], cur: Run) => {
-      const key = `${cur.beginAt.getFullYear()}-${cur.beginAt.getMonth()}-${cur.beginAt.getDate()}`;
+      const key = `${cur.beginAt.getFullYear()}-${cur.beginAt.getMonth()}-${cur.beginAt.getDay()}`;
       if (!prev[key]) prev[key] = { date: cur.beginAt, runs: [cur] };
       else prev[key].runs.push(cur);
       return prev;

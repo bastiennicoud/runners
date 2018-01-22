@@ -34,7 +34,8 @@ page-runs {
     background-color: $error;
     text-align: center;
     color: #fff;
-    margin-left: 40px;
+    margin-right: 10px;
+    float: right;
   }
 
   .filter__urgent--enabled {
@@ -46,12 +47,32 @@ page-runs {
   }
 
   .run {
+    .row {
+      margin-top: -6px;
+    }
+    .row:last-of-type {
+      margin-bottom: -6px;
+    }
+    .col {
+      padding-left: 0px;
+      text-align: left;
+    }
+    .grid {
+      padding: 0 !important;
+    }
     .run__title {
-      display: inline-block;
+      //display: inline-block;
     }
 
     .run__time {
-      display: inline-block;
+      //display: inline-block;
+      float: right;
+    }
+    .run__waypoint {
+      //display: inline-block;
+    }
+    .run__mine {
+      //display: inline-block;
       float: right;
     }
   }
