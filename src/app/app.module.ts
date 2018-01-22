@@ -48,8 +48,9 @@ import { registerLocaleData } from '@angular/common'
 import localeFr from '@angular/common/locales/fr'
 registerLocaleData(localeFr, 'fr')
 
-import { InternetStatusProvider } from '../providers/internet-status/internet-status'
-import { SettingsPage } from '../pages/settings/settings'
+import { InternetStatusProvider } from '../providers/internet-status/internet-status';
+import {SettingsPage} from "../pages/settings/settings";
+import {HomePage} from "../pages/home/home";
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { SettingsPage } from '../pages/settings/settings'
     ProfilPage,
     GroupRunsPipe,
     GroupVehicleStatusPipe,
-    SettingsPage,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -83,7 +84,7 @@ import { SettingsPage } from '../pages/settings/settings'
     VehiclePage,
     RunnerPage,
     ProfilPage,
-    SettingsPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,

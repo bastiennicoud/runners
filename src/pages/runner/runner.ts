@@ -45,7 +45,7 @@ export class RunnerPage {
     this.run = this.navParams.get('title')
     this.loadRunner().subscribe(
       null,
-      err => err.status != 401 && loader.dismiss(),
+      err => err.status != 401 && loader.dismiss().catch(err => console.log(err)),
       () => loader.dismiss()
     )
   }

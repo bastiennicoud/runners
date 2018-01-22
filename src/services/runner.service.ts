@@ -47,7 +47,7 @@ export class RunnerService {
 
     return this.httpService
       .patch(`/runners/${id}`, {
-        vehicle: vehicle.id,
+        car: vehicle.id,
       })
       .map(data => Runner.build(data))
       ;
@@ -79,9 +79,12 @@ export class RunnerService {
  *
  * @memberOf RunnerService
  */
-  availableVehicles({ id }: Runner): Observable<Vehicle[]> {
+  availableVehicles({ id , vehicleCategory }: Runner): Observable<Vehicle[]> {
+    let url = `/vehicles`
+    if(vehicleCategory!==null) url += `?type=${vehicleCategory.type}`
+
     return this.httpService
-      .get<any[]>(`/vehicles?status=free`)
+      .get<any[]>(url)
       .map(datas => datas.map(data => Vehicle.build(data)));
   }
 
