@@ -48,9 +48,9 @@ import { registerLocaleData } from '@angular/common'
 import localeFr from '@angular/common/locales/fr'
 registerLocaleData(localeFr, 'fr')
 
-import { InternetStatusProvider } from '../providers/internet-status/internet-status';
-import {SettingsPage} from "../pages/settings/settings";
-import {HomePage} from "../pages/home/home";
+import { InternetStatusProvider } from '../providers/internet-status/internet-status'
+import { SettingsPage } from '../pages/settings/settings'
+import { HomePage } from '../pages/home/home'
 
 @NgModule({
   declarations: [
@@ -65,7 +65,8 @@ import {HomePage} from "../pages/home/home";
     ProfilPage,
     GroupRunsPipe,
     GroupVehicleStatusPipe,
-    SettingsPage
+    SettingsPage,
+    HomePage,
   ],
   imports: [
     BrowserModule,
@@ -84,7 +85,8 @@ import {HomePage} from "../pages/home/home";
     VehiclePage,
     RunnerPage,
     ProfilPage,
-    SettingsPage
+    SettingsPage,
+    HomePage,
   ],
   providers: [
     StatusBar,
@@ -112,11 +114,11 @@ import {HomePage} from "../pages/home/home";
       useClass: AuthFailedInterceptor,
       multi: true,
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: CachingInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CachingInterceptor,
+      multi: true,
+    },
     AuthStorage,
     UserService,
     AuthService,
@@ -127,7 +129,7 @@ import {HomePage} from "../pages/home/home";
   ],
 })
 export class AppModule {
-  constructor(private config: Config, private authStorage : AuthStorage) {
+  constructor(private config: Config, private authStorage: AuthStorage) {
     this.config.setTransition(
       'modal-scale-up-leave',
       ModalScaleUpLeaveTransition
