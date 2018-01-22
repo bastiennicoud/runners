@@ -1,3 +1,15 @@
 page-home {
+  #mainMenu{
+
+    ion-header{
+      background: #f7f7f7;
+      border-bottom: 1px solid #c8c7cc;
+    }
+
+    .item:last-of-type{
+      position: absolute;
+      bottom: -1px;
+    }
+  }
 
 }
