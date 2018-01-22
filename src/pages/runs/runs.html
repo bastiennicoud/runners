@@ -5,10 +5,14 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon><ion-icon name="ios-clipboard-outline"></ion-icon>&nbsp;Board&nbsp;<ion-icon *ngIf="nbUrgentRuns() || filters.urgent.isEnabled" class="filter filter__urgent {{filters.urgent.isEnabled?'filter__urgent--enabled':''}}" (click)="this.onFilterClick('urgent')">{{nbUrgentRuns()}}</ion-icon>
+      <ion-icon name="ios-clipboard-outline"></ion-icon>&nbsp;Board&nbsp;
     </ion-title>
-
-
+    <ion-icon *ngIf="nbUrgentRuns() || filters.urgent.isEnabled"
+            class="filter filter__urgent {{filters.urgent.isEnabled?'filter__urgent--enabled':''}}"
+            (click)="this.onFilterClick('urgent')">
+        {{nbUrgentRuns()}}
+    </ion-icon>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon>
   </ion-navbar>
   <div class="filters" padding>
     <div class="filter" style="display: inline-block;">
