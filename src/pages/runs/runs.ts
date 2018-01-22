@@ -12,6 +12,8 @@ import { InternetStatusProvider } from '../../providers/internet-status/internet
 
 import { filters, filterEngine } from '../../utils/filterengine/filterEngine'
 import { SettingsPage } from '../settings/settings'
+import {User} from "../../models/user";
+import {AuthStorage} from "../../storages/auth.storage";
 
 @Component({
   selector: 'page-runs',
@@ -21,6 +23,8 @@ export class RunsPage {
   runs: Run[] = []
   RunStatusEnum = RunStatusEnum
   filters: any = filters
+  public user : User;
+
   oldmode: string = 's'
 
   constructor(
@@ -28,10 +32,13 @@ export class RunsPage {
     private loadingCtrl: LoadingController,
     private runService: RunService,
     private InternetStatus: InternetStatusProvider,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private authStorage : AuthStorage
   ) {}
 
   ionViewWillEnter() {
+    this.user = this.authStorage.user
+
     this.InternetStatus.checkConnection()
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })

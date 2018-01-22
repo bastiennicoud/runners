@@ -40,14 +40,21 @@
     <ion-item-group *ngFor="let group of getRuns() | groupRuns">
 
       <ion-item-divider sticky>
-        <ion-label>{{group.date | date:'d MMMM EEEE y'}}</ion-label>
+        <ion-label>{{group.date | date:'EEEE d MMMM y'}}</ion-label>
       </ion-item-divider>
 
       <ion-item *ngFor="let run of group.runs" (click)="showRun(run)" [attr.status]="run.status">
         <ion-label class="run">
-          <h2 class="run__title">{{run.title}}</h2>
-          <p class="run__time">{{run.beginAt | date:'shortTime'}}</p>
-          <p class="run__waypoint">{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p>
+          <ion-grid>
+            <ion-row>
+              <ion-col><h2 class="run__title">{{run.title}}</h2></ion-col>
+              <ion-col><p class="run__time">{{run.beginAt | date:'shortTime'}}</p></ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col><p class="run__waypoint">{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p></ion-col>
+              <ion-col><ion-icon name="person" class="run__mine" *ngIf="this.user.belongsToRun(run)"></ion-icon></ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-label>
       </ion-item>
 
