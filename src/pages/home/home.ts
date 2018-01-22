@@ -22,9 +22,9 @@ import {SettingsPage} from "../settings/settings";
 })
 export class HomePage {
 
-  currentPage:number;
-  currentComponent:any;
-  pageName:any = false;
+  public currentPage:number;
+  public currentComponent:any;
+  public pageName:any = false;
   pages = [
     {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
     {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},

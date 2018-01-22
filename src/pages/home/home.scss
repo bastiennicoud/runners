@@ -5,7 +5,9 @@ page-home {
       background: #f7f7f7;
       border-bottom: 1px solid #c8c7cc;
     }
-
+    .item.active{
+      background: darken(#fff, 3%);
+    }
     .item:last-of-type{
       position: absolute;
       bottom: -1px;
