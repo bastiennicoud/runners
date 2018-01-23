@@ -16,18 +16,15 @@
   </ion-navbar>
   <div class="filters" padding>
     <div class="filter" style="display: inline-block;">
-        <ion-checkbox (ionChange)="this.onFilterClick('mine')" checked="{{filters.mine.isEnabled}}"></ion-checkbox>
-        <ion-label style="display: inline-block;">Mes runs</ion-label>
+        <button ion-button class="filter__item {{filters.mine.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('mine')">Mes runs</button>
     </div>
 
     <div class="filter" style="display: inline-block;">
-        <ion-checkbox (ionChange)="this.onFilterClick('hideCompleted')" checked="{{filters.hideCompleted.isEnabled}}"></ion-checkbox>
-        <ion-label style="display: inline-block;">Terminés</ion-label>
+        <button ion-button class="filter__item {{filters.hideCompleted.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideCompleted')">Terminés</button>
     </div>
 
     <div class="filter" style="display: inline-block;">
-        <ion-checkbox (ionChange)="onFilterClick('hideNotReady')" checked="{{filters.hideNotReady.isEnabled}}"></ion-checkbox>
-        <ion-label style="display: inline-block;">Prêts</ion-label>
+        <button ion-button class="filter__item {{filters.hideNotReady.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideNotReady')">Prêts</button>
     </div>
   </div>
 </ion-header>
