@@ -1,7 +1,7 @@
 page-runs {
   @each $status, $value in map-remove($runStatus) {
     ion-item[status='#{$status}'] ion-label {
-      border-left: 2px solid $value;
+      border-left: 4px solid $value;
       padding-left: 10px;
     }
   }
