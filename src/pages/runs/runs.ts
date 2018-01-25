@@ -99,7 +99,7 @@ export class RunsPage {
   refreshRuns(refresher) {
     this.loadRuns().subscribe(
       null,
-      err => err.status != 401 && refresher.cancel().catch(err => console.log(err)),
+      err => err.status != 401 && (refresher.cancel()) ? refresher.cancel().catch(err => console.log(err)): true,
       () => refresher.complete()
     )
   }

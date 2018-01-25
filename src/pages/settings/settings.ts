@@ -44,5 +44,7 @@ export class SettingsPage {
       duration: 3000,
       position: 'bottom',
     }).present()
+    console.log(getApi());
+
   }
 }
