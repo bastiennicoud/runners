@@ -55,6 +55,9 @@ export class CachingInterceptor implements HttpInterceptor {
         // Just like before, check for the HttpResponse event and cache it.
         if (event instanceof HttpResponse) {
           this.cache.saveItem(req.url, event)
+            .then(()=>{
+              this.cache.saveItem("last-refresh",new Date())
+            })
             .catch(err => console.log("Error saving "+req.url+" in cache\n"+err));
         }
       })
