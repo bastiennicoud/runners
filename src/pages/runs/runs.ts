@@ -39,8 +39,6 @@ export class RunsPage {
   ionViewWillEnter() {
     this.user = this.authStorage.user
 
-    this.InternetStatus.checkConnection()
-
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadRuns().subscribe(
@@ -57,7 +55,6 @@ export class RunsPage {
   }
 
   ionViewWillLeave() {
-    this.InternetStatus.stopCheckingConnection()
   }
 
   openModal() {

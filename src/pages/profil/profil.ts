@@ -30,7 +30,6 @@ export class ProfilPage {
   ) {}
 
   ionViewWillEnter() {
-    this.InternetStatus.checkConnection()
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
@@ -42,7 +41,6 @@ export class ProfilPage {
   }
 
   ionViewWillLeave() {
-    this.InternetStatus.stopCheckingConnection()
   }
 
   /**
