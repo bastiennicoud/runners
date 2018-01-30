@@ -38,7 +38,19 @@ You should have dev environment on [http://127.0.0.1:8100/ionic-lab](http://127.
 
 ## Build solutions
 
-Look official documentation for generate the android and ios solutions
+First build ressources
+```
+ionic cordova resources
+```
+
+Then build 
+```
+ionic cordova build android
+# or 
+ionic cordova build ios
+```
+
+Look [official documentation](https://ionicframework.com/docs/cli/cordova/build/) for troubleshooting
 
 ## Documentation
 
