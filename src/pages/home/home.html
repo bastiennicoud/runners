@@ -9,18 +9,23 @@
 
 <ion-menu [content]="content" id="mainMenu" [persistent]="false">
   <ion-header>
-    <button ion-item menuClose="mainMenu" detail-none end>
-      <ion-icon name="close"></ion-icon>
-    </button>
+    <p>&nbsp;</p>
+    <!--<button ion-item menuClose="mainMenu" detail-none end>-->
+      <!--<ion-icon name="close"></ion-icon>-->
+    <!--</button>-->
   </ion-header>
   <ion-content>
     <ion-list>
-      <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p.id)">
-        <ion-icon name="{{ p.icon }}"></ion-icon>
-        <span>{{ p.menu }}</span>
-      </button>
+        <button ion-item menuClose *ngFor="let p of pages" class="{{ p.class }}" (click)="openPage(p.id)" [ngClass]="currentPage == p.id ? 'active':''">
+          <ion-icon name="{{ p.icon }}"></ion-icon>
+          <span>{{ p.menu }}</span>
+        </button>
+
     </ion-list>
   </ion-content>
+  <!--<ion-footer class="bar-stable">-->
+    <!--<ion-item nav-clear menu-close href="#" style="left:0;right:0;margin:0; width: 100%;position: fixed;">Logout</ion-item>-->
+  <!--</ion-footer>-->
 </ion-menu>
 
 <!--<ion-header>-->

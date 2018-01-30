@@ -13,7 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar'
 import { SplashScreen } from '@ionic-native/splash-screen'
 import { BarcodeScanner } from '@ionic-native/barcode-scanner'
 
-import { api } from '../runners.config'
+import { getApi } from '../runners.getter'
 import { API_ENDPOINT } from '../tokens/api-endpoint'
 
 import { VehicleService } from '../services/vehicle.service'
@@ -94,7 +94,7 @@ import { HomePage } from '../pages/home/home'
     BarcodeScanner,
     {
       provide: API_ENDPOINT,
-      useValue: api,
+      useValue: getApi(),
     },
     {
       provide: LOCALE_ID,

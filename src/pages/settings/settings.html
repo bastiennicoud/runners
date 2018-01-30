@@ -24,8 +24,11 @@
     <button ion-button full icon-start (click)="clearCache()"><ion-icon name="trash"></ion-icon> Clear cache</button>
   </ion-item>
   <ion-item>
-
-    <button ion-button full icon-start (click)="logout()"><ion-icon name="log-out"></ion-icon> Log out</button>
+    <ion-label color='primary'>API</ion-label>
+    <ion-input  [(ngModel)]="apiValue"></ion-input>
+  </ion-item>
+  <ion-item>
+    <button ion-button full icon-start (click)="setApi()"><ion-icon name="create"></ion-icon>Changer l'api</button>
   </ion-item>
 
 
