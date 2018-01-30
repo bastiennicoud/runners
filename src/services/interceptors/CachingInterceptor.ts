@@ -10,6 +10,7 @@ import {AuthService} from "../auth.service";
 import "rxjs/add/operator/catch"
 import "rxjs/add/observable/throw"
 import "rxjs/add/operator/map"
+import {CacheProvider} from "../../providers/cache/cache";
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
@@ -17,6 +18,8 @@ export class CachingInterceptor implements HttpInterceptor {
    * @var CacheService
    */
   private cache : CacheService;
+  private refreshor : CacheProvider;
+
   constructor(private injector: Injector){}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -25,8 +28,9 @@ export class CachingInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-
-    this.cache = this.injector.get(CacheService)
+    // this.refreshor = this.injector.get(CacheProvider);
+    // this.cache = this.injector.get(CacheService)
+    this.cache = this.injector.get(CacheProvider)
 
     // This will be an Observable of the cached value if there is one,
     // or an empty Observable otherwise. It starts out empty.
@@ -55,9 +59,9 @@ export class CachingInterceptor implements HttpInterceptor {
         // Just like before, check for the HttpResponse event and cache it.
         if (event instanceof HttpResponse) {
           this.cache.saveItem(req.url, event)
-            .then(()=>{
-              this.cache.saveItem("last-refresh",new Date())
-            })
+            // .then(()=>{
+            //   this.refreshor.setLastRefresh(new Date());
+            // })
             .catch(err => console.log("Error saving "+req.url+" in cache\n"+err));
         }
       })

@@ -16,31 +16,7 @@ export {Run};
 @Injectable()
 export class RunService {
 
-  constructor(private httpClient: HttpClient, private cacheService : CacheService, private authStorage: AuthStorage) {}
-  protected saveRun(run : Run) : void {
-    run.runners.forEach(runner => {
-      this.cacheService.saveItem(`runners-${runner.id}`, runner)
-      if(runner.vehicle)
-        this.cacheService.saveItem(`vehicles-${runner.vehicle.id}`, runner.vehicle)
-    })
-  }
-  protected saveRunList(runs: Run[]) : void{
-    this.cacheService.saveItem("runs",runs);
-    runs.forEach(run => {
-      this.cacheService.saveItem(`runs-${run.id}`, run)
-      this.saveRun(run)
-    })
-  }
-  protected getListFromCache(key : string){
-    const cached$ = Observable.fromPromise(this.cacheService.getItem(key))
-
-    return cached$
-      .merge(
-        this.httpClient.get('endpoint')
-          .do(result => this.cacheService.saveItem('key', result))
-      )
-      .distinctUntilChanged()
-  }
+  constructor(private httpClient: HttpClient, private authStorage: AuthStorage) {}
 
   createRunnerForCurrentUser(key:string){
     return this.httpClient.post(`/runs/${key}/runners`,{

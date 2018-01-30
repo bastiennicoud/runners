@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {CacheService} from "ionic-cache";
 import {Observable, Subscribable} from "rxjs/Observable";
+import {Storage} from "@ionic/storage";
+import {Observer} from "rxjs/Observer";
 
 /*
   Generated class for the CacheProvider provider.
@@ -10,33 +12,42 @@ import {Observable, Subscribable} from "rxjs/Observable";
   and Angular DI.
 */
 @Injectable()
-export class CacheProvider {
-  ready: Promise<any>;
+export class CacheProvider extends CacheService {
   private _lastRefresh: Date;
-  private KEY = "last-refresh";
-
   private refreshed : Observable<Date>;
-  constructor(
-    private _cache: CacheService
-  ) {
-    this.refreshed = Observable.empty<Date>().share();
-    this.ready = Promise.all([
-      this._cache.getItem(this.KEY).then((d) => this._lastRefresh = d)
-      // &c &c for other similar stuff
-    ]);
+  private KEY = "last-refresh";
+  private _observer: Observer<Date>;
+
+  constructor(_storage: Storage) {
+    super(_storage);
+    this.refreshed = new Observable<Date>(
+      observer => this._observer = observer).share();
   }
 
+  ready(): Promise<any>{
+    return Promise.all([
+      super.ready,
+      this.getItem(this.KEY).then((d) => this.setLastRefresh(d)).catch(err => this.setLastRefresh(null))
+    ]);
+  }
   // don't call any of these until this.ready resolves
   lastRefresh(): Date{
     return this._lastRefresh;
   }
-  getRefreshChange(){
+  getRefreshChange(): Observable<Date>{
     return this.refreshed;
   }
-  setLastRefresh(d : Date){
+  private setLastRefresh(d? : Date){
     this._lastRefresh = d
-    this._cache.saveItem(this.KEY,d);
-    this.refreshed.onNext(d)
+    super.saveItem(this.KEY,d);
+    if (this._observer) {
+      this._observer.next(d);
+    }
   }
-
+  saveItem(key: string, data: any, groupKey?: string, ttl?: number){
+    const date = new Date();
+    console.log("HIII")
+    return super.saveItem(key,data,groupKey,ttl)
+      .then(()=>this.setLastRefresh(date))
+  }
 }
