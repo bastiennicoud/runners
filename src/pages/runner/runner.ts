@@ -37,8 +37,6 @@ export class RunnerPage {
   ) {}
 
   ionViewWillEnter() {
-    this.InternetStatus.checkConnection()
-
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
 
@@ -51,7 +49,6 @@ export class RunnerPage {
   }
 
   ionViewWillLeave() {
-    this.InternetStatus.stopCheckingConnection()
   }
 
   /**

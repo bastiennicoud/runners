@@ -7,6 +7,7 @@ import {VehiclesPage} from "../vehicles/vehicles";
 import {RunsPage} from "../runs/runs";
 import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 import {SettingsPage} from "../settings/settings";
+import {CacheProvider} from "../../providers/cache/cache";
 
 /**
  * Generated class for the HomePage page.
@@ -21,6 +22,7 @@ import {SettingsPage} from "../settings/settings";
   templateUrl: 'home.html',
 })
 export class HomePage {
+  private lastRefresh:Date;
 
   public currentPage:number;
   public currentComponent:any;
@@ -33,8 +35,14 @@ export class HomePage {
   ];
 
   loggedSubscriber: Subscription;
+  refreshSubscriber: Subscription;
 
-  constructor(private navCtrl: NavController, private authService: AuthService, private InternetStatus: InternetStatusProvider, public menuCtrl : MenuController, public navParams : NavParams) {
+  constructor(private navCtrl: NavController,
+              private authService: AuthService,
+              private InternetStatus: InternetStatusProvider,
+              public menuCtrl : MenuController,
+              public navParams : NavParams,
+              private cache : CacheProvider) {
     this.openPage(0);
   }
 
@@ -51,8 +59,8 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-    this.InternetStatus.checkConnection()
     this.pageName = this.navParams.get("title")
+    this.cache.getRefreshChange().subscribe(d => this.lastRefresh = d)
 
   }
   /**
@@ -62,6 +70,7 @@ export class HomePage {
    */
   ionViewWillLoad() {
     this.loggedSubscriber = this.authService.loggedOut.subscribe(() => this.navCtrl.setRoot(LoginPage));
+    this.refreshSubscriber = this.cache.getRefreshChange().subscribe((d)=>this.lastRefresh = d);
   }
 
   /**
@@ -72,7 +81,6 @@ export class HomePage {
    */
   ionViewWillLeave() {
     this.loggedSubscriber && this.loggedSubscriber.unsubscribe();
-    this.InternetStatus.stopCheckingConnection()
   }
 
 }

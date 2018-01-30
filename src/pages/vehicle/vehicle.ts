@@ -29,8 +29,6 @@ export class VehiclePage {
   ) {}
 
   ionViewWillEnter() {
-    this.InternetStatus.checkConnection()
-
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(()=>{
       this.loadVehicleStatus().subscribe(
@@ -43,7 +41,6 @@ export class VehiclePage {
   }
 
   ionViewWillLeave() {
-    this.InternetStatus.stopCheckingConnection()
   }
 
   /**

@@ -51,6 +51,7 @@ registerLocaleData(localeFr, 'fr')
 import { InternetStatusProvider } from '../providers/internet-status/internet-status'
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
+import { CacheProvider } from '../providers/cache/cache';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import { HomePage } from '../pages/home/home'
     RunService,
     RunnerService,
     InternetStatusProvider,
+    CacheProvider,
   ],
 })
 export class AppModule {
