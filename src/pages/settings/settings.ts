@@ -27,9 +27,6 @@ export class SettingsPage {
     private toastCtrl: ToastController
   ) {}
 
-  logout() {
-    this.authService.logout()
-  }
   clearCache() {
     this.cacheService.clearAll() //TODO define if clearAll, or only expired
     this.cacheService

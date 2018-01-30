@@ -9,9 +9,12 @@ page-home {
       background: darken(#fff, 3%);
     }
     .item:last-of-type{
-      position: absolute;
       bottom: -1px;
     }
-  }
+    .button--bottom {
+      position: absolute;
+      bottom: 44px;
+    }
 
+  }
 }

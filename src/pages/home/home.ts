@@ -28,7 +28,8 @@ export class HomePage {
   pages = [
     {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
     {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},
-    {id : 2, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage}
+    {id : 2, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
+    {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"}
   ];
 
   loggedSubscriber: Subscription;
@@ -37,10 +38,16 @@ export class HomePage {
     this.openPage(0);
   }
 
-  openPage(index : number){
+  openPage(index : number) {
+
+    // check if logout button
+    if (index == 2) {
+      this.authService.logout()
+      return
+    }
+
     this.currentPage = index;
     this.currentComponent = this.pages[index]
-    // this.navCtrl.setRoot(HomePage)
   }
 
   ionViewWillEnter() {
