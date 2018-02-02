@@ -80,7 +80,7 @@
         <ion-grid>
           <ion-row>
             <ion-col><h2 class="run__title">{{run.title}}</h2></ion-col>
-            <ion-col><p class="run__time">{{run.beginAt }}</p></ion-col>
+            <ion-col><p class="run__time">{{run.beginAt | date:'shortTime'}}</p></ion-col>
           </ion-row>
           <ion-row>
             <ion-col><p class="run__waypoint">{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p>

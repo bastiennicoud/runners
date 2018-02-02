@@ -62,10 +62,11 @@ export class RunsPage {
       previous = records[recordIndex-1]
 
     const x = r => `${r.beginAt.getFullYear()}-${pN(r.beginAt.getMonth() + 1)}-${pN(r.beginAt.getDate())}`
+    const format = d => moment(d).format("dddd DD MMM YYYY")
     const currentRecordDate = x(record)
 
     if(previous === null)
-      return currentRecordDate
+      return format(record.beginAt)
 
     if(!record.beginAt ||!previous.beginAt)
       return null
@@ -77,7 +78,7 @@ export class RunsPage {
 
     console.log(moment(currentRecordDate).isBefore(previousRecordDate))
     if(moment(currentRecordDate).isBefore(previousRecordDate))
-      return currentRecordDate//.strftime("EEEE d MMMM y")
+      return format(record.beginAt)//.strftime("EEEE d MMMM y")
     return null;
 
   }
