@@ -14,7 +14,8 @@ import { filters, filterEngine } from '../../utils/filterengine/filterEngine'
 import { SettingsPage } from '../settings/settings'
 import {User} from "../../models/user";
 import {AuthStorage} from "../../storages/auth.storage";
-
+import {prefixNumber as pN} from "../../utils/helper";
+import * as moment from 'moment';
 @Component({
   selector: 'page-runs',
   templateUrl: 'runs.html',
@@ -53,7 +54,27 @@ export class RunsPage {
     this.filters[filterName].toggle()
     //this.refreshRuns({ cancel:()=>null, complete: () => null })
   }
+  headerFn(record, recordIndex, records){
 
+    if(recordIndex >= records.length)
+      return null
+    const next = records[recordIndex+1]
+    if(!record.beginAt || !next || !next.beginAt)
+      return null
+
+    const x = r => `${r.beginAt.getFullYear()}-${pN(r.beginAt.getMonth() + 1)}-${pN(r.beginAt.getDay())}`
+    const currentRecordDate = x(record)
+    const nextRecordDate = x(next)
+    console.log(currentRecordDate)
+    console.log(nextRecordDate)
+    if(recordIndex == 0)
+      return currentRecordDate
+    console.log(moment(currentRecordDate).isBefore(nextRecordDate))
+    if(moment(currentRecordDate).isBefore(nextRecordDate))
+      return currentRecordDate//.strftime("EEEE d MMMM y")
+    return null;
+
+  }
   ionViewWillLeave() {
   }
 
@@ -73,6 +94,24 @@ export class RunsPage {
    */
   getRuns(){
     return filterEngine.filterList(this.runs)
+  }
+  groupRuns(runs:Run[]){
+    const groupedRuns = runs.reduce((prev: any[], cur: Run) => {
+      const key = `${cur.beginAt.getFullYear()}-${pN(
+        cur.beginAt.getMonth() + 1
+      )}-${pN(cur.beginAt.getDay())}`
+      if (!prev[key]) prev[key] = { date: cur.beginAt, runs: [cur] }
+      else prev[key].runs.push(cur)
+      return prev
+    }, [])
+    return Object.keys(groupedRuns)
+      .sort()
+      .reverse()
+      .map(key => {
+        const { date, runs } = groupedRuns[key]
+        return { runs }
+      })
+
   }
 
   /**
