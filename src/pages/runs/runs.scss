@@ -1,9 +1,13 @@
 page-runs {
   @each $status, $value in map-remove($runStatus) {
     ion-item[status='#{$status}'] ion-label {
-      border-left: 2px solid $value;
+      border-left: 4px solid $value;
       padding-left: 10px;
     }
+  }
+
+  .runs-title-fix{
+    display: inline-flex;
   }
 
   .open-filters {
@@ -12,6 +16,9 @@ page-runs {
   }
 
   .filters {
+    display: flex;
+    justify-content: space-around;
+
     .filter,
     ion-label {
       display: inline-block;
@@ -21,6 +28,20 @@ page-runs {
       margin-top: 0;
       margin-bottom: 0;
       margin-left: 5px;
+    }
+
+    .filter__item {
+      padding: 7px;
+      border-radius: 3px;
+      width: 90px;
+      background-color: $blue;
+      color: #fff;
+        border: 1px solid $blue;
+
+      &.filter__item--enabled {
+        background-color: #fff;
+        color: $blue;
+      }
     }
   }
 
@@ -34,7 +55,9 @@ page-runs {
     background-color: $error;
     text-align: center;
     color: #fff;
-    margin-left: 40px;
+    margin-right: 10px;
+    float: right;
+    cursor: pointer;
   }
 
   .filter__urgent--enabled {
@@ -46,12 +69,32 @@ page-runs {
   }
 
   .run {
+    .row {
+      margin-top: -6px;
+    }
+    .row:last-of-type {
+      margin-bottom: -6px;
+    }
+    .col {
+      padding-left: 0px;
+      text-align: left;
+    }
+    .grid {
+      padding: 0 !important;
+    }
     .run__title {
-      display: inline-block;
+      //display: inline-block;
     }
 
     .run__time {
-      display: inline-block;
+      //display: inline-block;
+      float: right;
+    }
+    .run__waypoint {
+      //display: inline-block;
+    }
+    .run__mine {
+      //display: inline-block;
       float: right;
     }
   }

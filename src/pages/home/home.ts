@@ -7,6 +7,7 @@ import {VehiclesPage} from "../vehicles/vehicles";
 import {RunsPage} from "../runs/runs";
 import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 import {SettingsPage} from "../settings/settings";
+import {CacheProvider} from "../../providers/cache/cache";
 
 /**
  * Generated class for the HomePage page.
@@ -21,31 +22,45 @@ import {SettingsPage} from "../settings/settings";
   templateUrl: 'home.html',
 })
 export class HomePage {
+  private lastRefresh:Date;
 
-  currentPage:number;
-  currentComponent:any;
-  pageName:any = false;
+  public currentPage:number;
+  public currentComponent:any;
+  public pageName:any = false;
   pages = [
     {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
     {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},
-    {id : 2, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage}
+    {id : 2, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
+    {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"}
   ];
 
   loggedSubscriber: Subscription;
+  refreshSubscriber: Subscription;
 
-  constructor(private navCtrl: NavController, private authService: AuthService, private InternetStatus: InternetStatusProvider, public menuCtrl : MenuController, public navParams : NavParams) {
+  constructor(private navCtrl: NavController,
+              private authService: AuthService,
+              private InternetStatus: InternetStatusProvider,
+              public menuCtrl : MenuController,
+              public navParams : NavParams,
+              private cache : CacheProvider) {
     this.openPage(0);
   }
 
-  openPage(index : number){
+  openPage(index : number) {
+
+    // check if logout button
+    if (index == 2) {
+      this.authService.logout()
+      return
+    }
+
     this.currentPage = index;
     this.currentComponent = this.pages[index]
-    // this.navCtrl.setRoot(HomePage)
   }
 
   ionViewWillEnter() {
-    this.InternetStatus.checkConnection()
     this.pageName = this.navParams.get("title")
+    this.cache.getRefreshChange().subscribe(d => this.lastRefresh = d)
 
   }
   /**
@@ -55,6 +70,7 @@ export class HomePage {
    */
   ionViewWillLoad() {
     this.loggedSubscriber = this.authService.loggedOut.subscribe(() => this.navCtrl.setRoot(LoginPage));
+    this.refreshSubscriber = this.cache.getRefreshChange().subscribe((d)=>this.lastRefresh = d);
   }
 
   /**
@@ -65,7 +81,6 @@ export class HomePage {
    */
   ionViewWillLeave() {
     this.loggedSubscriber && this.loggedSubscriber.unsubscribe();
-    this.InternetStatus.stopCheckingConnection()
   }
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { ToastController } from 'ionic-angular'
 import { CacheService } from 'ionic-cache'
 import { Subscription } from 'rxjs'
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 /**
@@ -12,43 +13,53 @@ import { Subscription } from 'rxjs'
  * @export
  * @class InternetStatusProvider
  */
-export class InternetStatusProvider {
-  private connectionStatus: boolean = true
-  private networkStatus: Subscription
+export class InternetStatusProvider{
 
-  constructor(private toast: ToastController, private cache: CacheService) {}
+  private _connectionStatus: boolean = false
+  private networkStatusChanges: Observable<boolean>;
 
-  public checkConnection(): void {
-    this.networkStatus = this.cache.getNetworkStatusChanges().subscribe(
-      connected => {
-        this.connectionStatus = connected
+  constructor(private toast: ToastController) {
+    this.watchNetworkInit();
+  }
 
-        if (!connected) {
-          this.toast
-            .create({
-              message: `Connection lost`,
-              duration: 3000,
-            })
-            .present()
-        } else {
-          this.toast
-            .create({
-              message: `Connected`,
-              duration: 3000,
-            })
-            .present()
-        }
-      },
-      err => {},
-      () => {}
-    )
+
+  get networkStatus(){
+    return this._connectionStatus
+  }
+
+  set networkStatus(connected){
+    this._connectionStatus = connected;
+    if (!connected) {
+      this.toast
+        .create({
+          message: `Connection lost`,
+          duration: 3000,
+        })
+        .present()
+    } else {
+      this.toast
+        .create({
+          message: `Connected`,
+          duration: 3000,
+        })
+        .present()
+    }
+  }
+
+
+  private watchNetworkInit() {
+    this.networkStatus = navigator.onLine;
+    const connect = Observable.fromEvent(window, 'online').map(() => true),
+      disconnect = Observable.fromEvent(window, 'offline').map(() => false);
+
+    this.networkStatusChanges = Observable.merge(connect, disconnect).share();
+    this.networkStatusChanges.subscribe(status => {
+      this.networkStatus = status;
+    });
   }
 
   public getConnectionStatus(): boolean {
-    return this.connectionStatus
+    return this.networkStatus
   }
 
-  public stopCheckingConnection(): void {
-    this.networkStatus.unsubscribe()
-  }
 }

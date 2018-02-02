@@ -11,15 +11,19 @@ export class MyApp {
   rootPage = LoginPage;
 
   constructor(platform: Platform, cache: CacheService, private statusBar: StatusBar) {
-    platform.ready().then(() => {
-      // Set TTL to 12h
-      cache.setDefaultTTL(60 * 60 * 12);
-      // Keep our cached results when device is offline!
-      cache.setOfflineInvalidate(false);
+    Promise.all([
+      platform.ready().then(() => {
+        // Okay, so the platform is ready and our plugins are available.
+        // Here you can do any higher level native things you might need.
+        statusBar.hide();
+      }),
+      cache.ready().then(()=>{
 
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.hide();
-    });
+        // Set TTL to 12h
+        cache.setDefaultTTL(60 * 60 * 12);
+        // Keep our cached results when device is offline!
+        cache.setOfflineInvalidate(false);
+      })
+    ]);
   }
 }

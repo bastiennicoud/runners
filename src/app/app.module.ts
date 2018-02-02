@@ -13,7 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar'
 import { SplashScreen } from '@ionic-native/splash-screen'
 import { BarcodeScanner } from '@ionic-native/barcode-scanner'
 
-import { api } from '../runners.config'
+import { getApi } from '../runners.getter'
 import { API_ENDPOINT } from '../tokens/api-endpoint'
 
 import { VehicleService } from '../services/vehicle.service'
@@ -51,6 +51,7 @@ registerLocaleData(localeFr, 'fr')
 import { InternetStatusProvider } from '../providers/internet-status/internet-status'
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
+import { CacheProvider } from '../providers/cache/cache';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,7 @@ import { HomePage } from '../pages/home/home'
     BarcodeScanner,
     {
       provide: API_ENDPOINT,
-      useValue: api,
+      useValue: getApi(),
     },
     {
       provide: LOCALE_ID,
@@ -126,6 +127,7 @@ import { HomePage } from '../pages/home/home'
     RunService,
     RunnerService,
     InternetStatusProvider,
+    CacheProvider,
   ],
 })
 export class AppModule {

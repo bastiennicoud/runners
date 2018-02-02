@@ -12,6 +12,8 @@ import { InternetStatusProvider } from '../../providers/internet-status/internet
 
 import { filters, filterEngine } from '../../utils/filterengine/filterEngine'
 import { SettingsPage } from '../settings/settings'
+import {User} from "../../models/user";
+import {AuthStorage} from "../../storages/auth.storage";
 
 @Component({
   selector: 'page-runs',
@@ -21,6 +23,8 @@ export class RunsPage {
   runs: Run[] = []
   RunStatusEnum = RunStatusEnum
   filters: any = filters
+  public user : User;
+
   oldmode: string = 's'
 
   constructor(
@@ -28,11 +32,12 @@ export class RunsPage {
     private loadingCtrl: LoadingController,
     private runService: RunService,
     private InternetStatus: InternetStatusProvider,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private authStorage : AuthStorage
   ) {}
 
   ionViewWillEnter() {
-    this.InternetStatus.checkConnection()
+    this.user = this.authStorage.user
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
@@ -50,7 +55,6 @@ export class RunsPage {
   }
 
   ionViewWillLeave() {
-    this.InternetStatus.stopCheckingConnection()
   }
 
   openModal() {
@@ -92,7 +96,7 @@ export class RunsPage {
   refreshRuns(refresher) {
     this.loadRuns().subscribe(
       null,
-      err => err.status != 401 && refresher.cancel().catch(err => console.log(err)),
+      err => err.status != 401 && (refresher.cancel()) ? refresher.cancel().catch(err => console.log(err)): true,
       () => refresher.complete()
     )
   }

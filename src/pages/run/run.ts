@@ -40,7 +40,6 @@ export class RunPage {
   ) {}
 
   ionViewWillEnter() {
-    this.InternetStatus.checkConnection()
     this.user = this.authStorage.user
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
@@ -54,7 +53,6 @@ export class RunPage {
   }
 
   ionViewWillLeave() {
-    this.InternetStatus.stopCheckingConnection()
   }
 
   /**
