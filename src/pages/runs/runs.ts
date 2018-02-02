@@ -55,22 +55,28 @@ export class RunsPage {
     //this.refreshRuns({ cancel:()=>null, complete: () => null })
   }
   headerFn(record, recordIndex, records){
+    var previous;
+    if(recordIndex <= 0)
+       previous = null
+    else
+      previous = records[recordIndex-1]
 
-    if(recordIndex >= records.length)
-      return null
-    const next = records[recordIndex+1]
-    if(!record.beginAt || !next || !next.beginAt)
-      return null
-
-    const x = r => `${r.beginAt.getFullYear()}-${pN(r.beginAt.getMonth() + 1)}-${pN(r.beginAt.getDay())}`
+    const x = r => `${r.beginAt.getFullYear()}-${pN(r.beginAt.getMonth() + 1)}-${pN(r.beginAt.getDate())}`
     const currentRecordDate = x(record)
-    const nextRecordDate = x(next)
-    console.log(currentRecordDate)
-    console.log(nextRecordDate)
-    if(recordIndex == 0)
+
+    if(previous === null)
       return currentRecordDate
-    console.log(moment(currentRecordDate).isBefore(nextRecordDate))
-    if(moment(currentRecordDate).isBefore(nextRecordDate))
+
+    if(!record.beginAt ||!previous.beginAt)
+      return null
+
+
+    const previousRecordDate = x(previous)
+    console.log(currentRecordDate)
+    console.log(previousRecordDate)
+
+    console.log(moment(currentRecordDate).isBefore(previousRecordDate))
+    if(moment(currentRecordDate).isBefore(previousRecordDate))
       return currentRecordDate//.strftime("EEEE d MMMM y")
     return null;
 
@@ -93,13 +99,17 @@ export class RunsPage {
    * @returns {any[]}
    */
   getRuns(){
-    return filterEngine.filterList(this.runs)
+    const flatten = (arr) => arr.reduce(function (flat, toFlatten) {
+      return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+    }, []);
+    const runs = filterEngine.filterList(this.runs)
+    console.log(this.groupRuns(runs))
+    return flatten(this.groupRuns(runs).map(g => g.runs));
   }
   groupRuns(runs:Run[]){
+
     const groupedRuns = runs.reduce((prev: any[], cur: Run) => {
-      const key = `${cur.beginAt.getFullYear()}-${pN(
-        cur.beginAt.getMonth() + 1
-      )}-${pN(cur.beginAt.getDay())}`
+      const key = `${cur.beginAt.getFullYear()}-${pN(cur.beginAt.getMonth() + 1)}-${pN(cur.beginAt.getDate())}`
       if (!prev[key]) prev[key] = { date: cur.beginAt, runs: [cur] }
       else prev[key].runs.push(cur)
       return prev
@@ -109,7 +119,7 @@ export class RunsPage {
       .reverse()
       .map(key => {
         const { date, runs } = groupedRuns[key]
-        return { runs }
+        return { date, runs }
       })
 
   }
@@ -122,7 +132,9 @@ export class RunsPage {
    * @memberOf RunsPage
    */
   loadRuns() {
-    return this.runService.all().do(runs => (this.runs = runs))
+    return this.runService.all().do(runs => (this.runs = runs)).do(()=>{
+      console.log(this.getRuns())
+    })
   }
 
   /**
