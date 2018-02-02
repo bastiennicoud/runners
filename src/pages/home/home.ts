@@ -4,6 +4,7 @@ import {Subscription} from "rxjs/Rx";
 import {LoginPage} from "../login/login";
 import {AuthService} from "../../services/auth.service";
 import {VehiclesPage} from "../vehicles/vehicles";
+import {SplashPage} from "../splash/splash";
 import {RunsPage} from "../runs/runs";
 import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 import {SettingsPage} from "../settings/settings";
@@ -30,8 +31,9 @@ export class HomePage {
   pages = [
     {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
     {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},
-    {id : 2, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
-    {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"}
+    {id : 2, menu:"Splash", title:"Splash", icon:"create", component: SplashPage},
+    {id : 3, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
+    {id : 4, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"},
   ];
 
   loggedSubscriber: Subscription;
@@ -49,7 +51,7 @@ export class HomePage {
   openPage(index : number) {
 
     // check if logout button
-    if (index == 2) {
+    if (index == 3) {
       this.authService.logout()
       return
     }
