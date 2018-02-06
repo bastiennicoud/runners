@@ -31,7 +31,6 @@ export class HomePage {
   pages = [
     {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
     {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},
-    //{id : 2, menu:"Splash", title:"Splash", icon:"create", component: SplashPage},
     {id : 2, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
     {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"},
   ];
@@ -63,13 +62,6 @@ export class HomePage {
   ionViewWillEnter() {
     this.pageName = this.navParams.get("title")
     this.cache.getRefreshChange().subscribe(d => this.lastRefresh = d)
-
-    this.currentComponent = {id : 6, menu:"Splash", title:"Splash", icon:"create", component: SplashPage}
-    setTimeout(() => {
-      this.currentPage = 0;
-      this.currentComponent = this.pages[0]
-    }, 3000);
-
   }
   /**
    * When the auth service tells us the user isn't authenticate, we redirect the user to the login page
