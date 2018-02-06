@@ -8,6 +8,7 @@ import {RunsPage} from "../runs/runs";
 import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 import {SettingsPage} from "../settings/settings";
 import {CacheProvider} from "../../providers/cache/cache";
+import {CalendarPage} from "../calendar/calendar";
 
 /**
  * Generated class for the HomePage page.
@@ -31,7 +32,9 @@ export class HomePage {
     {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
     {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},
     {id : 2, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
-    {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"}
+    {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"},
+    {id : 4, menu:"Calendar", title:"Calendar", icon:"calendar", component: CalendarPage},
+
   ];
 
   loggedSubscriber: Subscription;

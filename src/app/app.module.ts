@@ -52,6 +52,7 @@ import { InternetStatusProvider } from '../providers/internet-status/internet-st
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
 import { CacheProvider } from '../providers/cache/cache';
+import {CalendarPageModule} from "../pages/calendar/calendar.module";
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { CacheProvider } from '../providers/cache/cache';
   imports: [
     BrowserModule,
     HttpClientModule,
+    CalendarPageModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
