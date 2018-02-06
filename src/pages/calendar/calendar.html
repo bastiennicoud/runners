@@ -1,18 +1,19 @@
-<!--
-  Generated template for the CalendarPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Calendar</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title class="">
+      <ion-icon name="calendar"></ion-icon>&nbsp;Calendar&nbsp;
+    </ion-title>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+  <angular2-fullcalendar [options]="calendarOptions"></angular2-fullcalendar>
 
 </ion-content>

@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core'
+import {NgModule, ErrorHandler, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core'
 import { IonicApp, IonicModule, IonicErrorHandler, Config } from 'ionic-angular'
 import { BrowserModule } from '@angular/platform-browser'
 import {
@@ -131,6 +131,7 @@ import {CalendarPageModule} from "../pages/calendar/calendar.module";
     InternetStatusProvider,
     CacheProvider,
   ],
+  schemas: [ NO_ERRORS_SCHEMA ]
 })
 export class AppModule {
   constructor(private config: Config, private authStorage: AuthStorage) {
