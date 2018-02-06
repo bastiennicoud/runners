@@ -15,8 +15,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SplashPage {
 
-  protected title = 'Yallo'
-
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

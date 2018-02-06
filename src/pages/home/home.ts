@@ -31,9 +31,9 @@ export class HomePage {
   pages = [
     {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
     {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},
-    {id : 2, menu:"Splash", title:"Splash", icon:"create", component: SplashPage},
-    {id : 3, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
-    {id : 4, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"},
+    //{id : 2, menu:"Splash", title:"Splash", icon:"create", component: SplashPage},
+    {id : 2, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
+    {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"},
   ];
 
   loggedSubscriber: Subscription;
@@ -51,7 +51,7 @@ export class HomePage {
   openPage(index : number) {
 
     // check if logout button
-    if (index == 3) {
+    if (index == 2) {
       this.authService.logout()
       return
     }
@@ -64,6 +64,12 @@ export class HomePage {
     this.pageName = this.navParams.get("title")
     this.cache.getRefreshChange().subscribe(d => this.lastRefresh = d)
 
+    this.currentComponent = {id : 6, menu:"Splash", title:"Splash", icon:"create", component: SplashPage}
+    setTimeout(() => {
+      this.currentPage = 0;
+      this.currentComponent = this.pages[0]
+    }, 3000);
+
   }
   /**
    * When the auth service tells us the user isn't authenticate, we redirect the user to the login page
@@ -73,6 +79,7 @@ export class HomePage {
   ionViewWillLoad() {
     this.loggedSubscriber = this.authService.loggedOut.subscribe(() => this.navCtrl.setRoot(LoginPage));
     this.refreshSubscriber = this.cache.getRefreshChange().subscribe((d)=>this.lastRefresh = d);
+
   }
 
   /**
