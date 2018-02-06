@@ -3,6 +3,9 @@ import { IonicPageModule } from 'ionic-angular';
 import { SplashPage } from './splash';
 
 @NgModule({
+  entryComponents: [
+    SplashPage
+  ],
   declarations: [
     SplashPage,
   ],

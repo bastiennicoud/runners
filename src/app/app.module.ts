@@ -32,6 +32,7 @@ import { ProfilPage } from '../pages/profil/profil'
 import { VehiclesPage } from '../pages/vehicles/vehicles'
 import { VehiclePage } from '../pages/vehicle/vehicle'
 import { SplashPage } from '../pages/splash/splash'
+import { SplashPageModule } from '../pages/splash/splash.module'
 import { RunnerPage } from '../pages/runner/runner'
 
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
@@ -64,7 +65,7 @@ import { RefresherProvider } from '../providers/refresher/refresher';
     RunPage,
     VehiclesPage,
     VehiclePage,
-    SplashPage,
+
     RunnerPage,
     ProfilPage,
     GroupRunsPipe,
@@ -74,6 +75,7 @@ import { RefresherProvider } from '../providers/refresher/refresher';
   ],
   imports: [
     BrowserModule,
+    SplashPageModule,
     HttpClientModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
@@ -87,7 +89,6 @@ import { RefresherProvider } from '../providers/refresher/refresher';
     RunPage,
     VehiclesPage,
     VehiclePage,
-    SplashPage,
     RunnerPage,
     ProfilPage,
     SettingsPage,
