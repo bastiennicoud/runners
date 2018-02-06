@@ -32,6 +32,7 @@ import { ProfilPage } from '../pages/profil/profil'
 import { VehiclesPage } from '../pages/vehicles/vehicles'
 import { VehiclePage } from '../pages/vehicle/vehicle'
 import { RunnerPage } from '../pages/runner/runner'
+import { DriversPage } from '../pages/drivers/drivers'
 
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe'
@@ -51,7 +52,7 @@ registerLocaleData(localeFr, 'fr')
 import { InternetStatusProvider } from '../providers/internet-status/internet-status'
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
-import { CacheProvider } from '../providers/cache/cache';
+import { CacheProvider } from '../providers/cache/cache'
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { CacheProvider } from '../providers/cache/cache';
     GroupVehicleStatusPipe,
     SettingsPage,
     HomePage,
+    DriversPage,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +90,7 @@ import { CacheProvider } from '../providers/cache/cache';
     ProfilPage,
     SettingsPage,
     HomePage,
+    DriversPage,
   ],
   providers: [
     StatusBar,
