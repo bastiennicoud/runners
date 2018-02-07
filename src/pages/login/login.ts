@@ -8,6 +8,7 @@ import { AuthStorage } from '../../storages/auth.storage';
 import { TabsPage } from '../tabs/tabs';
 import {HttpClient} from "@angular/common/http";
 import {HomePage} from "../home/home";
+import {SplashPage} from "../splash/splash";
 
 /**
  * This class displays the login page
@@ -20,7 +21,7 @@ import {HomePage} from "../home/home";
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  gotoPage:any = HomePage;
+  gotoPage:any = SplashPage;
   // gotoPage:any = TabsPage; //legacy
   constructor(private platform: Platform, private navCtrl: NavController, private toastCtrl: ToastController, private authService: AuthService, private authStorage: AuthStorage, private splashScreen: SplashScreen, private barcodeScanner: BarcodeScanner, private http: HttpClient) {
     this.platform.ready()
