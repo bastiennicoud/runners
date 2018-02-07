@@ -7,7 +7,6 @@ import {
 } from 'ionic-angular'
 import { UserService } from '../../services/user.service'
 import { User } from '../../models/user'
-import { DriverPage } from '../driver/driver'
 
 /**
  * Generated class for the DriversPage page.
@@ -65,16 +64,5 @@ export class DriversPage {
           : true,
       () => refresher.complete()
     )
-  }
-
-  /**
-   * Show the detail of a driver
-   *
-   * @param {Driver} { id }
-   *
-   * @memberOf DriversPage
-   */
-  showDriver({ id }: User): void {
-    this.navCtrl.push(DriverPage, { id })
   }
 }
