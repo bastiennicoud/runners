@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {HomePage} from "../home/home";
+import { Component } from '@angular/core'
+import { IonicPage, NavController, NavParams } from 'ionic-angular'
+import { HomePage } from '../home/home'
+import { RefresherProvider } from '../../providers/refresher/refresher'
 
 /**
  * Generated class for the SplashPage page.
@@ -15,12 +16,23 @@ import {HomePage} from "../home/home";
   templateUrl: 'splash.html',
 })
 export class SplashPage {
+  private alreadyLaunched = false
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-  ionViewDidLoad(){
-    setTimeout(() => {
-      this.navCtrl.setRoot(HomePage);
-    }, 3000);
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private refresher: RefresherProvider
+  ) {}
+
+  ionViewWillLoad() {
+    this.refresher
+      .hisFirstTime()
+      .then(() => this.navCtrl.setRoot(HomePage))
+      .catch(() =>
+        this.refresher.refreshData().subscribe(null, null, () => {
+          this.refresher.setFirstUsage()
+          this.navCtrl.setRoot(HomePage)
+        })
+      )
   }
 }
