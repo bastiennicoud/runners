@@ -28,7 +28,7 @@ export class RunnerService {
    *
    * @memberOf RunnerService
    */
-  get(id: string, run_id?: string): Observable<Runner> {
+  get(id: string): Observable<Runner> {
     return this.httpService
       .get(`/runners/${id}`)
       .map(data => Runner.build(data));

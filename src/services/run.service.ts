@@ -51,9 +51,10 @@ export class RunService {
 
     let fromList = () => this.all()
       .do( () => console.log("taking single run from list"))
+      .do(runs => console.debug(runs))
       .map(runs => runs.filter(run => run.id == id))
-      .map(runs => runs.length ? runs[0] : null)
-      .do(run => console.log(run));
+      .do(runs => console.debug(runs))
+      .map(runs => runs.length ? runs[0] : null);
 
     return this.httpClient
       .get<any>(`/runs/${id}`)
