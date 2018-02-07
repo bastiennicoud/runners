@@ -12,7 +12,7 @@ import { RunnerPage } from '../runner/runner'
 import { Runner } from '../../models/runner' // FIXME: is this the proper way ? (maybe get Runner from RunnerPage or RunService)
 import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
-import {User} from "../../models/user";
+import { User } from '../../models/user'
 
 /**
  * This class displays the details of a run when selected from the board
@@ -27,7 +27,7 @@ import {User} from "../../models/user";
 export class RunPage {
   run: Run
   RunStatusEnum = RunStatusEnum
-  user : User
+  user: User
 
   constructor(
     private navCtrl: NavController,
@@ -43,17 +43,16 @@ export class RunPage {
     this.user = this.authStorage.user
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present().then(()=>{
+    loader.present().then(() => {
       this.loadRun().subscribe(
         () => loader.dismiss().catch(err => console.log(err)),
-        err => err.status != 401 && loader.dismiss().catch(err => console.log(err)), //TODO temporary dismiss
+        err =>
+          err.status != 401 && loader.dismiss().catch(err => console.log(err)) //TODO temporary dismiss
       )
     })
-
   }
 
-  ionViewWillLeave() {
-  }
+  ionViewWillLeave() {}
 
   /**
    * Load the datas of the run
@@ -66,9 +65,7 @@ export class RunPage {
     return this.runService
       .get(this.navParams.get('id'))
       .do(run => (this.run = run))
-      .do(r  => console.log("LOADED RUN ",r))
-
-
+      .do(r => console.log('LOADED RUN ', r))
   }
 
   /**
@@ -94,11 +91,8 @@ export class RunPage {
    * @memberOf RunPage
    */
   showRunner({ id, user }: Runner, { title }: Run) {
-    this.navCtrl.push(RunnerPage, { id, title })
-    // if(user && user.id == this.authStorage.user.id)
-    //   this.navCtrl.push(RunnerPage, { id, title })
-    // else
-    //   alert("This isn't your convoy")
+    if (this.InternetStatus.getConnectionStatus())
+      this.navCtrl.push(RunnerPage, { id, title })
   }
 
   /**
@@ -108,6 +102,8 @@ export class RunPage {
    * @memberOf RunPage
    */
   start() {
+    if (!this.InternetStatus.getConnectionStatus()) return
+
     this.alertCtrl
       .create({
         title: 'Démarrer le run ?',
@@ -135,6 +131,8 @@ export class RunPage {
    * @memberOf RunPage
    */
   stop() {
+    if (!this.InternetStatus.getConnectionStatus()) return
+
     this.alertCtrl
       .create({
         title: 'Terminer le run ?',
