@@ -33,6 +33,7 @@ import { VehiclesPage } from '../pages/vehicles/vehicles'
 import { VehiclePage } from '../pages/vehicle/vehicle'
 import { RunnerPage } from '../pages/runner/runner'
 import { DriversPage } from '../pages/drivers/drivers'
+import { DriverPage } from '../pages/driver/driver'
 
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe'
@@ -70,6 +71,7 @@ import { CacheProvider } from '../providers/cache/cache'
     SettingsPage,
     HomePage,
     DriversPage,
+    DriverPage,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +93,7 @@ import { CacheProvider } from '../providers/cache/cache'
     SettingsPage,
     HomePage,
     DriversPage,
+    DriverPage,
   ],
   providers: [
     StatusBar,
