@@ -35,6 +35,13 @@ export class Run {
   public beginAt: Date
 
   /**
+   * The "expected" date when the run should end
+   * @type {Date}
+   * @memberOf Run
+   */
+  public finishAt: Date
+
+  /**
    * The date, when the run was started
    *
    * @type {Date}
@@ -88,6 +95,11 @@ export class Run {
     b.waypoints = data.waypoints.map(d => Waypoint.build(d)) || []
     b.runners = data.runners.map(d => Runner.build(d)) || []
     b._status = data.status;
+
+    let d = b.beginAt
+    d.setHours(d.getHours() + 2) //add 2 hours
+
+    b.finishAt = data.end_date ? new Date(data.end_date) : d;
     return b
   }
 
