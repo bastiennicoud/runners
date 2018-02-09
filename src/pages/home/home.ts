@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Rx'
 import { LoginPage } from '../login/login'
 import { AuthService } from '../../services/auth.service'
 import { VehiclesPage } from '../vehicles/vehicles'
-import { SplashPage } from "../splash/splash"
+import { SplashPage } from '../splash/splash'
 import { DriversPage } from '../drivers/drivers'
 import { RunsPage } from '../runs/runs'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
@@ -35,7 +35,6 @@ export class HomePage {
   public currentComponent: any
   public pageName: any = false
   pages = [
-<<<<<<< HEAD
     {
       id: 0,
       menu: 'Runs',
@@ -73,13 +72,6 @@ export class HomePage {
       component: DriversPage,
     },
   ]
-=======
-    {id : 0, menu:"Runs", title:"Board", icon: "ios-clipboard-outline", component: RunsPage},
-    {id : 1, menu:"Vehicles", title:"Vehicles", icon:"ios-car", component: VehiclesPage},
-    {id : 2, menu:"Logout", title:"Logout", icon:"log-out", class: "button--bottom"},
-    {id : 3, menu:"Settings", title:"Settings", icon:"settings", component: SettingsPage, class: "button--bottom"},
-  ];
->>>>>>> develop
 
   loggedSubscriber: Subscription
   refreshSubscriber: Subscription
@@ -107,13 +99,8 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-<<<<<<< HEAD
     this.pageName = this.navParams.get('title')
     this.cache.getRefreshChange().subscribe(d => (this.lastRefresh = d))
-=======
-    this.pageName = this.navParams.get("title")
-    this.cache.getRefreshChange().subscribe(d => this.lastRefresh = d)
->>>>>>> develop
   }
   /**
    * When the auth service tells us the user isn't authenticate, we redirect the user to the login page
@@ -121,18 +108,12 @@ export class HomePage {
    * @memberOf TabsPage
    */
   ionViewWillLoad() {
-<<<<<<< HEAD
     this.loggedSubscriber = this.authService.loggedOut.subscribe(() =>
       this.navCtrl.setRoot(LoginPage)
     )
     this.refreshSubscriber = this.cache
       .getRefreshChange()
       .subscribe(d => (this.lastRefresh = d))
-=======
-    this.loggedSubscriber = this.authService.loggedOut.subscribe(() => this.navCtrl.setRoot(LoginPage));
-    this.refreshSubscriber = this.cache.getRefreshChange().subscribe((d)=>this.lastRefresh = d);
-
->>>>>>> develop
   }
 
   /**
