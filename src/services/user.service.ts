@@ -52,7 +52,13 @@ export class UserService {
   }
 
   myWorkingHours() : Observable<Schedule[]>{
-    return this.httpService.get<any[]>("/me/workinghours").map(hours => hours.map(i => Schedule.build(i)))
+    return this.httpService.get<any[]>("/me/workinghours")
+      .do(data => console.log(data))
+      .map(data => data.map(i =>{
+        console.log(i)
+        return Schedule.build(i)}
+        ))
+      .do(data => console.log(data))
   }
 
 }

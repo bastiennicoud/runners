@@ -35,10 +35,10 @@ export class Schedule {
    */
   static build(data: any): Schedule {
     if (!data) return null;
-
+    console.log("MAIS TAMER")
     let u = new Schedule();
-    u.start_at = new Date(data.start_at)
-    u.end_at = new Date(data.end_at)
+    u.start_at = new Date(data.start_at);
+    u.end_at = new Date(data.end_at);
     return u;
   }
 
