@@ -16,12 +16,12 @@ page-run {
 
       &::before,
       &::after {
-        z-index: 1999;
-        content: '';
-        background: #000000;
         position: absolute;
         left: 26px;
+        z-index: 1999;
         width: 5px;
+        background: #000000;
+        content: '';
       }
 
       &::before {
@@ -42,5 +42,11 @@ page-run {
         display: none;
       }
     }
+  }
+
+  .button--disabled {
+      .item-inner {
+          background: none !important;
+      }
   }
 }
