@@ -91,11 +91,8 @@ export class RunPage {
    * @memberOf RunPage
    */
   showRunner({ id, user }: Runner, { title }: Run) {
-    this.navCtrl.push(RunnerPage, { id, title })
-    // if(user && user.id == this.authStorage.user.id)
-    //   this.navCtrl.push(RunnerPage, { id, title })
-    // else
-    //   alert("This isn't your convoy")
+    if (this.InternetStatus.getConnectionStatus())
+      this.navCtrl.push(RunnerPage, { id, title })
   }
 
   /**
@@ -105,6 +102,8 @@ export class RunPage {
    * @memberOf RunPage
    */
   start() {
+    if (!this.InternetStatus.getConnectionStatus()) return
+
     this.alertCtrl
       .create({
         title: 'Démarrer le run ?',
@@ -132,6 +131,8 @@ export class RunPage {
    * @memberOf RunPage
    */
   stop() {
+    if (!this.InternetStatus.getConnectionStatus()) return
+
     this.alertCtrl
       .create({
         title: 'Terminer le run ?',

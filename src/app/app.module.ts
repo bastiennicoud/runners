@@ -31,6 +31,8 @@ import { RunPage } from '../pages/run/run'
 import { ProfilPage } from '../pages/profil/profil'
 import { VehiclesPage } from '../pages/vehicles/vehicles'
 import { VehiclePage } from '../pages/vehicle/vehicle'
+import { SplashPage } from '../pages/splash/splash'
+import { SplashPageModule } from '../pages/splash/splash.module'
 import { RunnerPage } from '../pages/runner/runner'
 import { DriversPage } from '../pages/drivers/drivers'
 import { DriverPage } from '../pages/driver/driver'
@@ -54,6 +56,7 @@ import { InternetStatusProvider } from '../providers/internet-status/internet-st
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
 import { CacheProvider } from '../providers/cache/cache'
+import { RefresherProvider } from '../providers/refresher/refresher'
 
 @NgModule({
   declarations: [
@@ -64,6 +67,7 @@ import { CacheProvider } from '../providers/cache/cache'
     RunPage,
     VehiclesPage,
     VehiclePage,
+
     RunnerPage,
     ProfilPage,
     GroupRunsPipe,
@@ -75,6 +79,7 @@ import { CacheProvider } from '../providers/cache/cache'
   ],
   imports: [
     BrowserModule,
+    SplashPageModule,
     HttpClientModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
@@ -134,6 +139,7 @@ import { CacheProvider } from '../providers/cache/cache'
     RunnerService,
     InternetStatusProvider,
     CacheProvider,
+    RefresherProvider,
   ],
 })
 export class AppModule {
