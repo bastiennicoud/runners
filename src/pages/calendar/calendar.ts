@@ -3,6 +3,7 @@ import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angu
 import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 import {UserService} from "../../services/user.service";
 import {Observable} from "rxjs/Observable";
+import { filter, map, reduce,  } from 'rxjs/operators'
 
 /**
  * Generated class for the CalendarPage page.
@@ -102,10 +103,10 @@ export class CalendarPage {
 
   }
   loadCalendar(){
-    return Observable.merge(
-      this.userService.myRuns().map(runs => runs.map(run => ({title:run.title, start: run.beginAt, end: run.finishAt}))),
-      this.userService.myWorkingHours().map(schedules => schedules.map(sched => ({title:"",start:sched.start_at, end: sched.end_at})))
-    )
+    console.log(this)
+    let r1 = this.userService.myRuns().map(runs => runs.map(run => ({title:run.title, start: run.beginAt, end: run.finishAt})));
+    let r2 = this.userService.myWorkingHours().map(schedules => schedules.map(sched => ({title:"",start:sched.start_at, end: sched.end_at})))
+    return Observable.merge(r1,r2).pipe(reduce((acc, next) => acc.concat(next), []))
     .do(data => console.log(data))
     .do(data => this.events.push(data))
   }
