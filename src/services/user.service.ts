@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import {HttpClient} from "@angular/common/http";
 import "rxjs/Rx"
 import {Run} from "../models/run";
+import {Schedule} from "../models/schedule";
 export { User };
 
 
@@ -48,6 +49,10 @@ export class UserService {
 
   myRuns() : Observable<Run[]>{
     return this.httpService.get<any[]>(`/me/runs`).map(runs => runs.map(r => Run.build(r)))
+  }
+
+  myWorkingHours() : Observable<Schedule[]>{
+    return this.httpService.get<any[]>("/me/workinghours").map(hours => hours.map(i => Schedule.build(i)))
   }
 
 }

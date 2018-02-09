@@ -1296,11 +1296,11 @@ definitions:
   WorkingHours:
     type: object
     properties:
-      start_time:
+      start_at:
         description: start of schedule (date time)
         type: string
         format: date-time
-      end_time:
+      end_at:
         description: end of schedule (date time)
         type: string
         format: date-time
