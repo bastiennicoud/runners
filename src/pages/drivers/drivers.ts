@@ -74,7 +74,7 @@ export class DriversPage {
    *
    * @memberOf DriversPage
    */
-  showRun({ id }: User): void {
+  showDriver({ id }: User): void {
     this.navCtrl.push(DriverPage, { id })
   }
 }
