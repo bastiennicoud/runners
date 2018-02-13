@@ -30,18 +30,16 @@ export class VehiclePage {
 
   ionViewWillEnter() {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present().then(()=>{
+    loader.present().then(() => {
       this.loadVehicleStatus().subscribe(
         null,
         err => err.status != 401 && loader.dismiss(),
         () => loader.dismiss()
       )
     })
-
   }
 
-  ionViewWillLeave() {
-  }
+  ionViewWillLeave() {}
 
   /**
    * Load the data linked to the vehicle
@@ -57,7 +55,7 @@ export class VehiclePage {
         // TODO: fake data you have to replace them by real one
         .map(vehicle =>
           Object.assign(vehicle, {
-            status: VehicleStatusEnum.taken,
+            _status: VehicleStatusEnum.taken,
             user: User.build({
               id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
               firstname: 'Laura',
