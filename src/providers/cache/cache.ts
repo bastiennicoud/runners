@@ -46,7 +46,6 @@ export class CacheProvider extends CacheService {
   }
   saveItem(key: string, data: any, groupKey?: string, ttl?: number){
     const date = new Date();
-    console.log("HIII")
     return super.saveItem(key,data,groupKey,ttl)
       .then(()=>this.setLastRefresh(date))
   }
