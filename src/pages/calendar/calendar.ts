@@ -4,6 +4,8 @@ import {InternetStatusProvider} from "../../providers/internet-status/internet-s
 import {UserService} from "../../services/user.service";
 import {Observable} from "rxjs/Observable";
 import { filter, map, reduce,  } from 'rxjs/operators'
+import {RunPage} from "../run/run";
+import {Schedule} from "../../models/schedule";
 
 /**
  * Generated class for the CalendarPage page.
@@ -19,70 +21,16 @@ import { filter, map, reduce,  } from 'rxjs/operators'
 })
 export class CalendarPage {
   calendarOptions:any = {
+    editable: false,
     height: 'parent',
     fixedWeekCount : false,
-    defaultDate: '2018-09-12',
-    editable: true,
+    defaultView: "agendaDay",
+    defaultDate: new Date(),
     eventLimit: true, // allow "more" link when too many events
     events:[]
-    // events: [
-    //   {
-    //     title: 'All Day Event',
-    //     start: '2018-09-01'
-    //   },
-    //   {
-    //     title: 'Long Event',
-    //     start: '2018-09-07',
-    //     end: '2018-09-10'
-    //   },
-    //   {
-    //     id: 999,
-    //     title: 'Repeating Event',
-    //     start: '2018-09-09T16:00:00'
-    //   },
-    //   {
-    //     id: 999,
-    //     title: 'Repeating Event',
-    //     start: '2018-09-16T16:00:00'
-    //   },
-    //   {
-    //     title: 'Conference',
-    //     start: '2016-09-11',
-    //     end: '2018-09-13'
-    //   },
-    //   {
-    //     title: 'Meeting',
-    //     start: '2016-09-12T10:30:00',
-    //     end: '2018-09-12T12:30:00'
-    //   },
-    //   {
-    //     title: 'Lunch',
-    //     start: '2018-09-12T12:00:00'
-    //   },
-    //   {
-    //     title: 'Meeting',
-    //     start: '2018-09-12T14:30:00'
-    //   },
-    //   {
-    //     title: 'Happy Hour',
-    //     start: '2018-09-12T17:30:00'
-    //   },
-    //   {
-    //     title: 'Dinner',
-    //     start: '2018-09-12T20:00:00'
-    //   },
-    //   {
-    //     title: 'Birthday Party',
-    //     start: '2018-09-13T07:00:00'
-    //   },
-    //   {
-    //     title: 'Click for Google',
-    //     url: 'http://google.com/',
-    //     start: '2016-09-28'
-    //   }
-    // ]
+
   };
-  events : any[] = [];
+  public events : any[] = [];
   @ViewChild('calendar') calendar;
   constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, public navParams: NavParams, public InternetStatus : InternetStatusProvider, private userService : UserService) {
   }
@@ -91,24 +39,62 @@ export class CalendarPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadCalendar().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)), //TODO temporary dismiss
+        null,
         err => err.status != 401 && loader.dismiss().catch(err => console.log(err)),
         ()=>{
-          this.calendarOptions.events = this.events
-          this.calendar.fullCalendar( 'refresh' )
+          loader.dismiss().catch(err => console.log(err))
+
           console.log("FINISHED")
         }
       )
     })
 
   }
+  refreshCalendar(){
+    this.calendarOptions.events = this.events
+    this.calendarOptions.eventClick = (calEvent) => {
+      if(calEvent.url) {
+        this.navCtrl.push(RunPage, {id: calEvent.url})
+        return false
+      }
+    }
+    this.calendar.fullCalendar( 'rerenderEvents' )
+  }
+
   loadCalendar(){
     console.log(this)
-    let r1 = this.userService.myRuns().map(runs => runs.map(run => ({title:run.title, start: run.beginAt, end: run.finishAt})));
-    let r2 = this.userService.myWorkingHours().map(schedules => schedules.map(sched => ({title:"",start:sched.start_at, end: sched.end_at})))
-    return Observable.merge(r1,r2).pipe(reduce((acc, next) => acc.concat(next), []))
-    .do(data => console.log(data))
-    .do(data => this.events.push(data))
+    const mapRuns = (runs) => {
+      return runs.map(run => ({
+        title:run.title,
+        start: run.beginAt,//run.startAt ? run.startAt : run.beginAt, //TODO ASk carrel
+        end: run.endAt ? run.endAt : run.finishAt,
+        url:run.id,
+        color:"#3d3d3d"
+      }))
+    }
+    const mapWorkingHours = (schedules) => {
+      return schedules/*.sort((a:Schedule,b:Schedule)=>{
+        return a.start_at < b.start_at && a.end_at < b.end_at ? -1 : 1
+      })*/.map(sched => ({title:"",start:sched.startAt, end: sched.endAt, color:"#bebebe"}))
+    }
+
+    const mergeRequests = reduce((acc, next) => {
+      return acc.concat(next)
+    }, [])
+    //get from cache
+    let r1 = this.userService.myRuns().first().map(mapRuns);
+    let r2 = this.userService.myWorkingHours().first().map(mapWorkingHours)
+    //get from network
+    let r3 = this.userService.myRuns().last().map(mapRuns);
+    let r4 = this.userService.myWorkingHours().last().map(mapWorkingHours)
+
+    let mergedFromCache = Observable.merge(r1,r2).pipe(mergeRequests)
+
+    let mergedFromNetwork = Observable.merge(r3,r4).pipe(mergeRequests)
+
+    // return mergedFromCache;
+    return Observable.merge(mergedFromCache, mergedFromNetwork)/*.distinct((x)=>x.start.toISOString())*/.do(data => this.events = data).do(data => this.refreshCalendar())
+
   }
 
 }
