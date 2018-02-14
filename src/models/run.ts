@@ -96,10 +96,9 @@ export class Run {
     b.runners = data.runners.map(d => Runner.build(d)) || []
     b._status = data.status;
 
-    let d = b.beginAt
+    let d = new Date(b.beginAt.toISOString())
     d.setHours(d.getHours() + 2) //add 2 hours
-
-    b.finishAt = data.end_date ? new Date(data.end_date) : d;
+    b.finishAt = data.finished_at ? new Date(data.finished_at) : d;
     return b
   }
 
