@@ -55,7 +55,6 @@ export class VehiclePage {
         // TODO: fake data you have to replace them by real one
         .map(vehicle =>
           Object.assign(vehicle, {
-            _status: VehicleStatusEnum.taken,
             user: User.build({
               id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
               firstname: 'Laura',
