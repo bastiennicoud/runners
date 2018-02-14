@@ -35,8 +35,8 @@ import { SplashPage } from '../pages/splash/splash'
 import { SplashPageModule } from '../pages/splash/splash.module'
 import { RunnerPage } from '../pages/runner/runner'
 
+import { PipesModule } from '../pipes/pipes.module'
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
-import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe'
 import { ApiTokenInterceptor } from '../services/interceptors/ApiTokenInterceptor'
 import { AuthFailedInterceptor } from '../services/interceptors/AuthFailedInterceptor'
 import { CachingInterceptor } from '../services/interceptors/CachingInterceptor'
@@ -53,8 +53,8 @@ registerLocaleData(localeFr, 'fr')
 import { InternetStatusProvider } from '../providers/internet-status/internet-status'
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
-import { CacheProvider } from '../providers/cache/cache';
-import { RefresherProvider } from '../providers/refresher/refresher';
+import { CacheProvider } from '../providers/cache/cache'
+import { RefresherProvider } from '../providers/refresher/refresher'
 
 @NgModule({
   declarations: [
@@ -65,11 +65,9 @@ import { RefresherProvider } from '../providers/refresher/refresher';
     RunPage,
     VehiclesPage,
     VehiclePage,
-
     RunnerPage,
     ProfilPage,
     GroupRunsPipe,
-    GroupVehicleStatusPipe,
     SettingsPage,
     HomePage,
   ],
@@ -77,6 +75,7 @@ import { RefresherProvider } from '../providers/refresher/refresher';
     BrowserModule,
     SplashPageModule,
     HttpClientModule,
+    PipesModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
