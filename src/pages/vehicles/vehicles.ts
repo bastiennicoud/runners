@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { NavController, LoadingController } from 'ionic-angular'
 import { VehiclePage } from '../vehicle/vehicle'
 
-import { VehicleService, VehicleStatus } from '../../services/vehicle.service'
+import { VehicleService, Vehicle } from '../../services/vehicle.service'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
 /**
@@ -16,7 +16,7 @@ import { InternetStatusProvider } from '../../providers/internet-status/internet
   templateUrl: 'vehicles.html',
 })
 export class VehiclesPage {
-  vehicleStatus: VehicleStatus[] = []
+  vehicles: Vehicle[] = []
 
   constructor(
     private navCtrl: NavController,
@@ -27,18 +27,16 @@ export class VehiclesPage {
 
   ionViewWillEnter() {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
-    loader.present().then(()=>{
-      this.loadVehicleStatus().subscribe(
+    loader.present().then(() => {
+      this.loadVehicles().subscribe(
         null,
         err => err.status != 401 && loader.dismiss(),
         () => loader.dismiss()
       )
     })
-
   }
 
-  ionViewWillLeave() {
-  }
+  ionViewWillLeave() {}
 
   /**
    * Load the datas of the vehicle
@@ -47,14 +45,12 @@ export class VehiclesPage {
    *
    * @memberOf VehiclesPage
    */
-  loadVehicleStatus() {
-    return this.vehicleService
-      .status()
-      .do(vehicleStatus => (this.vehicleStatus = vehicleStatus))
+  loadVehicles() {
+    return this.vehicleService.all().do(vehicles => (this.vehicles = vehicles))
   }
 
   refreshVehicleStatus(refresher) {
-    this.loadVehicleStatus().subscribe(
+    this.loadVehicles().subscribe(
       null,
       err => err.status != 401 && refresher.cancel(),
       () => refresher.complete()
@@ -64,11 +60,11 @@ export class VehiclesPage {
   /**
    * Show the page detailing the vehicle
    *
-   * @param {VehicleStatus} v
+   * @param {Vehicle} v
    *
    * @memberOf VehiclesPage
    */
-  showVehicle(v: VehicleStatus): void {
-    this.navCtrl.push(VehiclePage, { id: v.vehicle.id })
+  showVehicle(v: Vehicle): void {
+    this.navCtrl.push(VehiclePage, { id: v.id })
   }
 }
