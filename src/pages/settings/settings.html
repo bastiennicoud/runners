@@ -30,6 +30,9 @@
   <ion-item>
     <button ion-button full icon-start (click)="setApi()"><ion-icon name="create"></ion-icon>Changer l'api</button>
   </ion-item>
+    <ion-item>
+      <button ion-button full icon-start (click)="toggleCache()"><ion-icon name="cache"></ion-icon>{{ cacheService.isCacheEnabled ? "Disable":"Enable" }} cache</button>
+    </ion-item>
   <ion-item>
     <ion-label color='primary'>Version : {{ appVersion }}</ion-label>
   </ion-item>
