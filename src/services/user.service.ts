@@ -8,7 +8,6 @@ import {Run} from "../models/run";
 import {Schedule} from "../models/schedule";
 export { User };
 
-
 /**
  * Lets you to retrieve one user or the authenticated user.
  *
@@ -17,34 +16,37 @@ export { User };
  */
 @Injectable()
 export class UserService {
-
   constructor(private httpService: HttpClient) {}
 
-/**
- * Get one user
- *
- * @param {string} id Unique identifier of the user.
- * @returns {Observable<User>}
- *
- * @memberOf UserService
- */
+  /**
+   * Get one user
+   *
+   * @param {string} id Unique identifier of the user.
+   * @returns {Observable<User>}
+   *
+   * @memberOf UserService
+   */
   get(id: string): Observable<User> {
-    return this.httpService
-      .get(`/users/${id}`)
-      .map(data => User.build(data))
+    return this.httpService.get(`/users/${id}`).map(data => User.build(data))
   }
 
-/**
- * Get the authenticated user
- *
- * @returns {Observable<User>}
- *
- * @memberOf UserService
- */
-  me(): Observable<User> {
-  // this.httpService.get<any>("https://httpbin.org/").subscribe()
+  all(): Observable<User[]> {
+    return this.httpService
+      .get<any[]>('/users')
+      .map(data => data.map(user => User.build(user)))
+  }
 
-  return this.get('me');
+  /**
+   * Get the authenticated user
+   *
+   * @returns {Observable<User>}
+   *
+   * @memberOf UserService
+   */
+  me(): Observable<User> {
+    // this.httpService.get<any>("https://httpbin.org/").subscribe()
+
+    return this.get('me')
   }
 
   myRuns() : Observable<Run[]>{
@@ -55,5 +57,4 @@ export class UserService {
     return this.httpService.get<any[]>("/me/workinghours")
       .map(data => data.map(i => Schedule.build(i)))
   }
-
 }

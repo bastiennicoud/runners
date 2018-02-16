@@ -37,19 +37,24 @@ export class RunnerPage {
   ) {}
 
   ionViewWillEnter() {
+    if (!this.InternetStatus.getConnectionStatus()) {
+      this.navCtrl.pop()
+      return
+    }
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
 
     this.run = this.navParams.get('title')
     this.loadRunner().subscribe(
       null,
-      err => err.status != 401 && loader.dismiss().catch(err => console.log(err)),
+      err =>
+        err.status != 401 && loader.dismiss().catch(err => console.log(err)),
       () => loader.dismiss()
     )
   }
 
-  ionViewWillLeave() {
-  }
+  ionViewWillLeave() {}
 
   /**
    * Load the data of the runner
@@ -124,14 +129,14 @@ export class RunnerPage {
     const loader = this.loadingCtrl.create({ content: 'Traitement ...' })
     loader.present()
 
-    this.runnerService
-      .setVehicle(this.runner, vehicle)
-      .subscribe(
-        // runner => (this.runner = runner),
-        runner => {console.log("IHASJDHBASDJBASNF")},
-        err => err.status != 401 && loader.dismiss(),
-        () => loader.dismiss()
-      )
+    this.runnerService.setVehicle(this.runner, vehicle).subscribe(
+      // runner => (this.runner = runner),
+      runner => {
+        console.log('IHASJDHBASDJBASNF')
+      },
+      err => err.status != 401 && loader.dismiss(),
+      () => loader.dismiss()
+    )
   }
 
   /**
