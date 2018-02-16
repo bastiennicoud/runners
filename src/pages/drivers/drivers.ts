@@ -35,7 +35,6 @@ export class DriversPage {
 
   ionViewDidLoad() {
     this.user = this.authStorage.user
-
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadDrivers().subscribe(
