@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/Rx'
 import { LoginPage } from '../login/login'
 import { AuthService } from '../../services/auth.service'
 import { VehiclesPage } from '../vehicles/vehicles'
+import { DriversPage } from '../drivers/drivers'
 import { SplashPage } from '../splash/splash'
 import { RunsPage } from '../runs/runs'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
@@ -62,6 +63,13 @@ export class HomePage {
       icon: 'settings',
       component: SettingsPage,
       class: 'button--bottom button--last',
+    },
+    {
+      id: 4,
+      menu: 'Drivers',
+      title: 'Drivers',
+      icon: 'contacts',
+      component: DriversPage,
     },
   ]
 

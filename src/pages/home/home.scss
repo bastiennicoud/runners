@@ -1,11 +1,10 @@
 page-home {
   #mainMenu{
-
     ion-header{
       border-bottom: 1px solid #c8c7cc;
       background: #f7f7f7;
     }
-    .item.active{
+    .item.active {
       background: darken(#fff, 3%);
     }
     button.button--last {
