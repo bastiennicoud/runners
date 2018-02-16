@@ -35,6 +35,7 @@ import { SplashPage } from '../pages/splash/splash'
 import { SplashPageModule } from '../pages/splash/splash.module'
 import { RunnerPage } from '../pages/runner/runner'
 import { DriversPage } from '../pages/drivers/drivers'
+import { DriverPage } from '../pages/driver/driver'
 
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
 import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe'
@@ -74,6 +75,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     SettingsPage,
     HomePage,
     DriversPage,
+    DriverPage,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +98,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     SettingsPage,
     HomePage,
     DriversPage,
+    DriverPage,
   ],
   providers: [
     StatusBar,

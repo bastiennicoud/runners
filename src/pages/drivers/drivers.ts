@@ -7,6 +7,8 @@ import {
 } from 'ionic-angular'
 import { UserService } from '../../services/user.service'
 import { User } from '../../models/user'
+import { DriverPage } from '../driver/driver'
+import { AuthStorage } from '../../storages/auth.storage'
 
 /**
  * Generated class for the DriversPage page.
@@ -22,14 +24,17 @@ import { User } from '../../models/user'
 })
 export class DriversPage {
   drivers: User[] = []
+  user: User
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private userService: UserService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private authStorage: AuthStorage
   ) {}
 
   ionViewDidLoad() {
+    this.user = this.authStorage.user
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadDrivers().subscribe(
@@ -64,5 +69,16 @@ export class DriversPage {
           : true,
       () => refresher.complete()
     )
+  }
+
+  /**
+   * Show the detail of a driver
+   *
+   * @param {Driver} { id }
+   *
+   * @memberOf DriversPage
+   */
+  showDriver({ id }: User): void {
+    this.navCtrl.push(DriverPage, { id })
   }
 }
