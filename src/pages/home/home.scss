@@ -1,6 +1,6 @@
 page-home {
-  #mainMenu {
-    ion-header {
+  #mainMenu{
+    ion-header{
       border-bottom: 1px solid #c8c7cc;
       background: #f7f7f7;
     }
@@ -8,11 +8,18 @@ page-home {
       background: darken(#fff, 3%);
     }
     button.button--last {
-      bottom: -1px;
+       bottom: 44px;
     }
     .button--bottom {
       position: absolute;
-      bottom: 44px;
+      bottom: 90px;
+    }
+    .button--not {
+        bottom: -1px;
+        background-color: #ECECEC;
+        .item-inner {
+            background-image: none;
+        }
     }
   }
 }

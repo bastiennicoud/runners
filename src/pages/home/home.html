@@ -9,10 +9,9 @@
 
 <ion-menu [content]="content" id="mainMenu" [persistent]="false">
   <ion-header>
-    <p><small>Dernier rafraichissement : {{ lastRefresh | date:' d MMMM y@h:mm:ss' }}</small></p>
-    <!--<button ion-item menuClose="mainMenu" detail-none end>-->
+    <button ion-item menuClose="mainMenu" detail-none end>
       <!--<ion-icon name="close"></ion-icon>-->
-    <!--</button>-->
+    </button>
   </ion-header>
   <ion-content>
     <ion-list>
@@ -20,7 +19,9 @@
           <ion-icon name="{{ p.icon }}"></ion-icon>
           <span>{{ p.menu }}</span>
         </button>
-
+        <button ion-item class="button--bottom button--not">
+            {{ lastRefresh | date:' d MMMM y hh:mm' }}
+        </button>
     </ion-list>
   </ion-content>
   <!--<ion-footer class="bar-stable">-->
