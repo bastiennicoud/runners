@@ -37,8 +37,8 @@ import { RunnerPage } from '../pages/runner/runner'
 import { DriversPage } from '../pages/drivers/drivers'
 import { DriverPage } from '../pages/driver/driver'
 
+import { PipesModule } from '../pipes/pipes.module'
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
-import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe'
 import { ApiTokenInterceptor } from '../services/interceptors/ApiTokenInterceptor'
 import { AuthFailedInterceptor } from '../services/interceptors/AuthFailedInterceptor'
 import { CachingInterceptor } from '../services/interceptors/CachingInterceptor'
@@ -68,11 +68,9 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     RunPage,
     VehiclesPage,
     VehiclePage,
-
     RunnerPage,
     ProfilPage,
     GroupRunsPipe,
-    GroupVehicleStatusPipe,
     SettingsPage,
     HomePage,
     DriversPage,
@@ -82,6 +80,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     BrowserModule,
     SplashPageModule,
     HttpClientModule,
+    PipesModule,
     CalendarPageModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),

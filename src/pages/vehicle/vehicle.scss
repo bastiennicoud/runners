@@ -1,8 +1,35 @@
 page-vehicle {
-    td{
-        width: 15%;
+  @each $status, $value in map-remove($vehicleStatus) {
+    ion-card.status[status='#{$status}'] {
+      border-left: 10px solid $value;
     }
-    table{
-        width: 100%
+  }
+
+  .vehicle__comment {
+    &__info {
+      text-align: left;
+      color: #8e9093;
+      font-size: 14px;
+      &--createdat {
+        text-align: right;
+        width: 100%;
+        display: block;
+      }
+      &--message {
+        padding: 5px;
+        white-space: normal;
+        text-align: justify;
+        color: #000;
+        font-size: 1.4rem;
+      }
     }
+  }
+
+  // REM
+  td {
+    width: 15%;
+  }
+  table {
+    width: 100%;
+  }
 }

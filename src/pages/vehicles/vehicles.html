@@ -17,6 +17,28 @@
   </ion-refresher>
 
   <ion-list>
+    <ion-item-group *ngFor="let group of vehicles | groupVehicleType">
+        <ion-item-divider sticky>
+            <ion-label>{{group.type.type}}</ion-label>
+        </ion-item-divider>
+        <ion-item *ngFor="let vehicle of group.vehicles" (click)="showVehicle(vehicle)">
+            <ion-label>
+                <h2>{{ vehicle.name }}</h2>
+            </ion-label>
+            <ion-note *ngIf="vehicle.user" item-right>{{ vehicle.user.fullname }}</ion-note>
+            <ion-note *ngIf="!vehicle.user" item-right class="free">Libre</ion-note>
+        </ion-item>
+    </ion-item-group>
+    <ion-item *ngIf="!vehicles.length">
+      <ion-label>
+        <p>Aucune Voiture</p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+
+  <!-- <ion-list>
 
     <ion-item-group *ngFor="let group of vehicleStatus | groupVehicleStatus">
 
@@ -40,6 +62,6 @@
       </ion-label>
     </ion-item>
 
-  </ion-list>
+  </ion-list> -->
 
 </ion-content>

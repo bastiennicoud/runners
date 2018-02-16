@@ -32,6 +32,11 @@ $runStatus: (
   problem: $error
 );
 
+$vehicleStatus: (
+  free: $great,
+  taken: $error
+);
+
 .wifi-status {
   float: right;
   margin-right: 15px;
