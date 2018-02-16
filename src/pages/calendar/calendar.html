@@ -1,0 +1,19 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title class="">
+      <ion-icon name="calendar"></ion-icon>&nbsp;Calendar&nbsp;
+    </ion-title>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <angular2-fullcalendar *ngIf="events.length" #calendar [options]="calendarOptions"></angular2-fullcalendar>
+
+</ion-content>

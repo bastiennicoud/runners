@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core'
+import {NgModule, ErrorHandler, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core'
 import { IonicApp, IonicModule, IonicErrorHandler, Config } from 'ionic-angular'
 import { BrowserModule } from '@angular/platform-browser'
 import {
@@ -55,6 +55,7 @@ registerLocaleData(localeFr, 'fr')
 import { InternetStatusProvider } from '../providers/internet-status/internet-status'
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
+import { CalendarPageModule } from "../pages/calendar/calendar.module"
 import { CacheProvider } from '../providers/cache/cache'
 import { RefresherProvider } from '../providers/refresher/refresher'
 
@@ -81,6 +82,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     BrowserModule,
     SplashPageModule,
     HttpClientModule,
+    CalendarPageModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
@@ -141,6 +143,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     CacheProvider,
     RefresherProvider,
   ],
+  schemas: [ NO_ERRORS_SCHEMA ]
 })
 export class AppModule {
   constructor(private config: Config, private authStorage: AuthStorage) {

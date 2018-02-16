@@ -15,6 +15,7 @@ import { RunsPage } from '../runs/runs'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 import { SettingsPage } from '../settings/settings'
 import { CacheProvider } from '../../providers/cache/cache'
+import { CalendarPage } from "../calendar/calendar"
 
 /**
  * Generated class for the HomePage page.
@@ -70,6 +71,9 @@ export class HomePage {
       title: 'Drivers',
       icon: 'contacts',
       component: DriversPage,
+    },
+    {
+      id : 5, menu:"Calendar", title:"Calendar", icon:"calendar", component: CalendarPage
     },
   ]
 
