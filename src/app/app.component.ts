@@ -31,6 +31,5 @@ export class MyApp {
       }),
     ])
 
-    console.log(this.refresher.refreshData())
   }
 }
