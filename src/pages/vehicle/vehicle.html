@@ -1,8 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>
-      <ion-icon name="ios-profil"></ion-icon>Véhicule</ion-title>
+    <ion-title *ngIf="vehicle">{{vehicle.name}}</ion-title>
       <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
   </ion-navbar>
 
@@ -14,33 +13,53 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card *ngIf="vehicle">
-    <ion-card-content>
-      <ion-card-title>
-        <h1><strong>{{vehicle.name}} - {{vehicle.plateNumber}}</strong></h1>
-      </ion-card-title>
-      <div *ngIf="vehicle.status == VehicleStatusEnum.taken" (click)="showUser(vehicle.user)">
-        <h2>Occupé par <strong>{{vehicle.user.firstname}} {{vehicle.user.lastname}}</strong></h2>
-      </div>
-      <p *ngIf="vehicle.status == VehicleStatusEnum.free">
-        Libre
-      </p>
+  <div *ngIf="vehicle">
+      <ion-card class="status" [attr.status]="vehicle.state">
+        <ion-card-content>
+          <div [ngSwitch]="vehicle.state">
+            <span *ngSwitchCase="VehicleStatusEnum.free">Libre</span>
+            <span *ngSwitchCase="VehicleStatusEnum.taken">Occupé</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
 
-      <h4>Commentaires:</h4>
+      <ion-card>
+        <ion-card-header>Informations</ion-card-header>
+        <ion-card-content>
+          <ion-list no-lines>
+            <ion-item>
+              <ion-icon name="car" item-left></ion-icon>
+              <h2>Immatriculation :</h2>
+              <p>{{ vehicle.plateNumber }}</p>
+            </ion-item>
 
-      <table>
-        <tr *ngFor="let comment of vehicle.comments">
-          <td valign="top">
-            <strong>{{comment.author.fullname}}</strong><br/>
-            {{comment.createdAt | date:'dd.MM.y à HH:mm'}}
-          </td>
-          <td>
-            <p>{{comment.message}}</p>
-          </td>
-        </tr>
-      </table>
+            <ion-item *ngIf="vehicle.user">
+                <ion-icon name="person" item-left></ion-icon>
+                <h2>Conducteur :</h2>
+                <p>{{ vehicle.user.fullname }}</p>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
 
-    </ion-card-content>
-  </ion-card>
+      <ion-card>
+          <ion-card-header>Commentaires</ion-card-header>
+
+          <ion-item class="vehicle__comment" *ngFor="let comment of vehicle.comments">
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="vehicle__comment__info"><span class="vehicle__comment__info--author">{{ comment.author.fullname }}</span></ion-col>
+                  <ion-col class="vehicle__comment__info"><span class="vehicle__comment__info--createdat">{{ comment.createdAt | date:'dd.MM.yy à HH:mm' }}</span></ion-col>
+                </ion-row>
+                <ion-row>
+                    <p class="vehicle__comment__info vehicle__comment__info--message">
+                        {{ comment.message }}
+                    </p>
+                </ion-row>
+            </ion-grid>
+          </ion-item>
+      </ion-card>
+
+  </div>
 
 </ion-content>

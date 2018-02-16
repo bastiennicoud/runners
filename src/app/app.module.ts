@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core'
+import {NgModule, ErrorHandler, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core'
 import { IonicApp, IonicModule, IonicErrorHandler, Config } from 'ionic-angular'
 import { BrowserModule } from '@angular/platform-browser'
 import {
@@ -31,10 +31,14 @@ import { RunPage } from '../pages/run/run'
 import { ProfilPage } from '../pages/profil/profil'
 import { VehiclesPage } from '../pages/vehicles/vehicles'
 import { VehiclePage } from '../pages/vehicle/vehicle'
+import { SplashPage } from '../pages/splash/splash'
+import { SplashPageModule } from '../pages/splash/splash.module'
 import { RunnerPage } from '../pages/runner/runner'
+import { DriversPage } from '../pages/drivers/drivers'
+import { DriverPage } from '../pages/driver/driver'
 
+import { PipesModule } from '../pipes/pipes.module'
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
-import { GroupVehicleStatusPipe } from '../pipes/group-vehicle-status.pipe'
 import { ApiTokenInterceptor } from '../services/interceptors/ApiTokenInterceptor'
 import { AuthFailedInterceptor } from '../services/interceptors/AuthFailedInterceptor'
 import { CachingInterceptor } from '../services/interceptors/CachingInterceptor'
@@ -51,7 +55,9 @@ registerLocaleData(localeFr, 'fr')
 import { InternetStatusProvider } from '../providers/internet-status/internet-status'
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
-import { CacheProvider } from '../providers/cache/cache';
+import { CalendarPageModule } from "../pages/calendar/calendar.module"
+import { CacheProvider } from '../providers/cache/cache'
+import { RefresherProvider } from '../providers/refresher/refresher'
 
 @NgModule({
   declarations: [
@@ -65,13 +71,17 @@ import { CacheProvider } from '../providers/cache/cache';
     RunnerPage,
     ProfilPage,
     GroupRunsPipe,
-    GroupVehicleStatusPipe,
     SettingsPage,
     HomePage,
+    DriversPage,
+    DriverPage,
   ],
   imports: [
     BrowserModule,
+    SplashPageModule,
     HttpClientModule,
+    PipesModule,
+    CalendarPageModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
@@ -88,6 +98,8 @@ import { CacheProvider } from '../providers/cache/cache';
     ProfilPage,
     SettingsPage,
     HomePage,
+    DriversPage,
+    DriverPage,
   ],
   providers: [
     StatusBar,
@@ -128,7 +140,9 @@ import { CacheProvider } from '../providers/cache/cache';
     RunnerService,
     InternetStatusProvider,
     CacheProvider,
+    RefresherProvider,
   ],
+  schemas: [ NO_ERRORS_SCHEMA ]
 })
 export class AppModule {
   constructor(private config: Config, private authStorage: AuthStorage) {

@@ -31,7 +31,7 @@
 
     </ion-card>
 
-    <div *ngIf="run && authStorage.user.belongsToRun(run)" [ngSwitch]="run.status">
+    <div *ngIf="run && authStorage.user.belongsToRun(run) && this.InternetStatus.getConnectionStatus()" [ngSwitch]="run.status">
       <ion-card *ngSwitchCase="RunStatusEnum.ready">
         <ion-card-content>
           <button ion-button full color="secondary" icon-left (click)="start()">
@@ -70,7 +70,7 @@
             <ion-icon name="car" item-left></ion-icon>
             <span>
               <h2>Démarré :</h2>
-              <p><strong>{{run.startAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
+              <p><strong>{{run.startAt | date:'EEEE d MMM y'}}</strong> à {{run.startAt | date:'shortTime'}}</p>
             </span>
           </ion-item>
 
@@ -113,7 +113,7 @@
 
         <ion-list no-lines>
 
-          <button ion-item *ngFor="let runner of run.runners" (click)="showRunner(runner, run)">
+          <button ion-item *ngFor="let runner of run.runners" (click)="showRunner(runner, run)" [class.button--disabled]="!this.InternetStatus.getConnectionStatus()">
             <ion-icon name="car" item-left></ion-icon>
             <h2 *ngIf="runner.vehicle">{{runner.vehicle.name}}</h2>
             <h2 *ngIf="!runner.vehicle && runner.vehicleCategory">{{runner.vehicleCategory.type}} ??</h2>
