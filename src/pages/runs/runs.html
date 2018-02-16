@@ -7,25 +7,38 @@
     <ion-title class="runs-title-fix">
       <ion-icon name="ios-clipboard-outline"></ion-icon>&nbsp;Board&nbsp;
     </ion-title>
-    <ion-icon *ngIf="nbUrgentRuns() || filters.urgent.isEnabled"
-            class="filter filter__urgent {{filters.urgent.isEnabled?'filter__urgent--enabled':''}}"
-            (click)="this.onFilterClick('urgent')">
-        {{nbUrgentRuns()}}
+    <ion-icon *ngIf="nbUrgentRuns() || filters.urgent.isEnabled" class="filter filter__urgent {{filters.urgent.isEnabled?'filter__urgent--enabled':''}}"
+      (click)="this.onFilterClick('urgent')">
+      {{nbUrgentRuns()}}
     </ion-icon>
-    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon>
+    <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon>
   </ion-navbar>
   <div class="filters" padding>
     <div class="filter" style="display: inline-block;">
-        <button ion-button class="filter__item {{filters.mine.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('mine')">Mes runs</button>
+      <button ion-button class="filter__item {{filters.mine.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('mine')">
+        <ion-icon name="person"></ion-icon>
+      </button>
     </div>
 
     <div class="filter" style="display: inline-block;">
-        <button ion-button class="filter__item {{filters.hideCompleted.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideCompleted')">Terminés</button>
+      <button ion-button class="filter__item {{filters.today.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('today')">
+        <ion-icon name="timer"></ion-icon>
+      </button>
     </div>
 
     <div class="filter" style="display: inline-block;">
-        <button ion-button class="filter__item {{filters.hideNotReady.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideNotReady')">Prêts</button>
+      <button ion-button class="filter__item {{filters.hideNotReady.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideNotReady')">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
     </div>
+
+
+    <div class="filter" style="display: inline-block;">
+      <button ion-button class="filter__item {{filters.hideCompleted.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideCompleted')">
+        <ion-icon name="car"></ion-icon>
+      </button>
+    </div>
+
   </div>
 </ion-header>
 
@@ -48,12 +61,20 @@
         <ion-label class="run">
           <ion-grid>
             <ion-row>
-              <ion-col><h2 class="run__title">{{run.title}}</h2></ion-col>
-              <ion-col><p class="run__time">{{run.beginAt | date:'shortTime'}}</p></ion-col>
+              <ion-col>
+                <h2 class="run__title">{{run.title}}</h2>
+              </ion-col>
+              <ion-col>
+                <p class="run__time">{{run.beginAt | date:'shortTime'}}</p>
+              </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col><p class="run__waypoint">{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p></ion-col>
-              <ion-col><ion-icon name="person" class="run__mine" *ngIf="this.user.belongsToRun(run)"></ion-icon></ion-col>
+              <ion-col>
+                <p class="run__waypoint">{{run.waypoints.length > 0 ? run.waypoints[0].nickname : ''}}</p>
+              </ion-col>
+              <ion-col>
+                <ion-icon name="person" class="run__mine" *ngIf="this.user.belongsToRun(run)"></ion-icon>
+              </ion-col>
             </ion-row>
           </ion-grid>
         </ion-label>
