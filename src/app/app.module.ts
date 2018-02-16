@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core'
+import {NgModule, ErrorHandler, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core'
 import { IonicApp, IonicModule, IonicErrorHandler, Config } from 'ionic-angular'
 import { BrowserModule } from '@angular/platform-browser'
 import {
@@ -34,6 +34,8 @@ import { VehiclePage } from '../pages/vehicle/vehicle'
 import { SplashPage } from '../pages/splash/splash'
 import { SplashPageModule } from '../pages/splash/splash.module'
 import { RunnerPage } from '../pages/runner/runner'
+import { DriversPage } from '../pages/drivers/drivers'
+import { DriverPage } from '../pages/driver/driver'
 
 import { PipesModule } from '../pipes/pipes.module'
 import { GroupRunsPipe } from '../pipes/group-runs.pipe'
@@ -53,6 +55,7 @@ registerLocaleData(localeFr, 'fr')
 import { InternetStatusProvider } from '../providers/internet-status/internet-status'
 import { SettingsPage } from '../pages/settings/settings'
 import { HomePage } from '../pages/home/home'
+import { CalendarPageModule } from "../pages/calendar/calendar.module"
 import { CacheProvider } from '../providers/cache/cache'
 import { RefresherProvider } from '../providers/refresher/refresher'
 
@@ -70,12 +73,15 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     GroupRunsPipe,
     SettingsPage,
     HomePage,
+    DriversPage,
+    DriverPage,
   ],
   imports: [
     BrowserModule,
     SplashPageModule,
     HttpClientModule,
     PipesModule,
+    CalendarPageModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
@@ -92,6 +98,8 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     ProfilPage,
     SettingsPage,
     HomePage,
+    DriversPage,
+    DriverPage,
   ],
   providers: [
     StatusBar,
@@ -134,6 +142,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     CacheProvider,
     RefresherProvider,
   ],
+  schemas: [ NO_ERRORS_SCHEMA ]
 })
 export class AppModule {
   constructor(private config: Config, private authStorage: AuthStorage) {
