@@ -1,6 +1,7 @@
 import { api } from './runners.config'
 
 const API_KEY = 'API_URL'
+export const APP_VERSION = 'DEMO-RC-1.0.0'
 let api_cache = null
 
 export const getApi = () => {
