@@ -1,10 +1,11 @@
 import { Component } from '@angular/core'
-import { IonicPage, NavController, NavParams } from 'ionic-angular'
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular'
 import { CacheService } from 'ionic-cache'
 import { AuthService } from '../../services/auth.service'
 import { getApi, setApi, APP_VERSION } from '../../runners.getter'
 import { ToastController } from 'ionic-angular'
 import {CacheProvider} from "../../providers/cache/cache";
+import {RefresherProvider} from "../../providers/refresher/refresher";
 
 /**
  * Generated class for the SettingsPage page.
@@ -26,7 +27,9 @@ export class SettingsPage {
     public navParams: NavParams,
     private cacheService: CacheProvider,
     private authService: AuthService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private refresherProvider : RefresherProvider,
+    private loadingCtrl : LoadingController
   ) {}
 
   clearCache() {
@@ -50,4 +53,10 @@ export class SettingsPage {
   toggleCache(){
     this.cacheService.enableCache(!this.cacheService.isCacheEnabled);
   }
+  forceDataRefresh() {
+    const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
+    loader.present().then(()=> this.refresherProvider.refreshData().subscribe(null,null,()=>loader.dismissAll()))
+
+  }
+
 }
