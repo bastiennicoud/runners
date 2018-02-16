@@ -9,10 +9,13 @@ import {
 import { RunService, Run } from '../../services/run.service'
 import { AuthStorage } from '../../storages/auth.storage'
 import { RunnerPage } from '../runner/runner'
-import { Runner } from '../../models/runner' // FIXME: is this the proper way ? (maybe get Runner from RunnerPage or RunService)
 import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 import { User } from '../../models/user'
+import { Vehicle } from '../../services/vehicle.service'
+import { RunnerService, Runner } from '../../services/runner.service'
+import { Observable } from 'rxjs'
+import { ProfilPage } from '../profil/profil'
 
 /**
  * This class displays the details of a run when selected from the board
@@ -28,6 +31,8 @@ export class RunPage {
   run: Run
   RunStatusEnum = RunStatusEnum
   user: User
+  runner: Runner
+  availableVehicles: Vehicle[]
 
   constructor(
     private navCtrl: NavController,
@@ -36,7 +41,8 @@ export class RunPage {
     private loadingCtrl: LoadingController,
     private runService: RunService,
     private authStorage: AuthStorage,
-    private InternetStatus: InternetStatusProvider
+    private InternetStatus: InternetStatusProvider,
+    private runnerService: RunnerService
   ) {}
 
   ionViewWillEnter() {
@@ -66,6 +72,12 @@ export class RunPage {
       .get(this.navParams.get('id'))
       .do(run => (this.run = run))
       .do(r => console.log('LOADED RUN ', r))
+  }
+
+  alreadyInRun() {
+    return this.run.runners
+      .map(a => a.user.id === this.authStorage.user.id)
+      .indexOf(true) !== -1
   }
 
   /**
@@ -151,5 +163,97 @@ export class RunPage {
         ],
       })
       .present()
+  }
+
+  /**
+   * Load the data of the runner
+   *
+   * @returns {Observable<Runner>}
+   *
+   * @memberOf RunPage
+   */
+  loadRunner(): Observable<Runner> {
+    return this.runnerService
+      .get(this.navParams.get('id'))
+      .do(runner => (this.runner = runner))
+      .do(runner => console.log(runner))
+      .do(runner => !runner.vehicle && this.loadAvailableVehicles().subscribe())
+  }
+
+  /**
+   * Load the vehicles availables
+   *
+   * @returns {Observable<Vehicle[]>}
+   *
+   * @memberOf RunPage
+   */
+  loadAvailableVehicles(): Observable<Vehicle[]> {
+    return this.runnerService
+      .availableVehicles(this.runner)
+      .do(vehicles => (this.availableVehicles = vehicles))
+  }
+
+  /**
+   * Push to refresh the datas
+   *
+   * @param {any} refresher
+   *
+   * @memberOf RunPage
+   */
+  refreshRunner(refresher): void {
+    this.loadRunner().subscribe(
+      null,
+      err => err.status != 401 && refresher.cancel(),
+      () => refresher.complete()
+    )
+  }
+
+  /**
+   * Set the user for the convoy
+   *
+   *
+   * @memberOf RunPage
+   */
+  selectUser(runner): void {
+    const loader = this.loadingCtrl.create({ content: 'Traitement ...' })
+    loader.present()
+
+    this.runnerService
+      .setUser(runner, this.authStorage.user)
+      .subscribe(
+        r => (runner = r),
+        err => err.status != 401 && loader.dismiss(),
+        () => loader.dismiss()
+      )
+  }
+
+  /**
+   * Assign a vehicle to the convoy
+   *
+   * @param {Vehicle} vehicle
+   *
+   * @memberOf RunPage
+   */
+  selectVehicle(vehicle: Vehicle): void {
+    const loader = this.loadingCtrl.create({ content: 'Traitement ...' })
+    loader.present()
+
+    this.runnerService.setVehicle(this.runner, vehicle).subscribe(
+      // runner => (this.runner = runner),
+      runner => {},
+      err => err.status != 401 && loader.dismiss(),
+      () => loader.dismiss()
+    )
+  }
+
+  /**
+   * Display the profil page of the user
+   *
+   * @param {User} { id }
+   *
+   * @memberOf RunPage
+   */
+  showProfil({ id }: User): void {
+    this.navCtrl.push(ProfilPage, { id })
   }
 }

@@ -43,10 +43,10 @@
 
       <ion-card *ngSwitchCase="RunStatusEnum.inProgress">
         <ion-card-content>
-        <button ion-button full color="danger" icon-left (click)="stop()">
-          <ion-icon name="beer"></ion-icon>
-          Arrêter
-        </button>
+          <button ion-button full color="danger" icon-left (click)="stop()">
+            <ion-icon name="beer"></ion-icon>
+            Arrêter
+          </button>
         </ion-card-content>
       </ion-card>
 
@@ -63,21 +63,24 @@
           <ion-item>
             <ion-icon name="calendar" item-left></ion-icon>
             <h2>Planifié :</h2>
-            <p><strong>{{run.beginAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
+            <p>
+              <strong>{{run.beginAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
           </ion-item>
 
           <ion-item *ngIf="run.startAt">
             <ion-icon name="car" item-left></ion-icon>
             <span>
               <h2>Démarré :</h2>
-              <p><strong>{{run.startAt | date:'EEEE d MMM y'}}</strong> à {{run.startAt | date:'shortTime'}}</p>
+              <p>
+                <strong>{{run.startAt | date:'EEEE d MMM y'}}</strong> à {{run.startAt | date:'shortTime'}}</p>
             </span>
           </ion-item>
 
           <ion-item *ngIf="run.startAt && run.endAt">
             <ion-icon name="checkmark" item-left></ion-icon>
             <h2>Terminé :</h2>
-            <p><strong>{{run.endAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
+            <p>
+              <strong>{{run.endAt | date:'EEEE d MMM y'}}</strong> à {{run.beginAt | date:'shortTime'}}</p>
           </ion-item>
 
         </ion-list>
@@ -111,23 +114,33 @@
 
       <ion-card-content>
 
-        <ion-list no-lines>
+        <ion-list>
+          <div *ngFor="let runner of run.runners">
+            <ion-item *ngIf="runner.user" (click)="showProfil(runner.user)">
+              <ion-icon name="man" item-left></ion-icon>
+              <h2>{{runner.user.fullname}}</h2>
+            </ion-item>
 
-          <button ion-item *ngFor="let runner of run.runners" (click)="showRunner(runner, run)" [class.button--disabled]="!this.InternetStatus.getConnectionStatus()">
-            <ion-icon name="car" item-left></ion-icon>
-            <h2 *ngIf="runner.vehicle">{{runner.vehicle.name}}</h2>
-            <h2 *ngIf="!runner.vehicle && runner.vehicleCategory">{{runner.vehicleCategory.type}} ??</h2>
-            <h2 *ngIf="!runner.vehicle && !runner.vehicleCategory">??</h2>
-            <p *ngIf="runner.user">{{runner.user.fullname}}</p>
-            <p *ngIf="!runner.user">-</p>
-          </button>
+            <ion-item *ngIf="!alreadyInRun()">
+              <ion-icon name="man" item-left></ion-icon>
+              <button ion-button full (click)="selectUser(runner)">Je prends le run !</button>
+            </ion-item>
 
+            <ion-item *ngIf="runner.vehicle">
+              <ion-icon name="car" item-left></ion-icon>
+              <h2>{{runner.vehicle.name}}</h2>
+            </ion-item>
+
+            <ion-item *ngIf="!runner.vehicle">
+              <ion-icon name="car" item-left></ion-icon>
+              <h2>Sélectionne un véhicule</h2>
+              <ion-select class="select-vehicle" (ionChange)="selectVehicle($event)" [placeholder]="'Choisi une voiture'">
+                <ion-option *ngFor="let vehicle of availableVehicles" [value]="vehicle">{{vehicle.name}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </div>
         </ion-list>
-
       </ion-card-content>
-
     </ion-card>
-
   </div>
-
 </ion-content>
