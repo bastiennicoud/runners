@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { IonicPage, NavController, NavParams } from 'ionic-angular'
 import { CacheService } from 'ionic-cache'
 import { AuthService } from '../../services/auth.service'
-import { getApi, setApi } from '../../runners.getter'
+import { getApi, setApi, APP_VERSION } from '../../runners.getter'
 import { ToastController } from 'ionic-angular'
 
 /**
@@ -19,6 +19,7 @@ import { ToastController } from 'ionic-angular'
 })
 export class SettingsPage {
   protected apiValue = getApi()
+  protected appVersion = APP_VERSION
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -36,12 +37,13 @@ export class SettingsPage {
   }
   setApi() {
     setApi(this.apiValue)
-    this.toastCtrl.create({
-      message: "L'adresse api a été changée",
-      duration: 3000,
-      position: 'bottom',
-    }).present()
-    console.log(getApi());
-
+    this.toastCtrl
+      .create({
+        message: "L'adresse api a été changée",
+        duration: 3000,
+        position: 'bottom',
+      })
+      .present()
+    console.log(getApi())
   }
 }
