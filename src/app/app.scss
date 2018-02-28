@@ -14,7 +14,6 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-
 $warning: #fd8b2d;
 $error: #ff0000;
 $great: #69bb7b;
@@ -33,6 +32,11 @@ $runStatus: (
 );
 
 $vehicleStatus: (
+  free: $great,
+  taken: $error
+);
+
+$driverStatus: (
   free: $great,
   taken: $error
 );
