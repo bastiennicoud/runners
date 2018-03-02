@@ -8,6 +8,7 @@ import {
 import { UserService } from '../../services/user.service'
 import { User } from '../../models/user'
 import { AuthStorage } from '../../storages/auth.storage'
+import { DriverStatusEnum } from '../../enums/driver-status.enum'
 /**
  * Generated class for the DriverPage page.
  *
@@ -23,6 +24,7 @@ import { AuthStorage } from '../../storages/auth.storage'
 export class DriverPage {
   driver: User
   user: User
+  DriverStatusEnum = DriverStatusEnum
 
   constructor(
     public navCtrl: NavController,
