@@ -23,15 +23,18 @@
 
     <button ion-button full icon-start (click)="clearCache()"><ion-icon name="trash"></ion-icon> Clear cache</button>
   </ion-item>
-  <ion-item>
+  <ion-item class="no-divider">
     <ion-label color='primary'>API</ion-label>
-    <ion-input  [(ngModel)]="apiValue"></ion-input>
+    <ion-input [(ngModel)]="apiValue"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item style="border-top:0px">
     <button ion-button full icon-start (click)="setApi()"><ion-icon name="create"></ion-icon>Changer l'api</button>
   </ion-item>
     <ion-item>
-      <button ion-button full icon-start (click)="toggleCache()"><ion-icon name="cache"></ion-icon>{{ cacheService.isCacheEnabled ? "Disable":"Enable" }} cache</button>
+      <button ion-button full icon-start (click)="toggleCache()"><ion-icon name="{{ cacheService.isCacheEnabled ? 'square' : 'play'}}"></ion-icon>{{ cacheService.isCacheEnabled ? "Disable":"Enable" }} cache</button>
+    </ion-item>
+    <ion-item>
+      <button ion-button full icon-start (click)="forceDataRefresh()"><ion-icon name="sync"></ion-icon>Forcer le rafraîchissement des données</button>
     </ion-item>
   <ion-item>
     <ion-label color='primary'>Version : {{ appVersion }}</ion-label>
