@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 import {UserService} from "../../services/user.service";
 import {Observable} from "rxjs/Observable";
@@ -45,10 +45,12 @@ export class CalendarPage {
   }
   @ViewChild("sync-btn") syncBtn;
   @ViewChild('calendar') calendar;
-  constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, public navParams: NavParams, public InternetStatus : InternetStatusProvider, private userService : UserService, private calendarService: Calendar) {
+  constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, private alertCtrl : AlertController, public navParams: NavParams, public InternetStatus : InternetStatusProvider, private userService : UserService, private calendarService: Calendar) {
   }
 
   ionViewWillLoad() {
+    this.calendarService.listEventsInRange(new Date("01-02-2018"), new Date()).then(console.log).catch(console.log);
+
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadCalendar().subscribe(
@@ -106,21 +108,65 @@ export class CalendarPage {
     this.syncing = true;
     // TODO make aéé variables here as settable in settings
     const calendarName = "Mes Courses Paléo"
+    var calendarOptions : CalendarOptions = {
+      calendarName:calendarName,
+      firstReminderMinutes:10,
+
+    };
     this.calendarService.hasReadWritePermission()
       .then(has => has ? true : this.calendarService.requestReadWritePermission())
-      .then(()=>this.calendarService.deleteCalendar(calendarName))
-      .then(()=>this.calendarService.createCalendar(calendarName))
-      .then(()=>{
-        let calendarOptions : CalendarOptions = {
-          calendarName:calendarName,
-          firstReminderMinutes:10
-        };
-        let r1 = this.userService.myRuns().flatMap(Observable.of).subscribe(
-          (run:Run)=>this.calendarService.createEventWithOptions(run.title,run.waypoints[0].nickname, null, run.beginAt, run.finishAt, calendarOptions ),
-          (err)=>console.log(err),
+      .then(()=>this.calendarService.listCalendars())
+      .then(r => {
+        if(!r.length)
+        {
+          throw new Error("no calendars available")
+        }
+        calendarOptions.calendarId = r[0].id
+        console.log(this.calendarService.getCalendarOptions())
+        let r1 = this.userService.myRuns().do(r => console.log("syncing my runs",r)).concatMap(x => x).subscribe(
+          (run:Run)=>{
+            const w = (r) => r.waypoints.length ? r.waypoints[0].nickname : null
+            console.log("saving run to calendar ", run)
+            this.calendarService.deleteEvent(run.title, w(run), "Courses Paléo", run.beginAt, run.finishAt)
+            this.calendarService.createEventWithOptions(run.title, w(run), "Courses Paléo", run.beginAt, run.finishAt, calendarOptions )
+          },
+          (err)=>console.error(err),
           ()=> {
-            this.calendarService.openCalendar(new Date())
             this.syncing = false
+            this.calendarService.openCalendar(new Date())
+          }
+        )
+      })
+      .catch((error)=>this.alertCtrl.create({
+        title:" Error",
+        subTitle: error,
+        message: "We're sorry, we couldn't save your runs to your personnal calendar",
+      }).present())
+
+
+    return;
+    this.calendarService.hasReadWritePermission()
+      .then(has => has ? true : this.calendarService.requestReadWritePermission())
+      .then(()=>this.calendarService.deleteCalendar(calendarOptions.calendarName))
+      .then(()=>console.log("deleted calendar successfully"))
+      .then(()=>this.calendarService.createCalendar(calendarOptions))
+      .then(()=>console.log("created calendar successfully"))
+      .then(()=>{
+
+        let r1 = this.userService.myRuns().do(r => console.log("syncing my runs",r)).concatMap(x => x).subscribe(
+          (run:Run)=>{
+            const w = (r) => r.waypoints.length ? r.waypoints[0].nickname : null
+            console.log("saving run to calendar ", run)
+            this.calendarService.deleteEvent(run.title, w(run), "Courses Paléo", run.beginAt, run.finishAt)
+            .then(()=>console.log("deleted run in calendar"))
+            .then(()=>this.calendarService.createEventWithOptions(run.title, w(run), "Courses Paléo", run.beginAt, run.finishAt, calendarOptions ))
+            .then(function(){console.log("Saved event", arguments)})
+            .catch(err => console.log("Couldn't save event\n",err))
+          },
+          (err)=>console.error(err),
+          ()=> {
+            this.syncing = false
+            this.calendarService.openCalendar(new Date())
           }
         )
       })
