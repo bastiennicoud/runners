@@ -33,7 +33,7 @@ export class RefresherProvider {
     private cache: CacheProvider, private zone: NgZone
   ) {
     console.log('Hello RefresherProvider Provider')
-    this.polling = this.execute(this.refreshData, 5000);
+    this.polling = this.execute(()=> this.refreshData(), 10000);
   }
   private execute<T>(operation: () => Observable<T>, frequency: number = 1000): Observable<T> {
     const subject = new Subject();
