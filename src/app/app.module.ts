@@ -59,6 +59,7 @@ import { CalendarPageModule } from "../pages/calendar/calendar.module"
 import { CacheProvider } from '../providers/cache/cache'
 import { RefresherProvider } from '../providers/refresher/refresher'
 import {Calendar} from "@ionic-native/calendar";
+import { RelativeTimePipe } from '../pipes/relative-time/relative-time';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import {Calendar} from "@ionic-native/calendar";
     RunnerPage,
     ProfilPage,
     GroupRunsPipe,
+
     SettingsPage,
     HomePage,
     DriversPage,
@@ -150,7 +152,6 @@ export class AppModule {
   constructor(private config: Config, private authStorage: AuthStorage) {
     filters.mine.externalData = this.authStorage.user
     filters.hideCompleted.disable()
-    filters.hideNotReady.disable()
     filters.mine.disable()
     filters.urgent.disable()
   }

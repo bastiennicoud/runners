@@ -11,7 +11,7 @@ export interface FilterObject {
 }
 
 export const filters: FilterObject = {
-  hideNotReady: new Filter(a => a.ready, 'Not ready'),
+  organizing: new Filter(a => /organizing-?.+/.test(a.status), 'Not ready'),
   hideCompleted: new Filter(a => a.completed, 'Completed'),
   mine: new Filter(function(a) {
     const user = this.externalData
