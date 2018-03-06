@@ -17,29 +17,29 @@
 
 
 <ion-content padding>
-  <ion-list>
-
-  <ion-item>
-
-    <button ion-button full icon-start (click)="clearCache()"><ion-icon name="trash"></ion-icon> Clear cache</button>
-  </ion-item>
-  <ion-item class="no-divider">
-    <ion-label color='primary'>API</ion-label>
-    <ion-input [(ngModel)]="apiValue"></ion-input>
-  </ion-item>
-  <ion-item style="border-top:0px">
-    <button ion-button full icon-start (click)="setApi()"><ion-icon name="create"></ion-icon>Changer l'api</button>
-  </ion-item>
-    <ion-item>
-      <button ion-button full icon-start (click)="toggleCache()"><ion-icon name="{{ cacheService.isCacheEnabled ? 'square' : 'play'}}"></ion-icon>{{ cacheService.isCacheEnabled ? "Disable":"Enable" }} cache</button>
-    </ion-item>
-    <ion-item>
-      <button ion-button full icon-start (click)="forceDataRefresh()"><ion-icon name="sync"></ion-icon>Forcer le rafraîchissement des données</button>
-    </ion-item>
-  <ion-item>
-    <ion-label color='primary'>Version : {{ appVersion }}</ion-label>
-  </ion-item>
-
-
-  </ion-list>
+    <ion-list>
+        <ion-item>
+            <ion-label>Cache</ion-label>
+            <ion-toggle checked="{{ cacheService.isCacheEnabled }}" (click)="toggleCache()"></ion-toggle>
+            <button ion-button full icon-start (click)="toggleCache()"><ion-icon name="cache"></ion-icon>{{ cacheService.isCacheEnabled ? "Disable":"Enable" }} cache</button>
+        </ion-item>
+        <ion-item>
+            <ion-label>Clear cache</ion-label>
+            <ion-icon color="danger" (click)="clearCache()" name="trash" item-right></ion-icon>
+        </ion-item>
+        <ion-item>
+            <ion-label color='primary'>API</ion-label>
+            <ion-input  [(ngModel)]="apiValue"></ion-input>
+            <ion-icon (click)="setApi()" name="checkmark-circle-outline" item-right></ion-icon>
+        </ion-item>
+        <ion-item>
+            <ion-label>Refresh data</ion-label>
+            <ion-icon (click)="forceDataRefresh()" name="sync" item-right></ion-icon>
+        </ion-item>
+    </ion-list>
+    <ion-footer>
+        <ion-toolbar>
+            <ion-title>{{ appVersion }}</ion-title>
+        </ion-toolbar>
+    </ion-footer>
 </ion-content>
