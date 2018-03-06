@@ -31,7 +31,6 @@ export class RunPage {
   run: Run
   RunStatusEnum = RunStatusEnum
   user: User
-  runner: Runner
   availableVehicles: Vehicle[]
 
   constructor(
@@ -50,11 +49,13 @@ export class RunPage {
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
-      this.loadRun().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)),
-        err =>
-          err.status != 401 && loader.dismiss().catch(err => console.log(err)) //TODO temporary dismiss
-      )
+      this.loadRun()
+        .merge(this.loadAvailableVehicles())
+        .subscribe(
+          () => loader.dismiss().catch(err => console.log(err)),
+          err =>
+            err.status != 401 && loader.dismiss().catch(err => console.log(err)) //TODO temporary dismiss
+        )
     })
   }
 
@@ -75,9 +76,11 @@ export class RunPage {
   }
 
   alreadyInRun() {
-    return this.run.runners
-      .map(a => a.user.id === this.authStorage.user.id)
-      .indexOf(true) !== -1
+    return (
+      this.run.runners
+        .map(a => a.user && a.user.id === this.authStorage.user.id)
+        .indexOf(true) !== -1
+    )
   }
 
   /**
@@ -172,12 +175,11 @@ export class RunPage {
    *
    * @memberOf RunPage
    */
-  loadRunner(): Observable<Runner> {
+  loadRunner(id: Number | string): Observable<Runner> {
     return this.runnerService
-      .get(this.navParams.get('id'))
-      .do(runner => (this.runner = runner))
-      .do(runner => console.log(runner))
-      .do(runner => !runner.vehicle && this.loadAvailableVehicles().subscribe())
+      .get(String(id))
+      .do(runner => console.log('RUNNER', runner))
+      .do(runner => !runner.vehicle)
   }
 
   /**
@@ -189,23 +191,8 @@ export class RunPage {
    */
   loadAvailableVehicles(): Observable<Vehicle[]> {
     return this.runnerService
-      .availableVehicles(this.runner)
+      .availableVehicles({})
       .do(vehicles => (this.availableVehicles = vehicles))
-  }
-
-  /**
-   * Push to refresh the datas
-   *
-   * @param {any} refresher
-   *
-   * @memberOf RunPage
-   */
-  refreshRunner(refresher): void {
-    this.loadRunner().subscribe(
-      null,
-      err => err.status != 401 && refresher.cancel(),
-      () => refresher.complete()
-    )
   }
 
   /**
@@ -214,18 +201,7 @@ export class RunPage {
    *
    * @memberOf RunPage
    */
-  selectUser(runner): void {
-    const loader = this.loadingCtrl.create({ content: 'Traitement ...' })
-    loader.present()
-
-    this.runnerService
-      .setUser(runner, this.authStorage.user)
-      .subscribe(
-        r => (runner = r),
-        err => err.status != 401 && loader.dismiss(),
-        () => loader.dismiss()
-      )
-  }
+  selectUser(runner: Runner, select: any): void {}
 
   /**
    * Assign a vehicle to the convoy
@@ -234,13 +210,20 @@ export class RunPage {
    *
    * @memberOf RunPage
    */
-  selectVehicle(vehicle: Vehicle): void {
+  selectVehicle(vehicle: Vehicle,runner: Runner, setUser: Boolean): void {
     const loader = this.loadingCtrl.create({ content: 'Traitement ...' })
+    let observable = this.runnerService.setVehicle(runner, vehicle)
+    if (setUser) {
+      observable = this.runnerService
+        .setUser(runner, this.authStorage.user)
+        .concat(observable)
+    }
     loader.present()
-
-    this.runnerService.setVehicle(this.runner, vehicle).subscribe(
+    observable.subscribe(
       // runner => (this.runner = runner),
-      runner => {},
+      runner => {
+        console.log(runner)
+      },
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )

@@ -6,6 +6,13 @@ page-run {
     }
   }
 
+  .select-vehicle{
+    max-width: 100%;
+    .select-placeholder{
+      color: #387ef5;
+    }
+  }
+
   ion-list.waypoints {
 
     ion-item {

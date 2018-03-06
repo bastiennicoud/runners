@@ -121,20 +121,15 @@
               <h2>{{runner.user.fullname}}</h2>
             </ion-item>
 
-            <ion-item *ngIf="!alreadyInRun()">
-              <ion-icon name="man" item-left></ion-icon>
-              <button ion-button full (click)="selectUser(runner)">Je prends le run !</button>
-            </ion-item>
-
             <ion-item *ngIf="runner.vehicle">
               <ion-icon name="car" item-left></ion-icon>
               <h2>{{runner.vehicle.name}}</h2>
             </ion-item>
 
-            <ion-item *ngIf="!runner.vehicle">
+            <ion-item *ngIf="!runner.vehicle && availableVehicles ">
               <ion-icon name="car" item-left></ion-icon>
               <h2>Sélectionne un véhicule</h2>
-              <ion-select class="select-vehicle" (ionChange)="selectVehicle($event)" [placeholder]="'Choisi une voiture'">
+              <ion-select class="select-vehicle" (ionChange)="selectVehicle($event,runner,!alreadyInRun())" [placeholder]="alreadyInRun() ? 'Choisir la voiture' :'Je prends le run !'">
                 <ion-option *ngFor="let vehicle of availableVehicles" [value]="vehicle">{{vehicle.name}}</ion-option>
               </ion-select>
             </ion-item>
