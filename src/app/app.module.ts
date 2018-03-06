@@ -158,7 +158,6 @@ export class AppModule {
     )
     filters.mine.externalData = this.authStorage.user
     filters.hideCompleted.disable()
-    filters.hideNotReady.disable()
     filters.mine.disable()
     filters.urgent.disable()
   }
