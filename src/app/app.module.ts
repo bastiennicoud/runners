@@ -58,6 +58,7 @@ import { HomePage } from '../pages/home/home'
 import { CalendarPageModule } from "../pages/calendar/calendar.module"
 import { CacheProvider } from '../providers/cache/cache'
 import { RefresherProvider } from '../providers/refresher/refresher'
+import { RelativeTimePipe } from '../pipes/relative-time/relative-time';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
     RunnerPage,
     ProfilPage,
     GroupRunsPipe,
+
     SettingsPage,
     HomePage,
     DriversPage,

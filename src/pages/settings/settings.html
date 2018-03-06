@@ -32,6 +32,10 @@
             <ion-input  [(ngModel)]="apiValue"></ion-input>
             <ion-icon (click)="setApi()" name="checkmark-circle-outline" item-right></ion-icon>
         </ion-item>
+        <ion-item>
+            <ion-label>Refresh data</ion-label>
+            <ion-icon (click)="forceDataRefresh()" name="sync" item-right></ion-icon>
+        </ion-item>
     </ion-list>
     <ion-footer>
         <ion-toolbar>
