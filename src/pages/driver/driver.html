@@ -11,7 +11,8 @@
     <ion-list>
         <ion-item *ngIf="driver">
             <ion-thumbnail item-left>
-                <img [src]="driver.image_profile">
+                <img *ngIf="this.InternetStatus.getConnectionStatus()" [src]="driver.image_profile">
+                <img *ngIf="!this.InternetStatus.getConnectionStatus()" src="../../assets/user.jpg">
             </ion-thumbnail>
             <h2>{{ driver.firstname }} {{ driver.lastname }}</h2>
             <p>{{ driver.phoneNumber }}</p>
