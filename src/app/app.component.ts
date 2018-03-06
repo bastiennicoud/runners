@@ -29,7 +29,10 @@ export class MyApp {
         // Keep our cached results when device is offline!
         cache.setOfflineInvalidate(false)
       }),
+
     ])
+
+    refresher.polling.subscribe( null, (err)=>console.error("Error while refreshing data, ",err), () => console.log("Refreshed data"))
 
   }
 }
