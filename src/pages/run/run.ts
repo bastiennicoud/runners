@@ -14,6 +14,8 @@ import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 import { User } from '../../models/user'
 
+import debug from 'debug'
+
 /**
  * This class displays the details of a run when selected from the board
  *
@@ -45,9 +47,9 @@ export class RunPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadRun().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)),
+        () => loader.dismiss().catch(err => console.error(err)),
         err =>
-          err.status != 401 && loader.dismiss().catch(err => console.log(err)) //TODO temporary dismiss
+          err.status != 401 && loader.dismiss().catch(err => console.error(err)) //TODO temporary dismiss
       )
     })
   }
@@ -65,7 +67,7 @@ export class RunPage {
     return this.runService
       .get(this.navParams.get('id'))
       .do(run => (this.run = run))
-      .do(r => console.log('LOADED RUN ', r))
+      .do(r => debug('run')('Loaded %O ', r))
   }
 
   /**

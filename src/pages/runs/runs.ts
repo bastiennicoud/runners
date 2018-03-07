@@ -17,6 +17,8 @@ import { AuthStorage } from '../../storages/auth.storage'
 import * as moment from 'moment'
 import { prefixNumber as pN } from '../../utils/helper'
 
+import debug from 'debug'
+
 @Component({
   selector: 'page-runs',
   templateUrl: 'runs.html',
@@ -44,9 +46,9 @@ export class RunsPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadRuns().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)), //TODO temporary dismiss
+        () => loader.dismiss().catch(err => console.error(err)), //TODO temporary dismiss
         err =>
-          err.status != 401 && loader.dismiss().catch(err => console.log(err))
+          err.status != 401 && loader.dismiss().catch(err => console.error(err))
       )
     })
   }
@@ -80,7 +82,7 @@ export class RunsPage {
         )
       }, [])
     const runs = filterEngine.filterList(this.runs)
-    console.log(this.groupRuns(runs))
+    debug('runs')(this.groupRuns(runs))
     return flatten(this.groupRuns(runs).map(g => g.runs))
   }
 
@@ -124,7 +126,7 @@ export class RunsPage {
       null,
       err =>
         err.status != 401 && refresher.cancel()
-          ? refresher.cancel().catch(err => console.log(err))
+          ? refresher.cancel().catch(err => console.error(err))
           : true,
       () => refresher.complete()
     )
@@ -167,10 +169,10 @@ export class RunsPage {
     if (!record.beginAt || !previous.beginAt) return null
 
     const previousRecordDate = x(previous)
-    console.log(currentRecordDate)
-    console.log(previousRecordDate)
+    debug('runs')('current : %o',currentRecordDate)
+    debug('runs')('pervious : %o',previousRecordDate)
 
-    console.log(moment(currentRecordDate).isBefore(previousRecordDate))
+    debug('runs')('current is before ?',moment(currentRecordDate).isBefore(previousRecordDate))
     if (moment(currentRecordDate).isBefore(previousRecordDate))
       return format(record.beginAt) //.strftime("EEEE d MMMM y")
     return null

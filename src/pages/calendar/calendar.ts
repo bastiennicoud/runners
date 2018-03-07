@@ -7,6 +7,8 @@ import { filter, map, reduce,  } from 'rxjs/operators'
 import {RunPage} from "../run/run";
 import {Schedule} from "../../models/schedule";
 
+import debug from 'debug'
+
 /**
  * Generated class for the CalendarPage page.
  *
@@ -40,11 +42,11 @@ export class CalendarPage {
     loader.present().then(() => {
       this.loadCalendar().subscribe(
         null,
-        err => err.status != 401 && loader.dismiss().catch(err => console.log(err)),
+        err => err.status != 401 && loader.dismiss().catch(err => console.error(err)),
         ()=>{
-          loader.dismiss().catch(err => console.log(err))
+          loader.dismiss().catch(err => console.error(err))
 
-          console.log("FINISHED")
+          debug('calendar')('loaded')
         }
       )
     })
@@ -62,7 +64,7 @@ export class CalendarPage {
   }
 
   loadCalendar(){
-    console.log(this)
+    debug('calendar')(this)
     const mapRuns = (runs) => {
       return runs.map(run => ({
         title:run.title,

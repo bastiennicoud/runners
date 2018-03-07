@@ -43,9 +43,9 @@ export class DriverPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadDriver().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)),
+        () => loader.dismiss().catch(err => console.error(err)),
         err =>
-          err.status != 401 && loader.dismiss().catch(err => console.log(err)) //TODO temporary dismiss
+          err.status != 401 && loader.dismiss().catch(err => console.error(err)) //TODO temporary dismiss
       )
     })
   }
