@@ -2,9 +2,10 @@ import { Component } from '@angular/core'
 import { IonicPage, NavController, NavParams } from 'ionic-angular'
 import { CacheService } from 'ionic-cache'
 import { AuthService } from '../../services/auth.service'
-import { getApi, setApi, APP_VERSION } from '../../runners.getter'
+import {getApi, setApi, APP_VERSION, getRefreshTimeout, setRefreshTimeout} from '../../runners.getter'
 import { ToastController } from 'ionic-angular'
 import {CacheProvider} from "../../providers/cache/cache";
+import {RefresherProvider} from "../../providers/refresher/refresher";
 
 /**
  * Generated class for the SettingsPage page.
@@ -20,13 +21,15 @@ import {CacheProvider} from "../../providers/cache/cache";
 })
 export class SettingsPage {
   protected apiValue = getApi()
+  protected timeoutValue = getRefreshTimeout()
   protected appVersion = APP_VERSION
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private cacheService: CacheProvider,
     private authService: AuthService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private refresher: RefresherProvider
   ) {}
 
   clearCache() {
@@ -49,5 +52,9 @@ export class SettingsPage {
   }
   toggleCache(){
     this.cacheService.enableCache(!this.cacheService.isCacheEnabled);
+  }
+  setRefreshTime(val){
+    setRefreshTimeout(val)
+    this.refresher.autorefresh()
   }
 }

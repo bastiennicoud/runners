@@ -33,6 +33,18 @@
     <ion-item>
       <button ion-button full icon-start (click)="toggleCache()"><ion-icon name="cache"></ion-icon>{{ cacheService.isCacheEnabled ? "Disable":"Enable" }} cache</button>
     </ion-item>
+    <ion-item>
+        <ion-label color='primary'>Refresh time</ion-label>
+        <ion-select #timeout [(ngModel)]="timeoutValue" (ionChange)="setRefreshTime(timeout.value)">
+          <ion-option [value]="10*60*1000" [selected]="10*60*1000 == timeoutValue">10 min</ion-option>
+          <ion-option [value]="5*60*1000" [selected]="5*60*1000 == timeoutValue">5 min</ion-option>
+          <ion-option [value]="2*60*1000" [selected]="2*60*1000 == timeoutValue">2 min</ion-option>
+          <ion-option [value]="30*1000" [selected]="30*1000 == timeoutValue">30 sec</ion-option>
+          <ion-option [value]="5*1000" [selected]="5*1000 == timeoutValue">5 sec</ion-option>
+          <ion-option [value]="-1" [selected]="-1 == timeoutValue">Never</ion-option>
+        </ion-select>
+
+    </ion-item>
   <ion-item>
     <ion-label color='primary'>Version : {{ appVersion }}</ion-label>
   </ion-item>

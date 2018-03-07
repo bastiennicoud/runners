@@ -32,7 +32,7 @@ export class MyApp {
 
     ])
 
-    refresher.polling.subscribe( null, (err)=>console.error("Error while refreshing data, ",err), () => console.log("Refreshed data"))
+    refresher.autorefresh()
 
   }
 }

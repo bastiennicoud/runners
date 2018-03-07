@@ -8,6 +8,7 @@ import { CacheProvider } from '../cache/cache'
 import {Subscription} from "rxjs/Subscription";
 import {Observer} from "rxjs/Observer";
 import {Subject} from "rxjs/Subject";
+import {getRefreshTimeout} from "../../runners.getter";
 
 /*
   Generated class for the RefresherProvider provider.
@@ -18,7 +19,8 @@ import {Subject} from "rxjs/Subject";
 @Injectable()
 export class RefresherProvider {
 
-  public polling : Observable<any>;
+  public polling : Subscription = null;
+  protected timeout : any = null;
   private services = {
     runs: RunService,
     users: UserService,
@@ -32,9 +34,36 @@ export class RefresherProvider {
     private injector: Injector,
     private cache: CacheProvider, private zone: NgZone
   ) {
-    console.log('Hello RefresherProvider Provider')
-    this.polling = this.execute(()=> this.refreshData(), 10000);
+
   }
+  autorefresh(){
+
+    if(this.timeout != null){
+      clearTimeout(this.timeout)
+    }
+
+    this.timeout = setTimeout(()=>{
+      this.refreshData().subscribe(null,null,()=>this.autorefresh())
+    }, getRefreshTimeout())
+
+
+    // if(!this.polling == null){
+    //   this.polling.unsubscribe()
+    //   this.polling = null;
+    // }
+    // let time = getRefreshTimeout()
+    // if(time <= -1)
+    //   return
+    //
+    // console.log("refreshing data every ",time, " ms")
+    //
+    // const ref = () => this.refreshData()
+    // let obs = this.execute(ref, time)
+    // this.polling = obs.subscribe( null, (err)=>console.error("Error while refreshing data, ",err), () => console.log("Refreshed data"));
+    // return this.polling;
+  }
+
+
   private execute<T>(operation: () => Observable<T>, frequency: number = 1000): Observable<T> {
     const subject = new Subject();
     const source = Observable.create((observer: Observer<T>) => {
@@ -88,4 +117,5 @@ export class RefresherProvider {
 
     return caller
   }
+
 }
