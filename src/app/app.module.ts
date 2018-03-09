@@ -58,7 +58,6 @@ import { HomePage } from '../pages/home/home'
 import { CalendarPageModule } from "../pages/calendar/calendar.module"
 import { CacheProvider } from '../providers/cache/cache'
 import { RefresherProvider } from '../providers/refresher/refresher'
-import {Calendar} from "@ionic-native/calendar";
 import { RelativeTimePipe } from '../pipes/relative-time/relative-time';
 
 @NgModule({
@@ -106,7 +105,6 @@ import { RelativeTimePipe } from '../pipes/relative-time/relative-time';
   ],
   providers: [
     StatusBar,
-    Calendar,
     SplashScreen,
     BarcodeScanner,
     {
@@ -150,6 +148,14 @@ import { RelativeTimePipe } from '../pipes/relative-time/relative-time';
 })
 export class AppModule {
   constructor(private config: Config, private authStorage: AuthStorage) {
+    this.config.setTransition(
+      'modal-scale-up-leave',
+      ModalScaleUpLeaveTransition
+    )
+    this.config.setTransition(
+      'modal-scale-up-enter',
+      ModalScaleUpEnterTransition
+    )
     filters.mine.externalData = this.authStorage.user
     filters.hideCompleted.disable()
     filters.mine.disable()

@@ -80,6 +80,7 @@ export class RunsPage {
         )
       }, [])
     const runs = filterEngine.filterList(this.runs)
+    console.log(this.groupRuns(runs))
     return flatten(this.groupRuns(runs).map(g => g.runs))
   }
 
@@ -166,7 +167,10 @@ export class RunsPage {
     if (!record.beginAt || !previous.beginAt) return null
 
     const previousRecordDate = x(previous)
+    console.log(currentRecordDate)
+    console.log(previousRecordDate)
 
+    console.log(moment(currentRecordDate).isBefore(previousRecordDate))
     if (moment(currentRecordDate).isBefore(previousRecordDate))
       return format(record.beginAt) //.strftime("EEEE d MMMM y")
     return null
