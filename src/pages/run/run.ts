@@ -78,8 +78,8 @@ export class RunPage {
   alreadyInRun() {
     return (
       this.run.runners
-        .map(a => a.user && a.user.id === this.authStorage.user.id)
-        .indexOf(true) !== -1
+        .filter(a => a.user && a.user.id === this.authStorage.user.id)
+        .length >= 1
     )
   }
 
@@ -208,16 +208,17 @@ export class RunPage {
    *
    * @param {Vehicle} vehicle
    *
+   * @param runner
    * @memberOf RunPage
    */
-  selectVehicle(vehicle: Vehicle,runner: Runner, setUser: Boolean): void {
+  selectVehicle(vehicle: Vehicle, runner: Runner): void {
     const loader = this.loadingCtrl.create({ content: 'Traitement ...' })
     let observable = this.runnerService.setVehicle(runner, vehicle)
-    if (setUser) {
-      observable = this.runnerService
-        .setUser(runner, this.authStorage.user)
-        .concat(observable)
-    }
+
+    /*observable = this.runnerService
+      .setUser(runner, this.authStorage.user)
+      .concat(observable)*/
+
     loader.present()
     observable.subscribe(
       // runner => (this.runner = runner),
@@ -228,7 +229,16 @@ export class RunPage {
       () => loader.dismiss()
     )
   }
-
+  assignRunner(runner : Runner){
+    this.runnerService.setUser(runner, this.authStorage.user).subscribe(null,null,()=>this.refreshRun({cancel:function(){},complete:function(){}}));
+  }
+  belongsToRunner(runner:Runner) : Boolean{
+      return runner.user!= null && runner.user.id == this.authStorage.user.id
+  }
+  canUpdateRunner(runner){
+    console.log(this.availableVehicles && this.belongsToRunner(runner) && this.run.status != RunStatusEnum.completed)
+    return this.availableVehicles && this.belongsToRunner(runner) && this.run.status != RunStatusEnum.completed
+  }
   /**
    * Display the profil page of the user
    *

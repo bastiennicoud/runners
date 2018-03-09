@@ -115,24 +115,77 @@
       <ion-card-content>
 
         <ion-list>
-          <div *ngFor="let runner of run.runners">
-            <ion-item *ngIf="runner.user" (click)="showProfil(runner.user)">
-              <ion-icon name="man" item-left></ion-icon>
-              <h2>{{runner.user.fullname}}</h2>
+          <div class="runner" *ngFor="let runner of run.runners">
+            <ion-item>
+              <ion-grid item-content>
+                <!-- my runner -->
+                <ion-row *ngIf="belongsToRunner(runner)">
+                  <ion-col col-6>
+                    <div class="runner__user"  (click)="showProfil(runner.user)">
+                      <ion-icon name="man" item-left></ion-icon>
+                      <h2>{{runner.user.fullname}}</h2>
+                    </div>
+                  </ion-col>
+                  <ion-col col-6>
+                    <div class="runner__vehicle runner__vehicle--selectable">
+                      <ion-icon name="car" item-left></ion-icon>
+                      <h2 *ngIf="run.status == RunStatusEnum.completed">{{ runner.vehicle ? runner.vehicle.name : runner.vehicleCategory.type }}</h2>
+                      <!-- a driver can only update the car if the run has stopped -->
+                      <ion-select (ionChange)="selectVehicle($event,runner)" placeholder="Choisir véhicule">
+                        <ion-option *ngFor="let vehicle of availableVehicles" [selected]="runner.vehicle && runner.vehicle.id == vehicle.id" [value]="vehicle">{{vehicle.name}}</ion-option>
+                      </ion-select>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <!-- it isn't my run, and can i take it -->
+                <ion-row *ngIf="!belongsToRunner(runner) && !runner.user && !alreadyInRun() && run.status != RunStatusEnum.completed">
+                  <ion-col col-12>
+                    <div class="runner__user runner__user--selectable">
+                      <ion-icon name="man" item-left></ion-icon>
+                      <button ion-button full (click)="assignRunner(runner)">Je prends le run !</button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <!-- it isn't my run -->
+                <ion-row *ngIf="!belongsToRunner(runner)">
+                  <ion-col col-6>
+                    <div *ngIf="runner.user" class="runner__user"  (click)="showProfil(runner.user)">
+                      <ion-icon name="man" item-left></ion-icon>
+                      <h2>{{runner.user.fullname}}</h2>
+                    </div>
+                  </ion-col>
+                  <ion-col col-6>
+                    <div class="runner__vehicle">
+                      <ion-icon name="car" item-left></ion-icon>
+                      <h2>{{ runner.vehicle ? runner.vehicle.name : runner.vehicleCategory.type }}</h2>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <!--<ion-row>-->
+                  <!--<ion-col col-6>-->
+                    <!--<div class="runner__user"  (click)="showProfil(runner.user)">-->
+                      <!--<ion-icon name="man" item-left></ion-icon>-->
+                      <!--<h2>{{runner.user.fullname}}</h2>-->
+                    <!--</div>-->
+                  <!--</ion-col>-->
+                  <!--<ion-col col-6>-->
+
+                    <!--<div class="runner__vehicle runner__vehicle&#45;&#45;selectable" *ngIf="!runner.vehicle ">-->
+                      <!--<ion-icon name="car" item-left></ion-icon>-->
+                      <!--<h2 *ngIf="!canUpdateRunner(runner)">{{ runner.vehicleCategory.type }}</h2>-->
+                      <!--<ion-select *ngIf="canUpdateRunner(runner)" (ionChange)="selectVehicle($event,runner)" placeholder="Choisir la voiture">-->
+                        <!--<ion-option *ngFor="let vehicle of availableVehicles" [value]="vehicle">{{vehicle.name}}</ion-option>-->
+                      <!--</ion-select>-->
+                    <!--</div>-->
+                    <!--<div class="runner__vehicle" *ngIf="runner.vehicle">-->
+                      <!--<ion-icon name="car" item-left></ion-icon>-->
+                      <!--<h2>{{ runner.vehicle.name }}</h2>-->
+                    <!--</div>-->
+                  <!--</ion-col>-->
+                <!--</ion-row>-->
+                </ion-grid>
             </ion-item>
 
-            <ion-item *ngIf="runner.vehicle">
-              <ion-icon name="car" item-left></ion-icon>
-              <h2>{{runner.vehicle.name}}</h2>
-            </ion-item>
-
-            <ion-item *ngIf="!runner.vehicle && availableVehicles ">
-              <ion-icon name="car" item-left></ion-icon>
-              <h2>Sélectionne un véhicule</h2>
-              <ion-select class="select-vehicle" (ionChange)="selectVehicle($event,runner,!alreadyInRun())" [placeholder]="alreadyInRun() ? 'Choisir la voiture' :'Je prends le run !'">
-                <ion-option *ngFor="let vehicle of availableVehicles" [value]="vehicle">{{vehicle.name}}</ion-option>
-              </ion-select>
-            </ion-item>
           </div>
         </ion-list>
       </ion-card-content>
