@@ -1,20 +1,46 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Driver info</ion-title>
+    <ion-title *ngIf="driver">{{ driver.firstname }} {{ driver.lastname }}</ion-title>
     <!-- <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi"></ion-icon> -->
   </ion-navbar>
 
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item *ngIf="driver">
-            <ion-thumbnail item-left>
-                <img [src]="driver.image_profile">
-            </ion-thumbnail>
-            <h2>{{ driver.firstname }} {{ driver.lastname }}</h2>
-            <p>{{ driver.phoneNumber }}</p>
-        </ion-item>
-    </ion-list>
+    <div *ngIf="driver">
+        <ion-card class="status" [attr.status]="driver.status">
+          <ion-card-content>
+            <div [ngSwitch]="driver.status">
+              <span *ngSwitchCase="DriverStatusEnum.free">Libre</span>
+              <span *ngSwitchCase="DriverStatusEnum.taken">Occupé</span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>Informations</ion-card-header>
+          <ion-card-content>
+
+            <ion-list no-lines>
+                <ion-item>
+                    <ion-thumbnail item-left>
+                      <img [src]="driver.image_profile">
+                  </ion-thumbnail>
+
+                  <ion-item *ngIf="driver.phoneNumber">
+                    <ion-icon name="call" item-left></ion-icon>
+                    <p>{{ driver.phoneNumber }}</p>
+                  </ion-item>
+
+                  <ion-item *ngIf="driver.email">
+                      <ion-icon name="mail" item-left></ion-icon>
+                      <p>{{ driver.email }}</p>
+                  </ion-item>
+                </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+    </div>
+
 </ion-content>

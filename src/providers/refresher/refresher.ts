@@ -112,8 +112,14 @@ export class RefresherProvider {
     Object.keys(this.services)
       .filter(keyService => services.indexOf(keyService) !== -1)
       .map(key => this.injector.get(this.services[key]))
-      .filter(service => service.all !== undefined)
-      .map(service => (caller = caller.merge(service.all())))
+      .filter(service => service.all !== undefined || service.refresh !== undefined)
+      .map(service => {
+        if(service.refresh !== undefined)
+          caller = caller.merge(service.refresh())
+        else
+          caller = caller.merge(service.all())
+
+      })
 
     return caller
   }
