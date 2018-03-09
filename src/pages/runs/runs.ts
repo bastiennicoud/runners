@@ -82,7 +82,7 @@ export class RunsPage {
         )
       }, [])
     const runs = filterEngine.filterList(this.runs)
-    debug('runs')(this.groupRuns(runs))
+    
     return flatten(this.groupRuns(runs).map(g => g.runs))
   }
 
@@ -169,10 +169,6 @@ export class RunsPage {
     if (!record.beginAt || !previous.beginAt) return null
 
     const previousRecordDate = x(previous)
-    debug('runs')('current : %o',currentRecordDate)
-    debug('runs')('pervious : %o',previousRecordDate)
-
-    debug('runs')('current is before ?',moment(currentRecordDate).isBefore(previousRecordDate))
     if (moment(currentRecordDate).isBefore(previousRecordDate))
       return format(record.beginAt) //.strftime("EEEE d MMMM y")
     return null
