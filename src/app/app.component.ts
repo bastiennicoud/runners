@@ -26,12 +26,7 @@ export class MyApp {
         // Okay, so the platform is ready and our plugins are available.
         // Here you can do any higher level native things you might need.
         statusBar.hide()
-        this.authService.isAuthenticated
-          ? this.refresher
-            .hisFirstTime()
-            .then(x => this.rootPage = (SplashPage)) //user is authenticated, but hasn't launched the app yet
-            .catch(x => this.rootPage = (HomePage)) //user is authneticated and has already launched the app
-          : null
+        this.authService.isAuthenticated ? this.rootPage = HomePage : this.rootPage = LoginPage
       }),
       cache.ready().then(() => {
         // Set TTL to 12h
