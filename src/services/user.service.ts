@@ -46,7 +46,9 @@ export class UserService {
   me(): Observable<User> {
     // this.httpService.get<any>("https://httpbin.org/").subscribe()
 
-    return this.get('me')
+    return this.httpService
+      .get<any>('/me')
+      .map(data => data.map(user => User.build(user)))
   }
 
   myRuns() : Observable<Run[]>{
