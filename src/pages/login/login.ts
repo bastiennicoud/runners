@@ -35,15 +35,7 @@ export class LoginPage {
   ) {
     this.platform
       .ready()
-      .then(
-        () =>
-          this.authService.isAuthenticated
-            ? this.refresher
-                .hisFirstTime()
-                .then(x => this.navCtrl.setRoot(SplashPage))
-                .catch(x => this.navCtrl.setRoot(HomePage))
-            : null
-      )
+
       .then(() => this.splashScreen.hide())
   }
 
