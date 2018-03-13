@@ -103,7 +103,6 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-    this.pageName = this.navParams.get('title')
     this.cache.getRefreshChange().subscribe(d => (this.lastRefresh = d))
   }
   /**

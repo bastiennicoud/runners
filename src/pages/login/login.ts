@@ -107,7 +107,8 @@ export class LoginPage {
             showCloseButton: true,
           })
           .present()
-        this.navCtrl.setRoot(SplashPage)
+        this.refresher.hisFirstTime().then(()=>this.navCtrl.setRoot(HomePage)).catch(()=>this.navCtrl.setRoot(SplashPage))
+
       },
       err => {
         if (err.status == 401)
