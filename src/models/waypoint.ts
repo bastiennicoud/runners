@@ -1,10 +1,13 @@
+import { Model } from "./model";
+
 /**
  * A waypoint is a geographical point that drivers must go on during a run
  *
  * @export
  * @class Waypoint
+ * @extends {Model}
  */
-export class Waypoint {
+export class Waypoint extends Model {
 
   /**
    * The label of the geographical point

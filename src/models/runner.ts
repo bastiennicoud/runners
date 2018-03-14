@@ -1,14 +1,15 @@
 import { VehicleCategory } from './vehicle-category';
 import { Vehicle } from './vehicle';
 import { User } from './user';
-
+import {Model} from './model'
 /**
  * a Runner is a convoy, it belongs to a run
  *
  * @export
  * @class Runner
+ * @extends {Model}
  */
-export class Runner {
+export class Runner extends Model{
 
   /**
    * Uniq identifier of the runner

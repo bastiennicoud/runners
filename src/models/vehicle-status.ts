@@ -2,14 +2,16 @@ import { Vehicle } from './vehicle';
 import { User } from './user';
 
 import { VehicleStatusEnum } from '../enums/vehicle-status.enum';
+import { Model } from './model';
 
 /**
  * The status of a vehicle
  *
  * @export
  * @class VehicleStatus
+ * @extends {Model}
  */
-export class VehicleStatus {
+export class VehicleStatus extends Model {
 
   /**
    * The vehicle concerned by this status

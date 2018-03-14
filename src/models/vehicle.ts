@@ -2,12 +2,14 @@ import { VehicleCategory } from './vehicle-category'
 import { User } from './user'
 
 import { VehicleStatusEnum } from '../enums/vehicle-status.enum'
+import { Model } from './model';
 /**
  *
  * @export
  * @class Vehicle
+ * @extends {Model}
  */
-export class Vehicle {
+export class Vehicle extends Model {
   /**
    * Uniq identifier of the vehicle
    *

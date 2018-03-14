@@ -1,10 +1,13 @@
+import { Model } from "./model";
+
 /**
  * The category of a vehicle
  *
  * @export
  * @class VehicleCategory
+ * @extends {Model}
  */
-export class VehicleCategory {
+export class VehicleCategory extends Model {
 
   /**
    * Uniq identifier of the category

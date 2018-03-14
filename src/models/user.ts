@@ -1,12 +1,14 @@
 import { Run } from './run'
 import { DriverStatusEnum } from '../enums/driver-status.enum'
+import {Model} from './model'
 /**
  * User is the driver who do the run
  *
  * @export
  * @class User
+ * @extends {Model}
  */
-export class User {
+export class User extends Model{
   /**
    * Uniq identifier of the user
    *

@@ -1,10 +1,12 @@
+import {Model} from './model'
 /**
  * User is the driver who do the run
  *
  * @export
  * @class User
+ * @extends {Model}
  */
-export class Schedule {
+export class Schedule extends Model{
 
   /**
    * Uniq identifier of the user

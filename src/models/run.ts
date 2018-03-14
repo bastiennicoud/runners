@@ -1,5 +1,6 @@
 import { Waypoint } from './waypoint'
 import { Runner } from './runner'
+import { Model } from './model'
 
 import { RunStatusEnum } from '../enums/run-status.enum'
 
@@ -8,8 +9,9 @@ import { RunStatusEnum } from '../enums/run-status.enum'
  *
  * @export
  * @class Run
+ * @extends {Model}
  */
-export class Run {
+export class Run extends Model {
   /**
    * Unique identifier of the run
    *
