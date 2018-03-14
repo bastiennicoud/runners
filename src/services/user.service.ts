@@ -16,6 +16,9 @@ export { User };
  */
 @Injectable()
 export class UserService {
+  refresh(){
+    return this.all().merge(this.myRuns()).merge(this.myWorkingHours())
+  }
   constructor(private httpClient: HttpClient) {}
 
   /**

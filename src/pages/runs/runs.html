@@ -22,20 +22,20 @@
 
     <div class="filter" style="display: inline-block;">
       <button ion-button class="filter__item {{filters.today.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('today')">
-        <ion-icon name="timer"></ion-icon>
+        <ion-icon name="md-timer"></ion-icon>
       </button>
     </div>
 
     <div class="filter" style="display: inline-block;">
-      <button ion-button class="filter__item {{filters.hideNotReady.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideNotReady')">
-        <ion-icon name="checkmark"></ion-icon>
+      <button ion-button class="filter__item {{filters.organizing.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('organizing')">
+        <ion-icon name="md-car"></ion-icon>
       </button>
     </div>
 
 
     <div class="filter" style="display: inline-block;">
       <button ion-button class="filter__item {{filters.hideCompleted.isEnabled?'filter__item--enabled':''}}" (click)="onFilterClick('hideCompleted')">
-        <ion-icon name="car"></ion-icon>
+        <ion-icon name="md-done-all"></ion-icon>
       </button>
     </div>
 

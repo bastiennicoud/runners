@@ -8,6 +8,9 @@ import {
 import { UserService } from '../../services/user.service'
 import { User } from '../../models/user'
 import { AuthStorage } from '../../storages/auth.storage'
+import { DriverStatusEnum } from '../../enums/driver-status.enum'
+import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
+
 /**
  * Generated class for the DriverPage page.
  *
@@ -23,13 +26,15 @@ import { AuthStorage } from '../../storages/auth.storage'
 export class DriverPage {
   driver: User
   user: User
+  DriverStatusEnum = DriverStatusEnum
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private userService: UserService,
     private loadingCtrl: LoadingController,
-    private authStorage: AuthStorage
+    private authStorage: AuthStorage,
+    private InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewDidLoad() {
