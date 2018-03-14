@@ -9,7 +9,8 @@
     "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
-    "docs": "typedoc --tsconfig tsconfig-type-docs.json --hideGenerator --out build/docs/ src/"
+    "docs": "typedoc --tsconfig tsconfig-type-docs.json --hideGenerator --out build/docs/ src/",
+    "prettier": "prettier --single-quote --no-semi --trailing-comma es5 --tab-width 2 --write src/**/*.js --write src/**/**/*.js --write src/**/*.json --write src/**/**/*.json --write src/**/*.ts --write src/**/**/*.ts --write src/**/*.scss --write src/**/**/*.scss"
   },
   "config": {
     "ionic_copy": "./copy.config.js"
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.1.6",
+    "prettier": "^1.11.1",
     "typescript": "^2.3.2"
   },
   "cordovaPlugins": [
