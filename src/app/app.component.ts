@@ -7,6 +7,7 @@ import { RefresherProvider } from '../providers/refresher/refresher'
 import {SplashPage} from "../pages/splash/splash";
 import {HomePage} from "../pages/home/home";
 import {AuthService} from "../services/auth.service";
+import {RunsPage} from "../pages/runs/runs";
 
 @Component({
   templateUrl: 'app.html',

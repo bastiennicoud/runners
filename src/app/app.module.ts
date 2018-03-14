@@ -25,7 +25,6 @@ import { AuthStorage } from '../storages/auth.storage'
 
 import { MyApp } from './app.component'
 import { LoginPage } from '../pages/login/login'
-import { TabsPage } from '../pages/tabs/tabs'
 import { RunsPage } from '../pages/runs/runs'
 import { RunPage } from '../pages/run/run'
 import { ProfilPage } from '../pages/profil/profil'
@@ -33,7 +32,6 @@ import { VehiclesPage } from '../pages/vehicles/vehicles'
 import { VehiclePage } from '../pages/vehicle/vehicle'
 import { SplashPage } from '../pages/splash/splash'
 import { SplashPageModule } from '../pages/splash/splash.module'
-import { RunnerPage } from '../pages/runner/runner'
 import { DriversPage } from '../pages/drivers/drivers'
 import { DriverPage } from '../pages/driver/driver'
 
@@ -42,8 +40,6 @@ import { GroupRunsPipe } from '../pipes/group-runs.pipe'
 import { ApiTokenInterceptor } from '../services/interceptors/ApiTokenInterceptor'
 import { AuthFailedInterceptor } from '../services/interceptors/AuthFailedInterceptor'
 import { CachingInterceptor } from '../services/interceptors/CachingInterceptor'
-import { ModalScaleUpLeaveTransition } from '../pages/transitions/scale-up-leave.transition'
-import { ModalScaleUpEnterTransition } from '../pages/transitions/scale-up-enter.transition'
 
 import { filterEngine, filters } from '../utils/filterengine/filterEngine'
 
@@ -63,12 +59,12 @@ import { RefresherProvider } from '../providers/refresher/refresher'
   declarations: [
     MyApp,
     LoginPage,
-    TabsPage,
+
     RunsPage,
     RunPage,
     VehiclesPage,
     VehiclePage,
-    RunnerPage,
+
     ProfilPage,
     GroupRunsPipe,
     SettingsPage,
@@ -89,12 +85,11 @@ import { RefresherProvider } from '../providers/refresher/refresher'
   entryComponents: [
     MyApp,
     LoginPage,
-    TabsPage,
     RunsPage,
     RunPage,
     VehiclesPage,
     VehiclePage,
-    RunnerPage,
+
     ProfilPage,
     SettingsPage,
     HomePage,
@@ -146,14 +141,6 @@ import { RefresherProvider } from '../providers/refresher/refresher'
 })
 export class AppModule {
   constructor(private config: Config, private authStorage: AuthStorage) {
-    this.config.setTransition(
-      'modal-scale-up-leave',
-      ModalScaleUpLeaveTransition
-    )
-    this.config.setTransition(
-      'modal-scale-up-enter',
-      ModalScaleUpEnterTransition
-    )
     filters.mine.externalData = this.authStorage.user
     filters.hideCompleted.disable()
     filters.hideNotReady.disable()
