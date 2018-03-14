@@ -26,9 +26,7 @@ export class RefresherProvider {
     public http: HttpClient,
     private injector: Injector,
     private cache: CacheProvider
-  ) {
-    console.log('Hello RefresherProvider Provider')
-  }
+  ) { }
 
   hisFirstTime(): Promise<any> {
     return this.cache.getItem(this.CACHE_KEY)

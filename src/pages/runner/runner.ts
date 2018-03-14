@@ -11,6 +11,8 @@ import { InternetStatusProvider } from '../../providers/internet-status/internet
 import { Vehicle } from '../../models/vehicle'
 import { Run } from '../../models/run'
 
+import debug from 'debug'
+
 /**
  * This class displays the convoy selected
  *
@@ -49,7 +51,7 @@ export class RunnerPage {
     this.loadRunner().subscribe(
       null,
       err =>
-        err.status != 401 && loader.dismiss().catch(err => console.log(err)),
+        err.status != 401 && loader.dismiss().catch(err => console.error(err)),
       () => loader.dismiss()
     )
   }
@@ -67,7 +69,7 @@ export class RunnerPage {
     return this.runnerService
       .get(this.navParams.get('id'))
       .do(runner => (this.runner = runner))
-      .do(runner => console.log(runner))
+      .do(runner => debug('runner')('loaded : %O',runner))
       .do(runner => !runner.vehicle && this.loadAvailableVehicles().subscribe())
   }
 
@@ -132,7 +134,7 @@ export class RunnerPage {
     this.runnerService.setVehicle(this.runner, vehicle).subscribe(
       // runner => (this.runner = runner),
       runner => {
-        console.log('IHASJDHBASDJBASNF')
+        debug('runner')('vehicle set')
       },
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()

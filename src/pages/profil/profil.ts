@@ -7,6 +7,8 @@ import { CallNumber } from 'ionic-native'
 import { UserService, User } from '../../services/user.service'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 
+import debug from 'debug'
+
 /**
  * This class displays the profil of a user
  *
@@ -34,7 +36,7 @@ export class ProfilPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present()
     this.loadUser().subscribe(
-      user => console.log(user),
+      user => debug('profil')(user),
       err => err.status != 401 && loader.dismiss(),
       () => loader.dismiss()
     )
@@ -64,7 +66,7 @@ export class ProfilPage {
    */
   callUser() {
     CallNumber.callNumber(this.user.phoneNumber, false)
-      .then(() => console.log('Launched dialer!'))
-      .catch(() => console.log('Error launching dialer / not available'))
+      .then(() => debug('profil')('Launched dialer!'))
+      .catch(() => console.error('Error launching dialer / not available'))
   }
 }
