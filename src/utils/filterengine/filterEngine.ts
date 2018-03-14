@@ -4,7 +4,6 @@ import Filter from './filter'
 import { RunStatusEnum } from '../../enums/run-status.enum'
 
 import moment from 'moment'
-import { filter } from 'ionic-native/node_modules/rxjs/operator/filter'
 
 export interface FilterObject {
   [key: string]: Filter
