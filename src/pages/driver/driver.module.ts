@@ -4,7 +4,7 @@ import { DriverPage } from './driver';
 
 @NgModule({
   declarations: [
-    DriverPage,
+    // DriverPage,
   ],
   imports: [
     IonicPageModule.forChild(DriverPage),
