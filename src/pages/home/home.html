@@ -19,8 +19,8 @@
           <ion-icon name="{{ p.icon }}"></ion-icon>
           <span>{{ p.menu }}</span>
         </button>
-        <button ion-item class="button--bottom button--not">
-            {{ lastRefresh | date:' d MMMM y hh:mm' }}
+        <button ion-item class="button--bottom button--not small-text">
+            Dernière mise à jour <br /> {{ lastRefresh | relativeTime }}
         </button>
     </ion-list>
   </ion-content>
