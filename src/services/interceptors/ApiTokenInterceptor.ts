@@ -21,7 +21,7 @@ export class ApiTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let authReq = req.clone({
-      headers: req.headers.set('x-access-token', this.authStorage.key),
+      headers: req.headers.set('X-Access-Token', this.authStorage.key),
     })
     let u = req.url.startsWith('http') ? req.url : getApi() + req.url
     let r = authReq.clone({ url: u })

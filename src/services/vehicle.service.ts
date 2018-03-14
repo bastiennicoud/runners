@@ -35,6 +35,10 @@ export class VehicleService {
       .get<any[]>(`/vehicles`)
       .map(data => data.map(d => VehicleStatus.build(d)))
   }
+  getComments(id:string) : Observable<Comment[]>{
+    return this.httpClient.get<any[]>(`/vehicles/${id}/comments`)
+      .map(d => d.map(r => Comment.build(r)))
+  }
   addComment(id: string, data:string ): Observable<Comment> {
     return this.httpClient
       .post(`/vehicles/${id}/comments`,{

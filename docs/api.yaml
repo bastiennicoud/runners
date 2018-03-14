@@ -18,35 +18,14 @@ securityDefinitions:
  AccessToken:
   description: |
    For accessing the API a valid Access token must be passed in all the queries in
-   the 'Authorization' header.
-   The following syntax must be used in the 'Authorization' header :
-       xxxxxx.yyyyyyy.zzzzzz
+   the 'X-Access-Token' header.
+   The following syntax must be used in the 'X-Access-Token' header :
+       X-Access-Token: xxxxxx.yyyyyyy.zzzzzz
   type: apiKey
   name: X-ACCESS-TOKEN
   in: header
 paths:
   /users:
-    post:
-      summary: Create a new user
-      tags:
-        - Users
-      security:
-        - AccessToken: []
-      parameters:
-        - name: user
-          required: true
-          in: body
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/User'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     get:
       summary: User Types
       description:
@@ -67,33 +46,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /users/{id}:
-    patch:
-      summary: Update a user
-      tags:
-        - Users
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          in: path
-          description: Unique identifier of the user
-          required: true
-          type: number
-        - name: run
-          required: true
-          in: body
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        200:
-          description: The newly created user
-          schema:
-            $ref: '#/definitions/User'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
     get:
       summary: Get a user
       tags:
@@ -188,53 +140,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /runs/search:
-      get:
-        summary: Returns an array of runs depending on search
-        parameters:
-          - name: q
-            required: true
-            allowEmptyValue: false
-            type: string
-            in: query
-        tags:
-          - Waypoints
-        security:
-          - AccessToken: []
-        responses:
-          200:
-            description: An array of runs
-            schema:
-              type: array
-              items:
-                $ref: '#/definitions/Run'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
   /runs:
-    post:
-      summary: Create a new run
-      description: Create new run. This run won't be published
-      tags:
-        - Runs
-      security:
-        - AccessToken: []
-      parameters:
-        - name: run
-          required: true
-          in: body
-          schema:
-            $ref: '#/definitions/Run'
-      responses:
-        200:
-          description: The newly created run
-          schema:
-            $ref: '#/definitions/Run'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     get:
       summary: All the runs
       description:
@@ -286,32 +192,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /runs/{id}:
-    patch:
-      summary: Update a run
-      tags:
-        - Runs
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          in: path
-          description: Unique identifier of the runner
-          required: true
-          type: number
-        - name: run
-          required: true
-          in: body
-          schema:
-            $ref: '#/definitions/Run'
-      responses:
-        200:
-          description: The newly created run
-          schema:
-            $ref: '#/definitions/Run'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     get:
       summary: Run Types
       description:
@@ -359,7 +239,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /runs/{id}/start:
     post:
       summary: Start the run
@@ -422,11 +301,18 @@ paths:
           description: Unique identifier of the runner
           required: true
           type: number
-        - name: runners
+        - name: user
+          description: The user to attach to a runner. If the user == null, then the user is detached from a runner
           in: body
-          required: true
+          required: false
           schema:
-            $ref: "#/definitions/Runners"
+            $ref: "#/definitions/User"
+        - name: car
+          description: The car to attach to a runner. If the car == null, then the user is detached from a runner
+          in: body
+          required: false
+          schema:
+            $ref: "#/definitions/Car"
       tags:
         - Runs
       security:
@@ -438,41 +324,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Run'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /runners/{id}/vehicles:
-    get:
-      summary: Vehicles for a runner
-      description:
-        List all vehicles link or not to a runner (look parameters)
-      parameters:
-        - name: id
-          in: path
-          description: Unique identifier of the runner
-          required: true
-          type: number
-
-        - name: status
-          in: query
-          description: "Allows you to filter vehicles"
-          required: true
-          type: string
-          enum:
-           - free
-           - taken
-      tags:
-        - Runs
-      security:
-        - AccessToken: []
-      responses:
-        200:
-          description: An array of vehicles
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Vehicle'
         default:
           description: Unexpected error
           schema:
@@ -519,54 +370,29 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
-  /vehicles/{id}:
-    delete:
-      summary: Delete a car
-      tags:
-        - Vehicles
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Vehicle'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     patch:
-      summary: Update a car
+      summary: Update a comment for a car
       tags:
         - Vehicles
-      security:
-        - AccessToken: []
       parameters:
         - name: id
           required: true
           in: path
           type: number
-        - name: car
+        - name: content
           required: true
           in: body
-          schema:
-            $ref: '#/definitions/Vehicle'
-
+          type: string
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Vehicle'
+            $ref: '#/definitions/Comment'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /vehicles/{id}:
     get:
       summary: Retrieve a specific car
       tags:
@@ -587,30 +413,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /vehicles/search:
-      get:
-        summary: Returns an array of cars depending on search
-        parameters:
-          - name: q
-            required: true
-            allowEmptyValue: false
-            type: string
-            in: query
-        tags:
-          - Waypoints
-        security:
-          - AccessToken: []
-        responses:
-          200:
-            description: An array of cars
-            schema:
-              type: array
-              items:
-                $ref: '#/definitions/Vehicle'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
   /vehicles:
     post:
       summary: Create a new car
@@ -635,7 +437,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     get:
-      summary: Vehicles Types
+      summary: Get all the car
       description:
         List all vehicles
       parameters:
@@ -653,6 +455,11 @@ paths:
           in: query
           description: "Add user object if the vehicle is taken : /vehicles?include=user"
           type: string
+        - name: between
+          in: query
+          type: array
+            items:
+
       tags:
         - Vehicles
       security:
@@ -668,7 +475,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
   /status/{model}:
     get:
       summary: Status for a given model
@@ -721,8 +527,8 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /groups/{id}:
-    delete:
-      summary: Delete a group
+    get:
+      summary: Get a group
       tags:
         - Groups
       security:
@@ -734,32 +540,7 @@ paths:
           type: number
       responses:
         200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Group'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    patch:
-      summary: Update a group
-      tags:
-        - Groups
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-        - name: group
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Group'
-      responses:
-        200:
-          description: The newly created group
+          description: The group
           schema:
             $ref: '#/definitions/Group'
         default:
@@ -767,27 +548,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /groups:
-    post:
-      summary: Create a new group
-      tags:
-        - Groups
-      security:
-        - AccessToken: []
-      parameters:
-        - name: group
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Group'
-      responses:
-        200:
-          description: The newly created group
-          schema:
-            $ref: '#/definitions/Group'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     get:
       summary: Return all the groups
       description: Return all the groups
@@ -806,124 +566,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /groups/{id}/:
-    patch:
-      summary: Update a group
-      description: Update a group data, and it's associated user
-      parameters:
-        - name: id
-          in: path
-          description: Unique identifier of the run
-          required: true
-          type: number
-        - name: group
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Group'
-      tags:
-        - Groups
-      security:
-        - AccessToken: []
-      responses:
-        200:
-          description: The modified group
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Group'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /schedules/{id}:
-    get:
-      summary: Get a schedule
-      tags:
-        - Schedule
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Schedule'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    delete:
-      summary: Destroy a schedule
-      tags:
-        - Schedule
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Schedule'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    patch:
-      summary: Create a new schedule
-      tags:
-        - Schedule
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-        - name: schedule
-          required: true
-          in: body
-          schema:
-            $ref: '#/definitions/Schedule'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Schedule'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /schedules:
-    post:
-      summary: Create a new schedule
-      tags:
-        - Schedule
-      security:
-        - AccessToken: []
-      parameters:
-        - name: schedule
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Schedule'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Schedule'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     get:
       summary: Returns all the schdules
       description: Allows you to get the schedule of everybody
@@ -973,27 +616,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /waypoints:
-    post:
-      summary: Create a new waypoint
-      tags:
-        - Waypoints
-      security:
-        - AccessToken: []
-      parameters:
-        - name: waypoint
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Waypoint'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     get:
       summary: Returns all the waypoints
       tags:
@@ -1032,55 +654,9 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
-    delete:
-      summary: Destroy a waypoint
-      tags:
-        - Schedule
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    patch:
-      summary: Create a new waypoint
-      tags:
-        - Schedule
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-        - name: waypoint
-          required: true
-          in: body
-          schema:
-            $ref: '#/definitions/Waypoint'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /settings:
     post:
-      summary: Create a new waypoint
+      summary: Create a new setting
       tags:
         - Settings
       security:
@@ -1095,13 +671,13 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Waypoint'
+            $ref: '#/definitions/Setting'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
     get:
-      summary: Returns all the waypoints
+      summary: Returns all the settings
       tags:
         - Settings
       security:
@@ -1138,58 +714,16 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-    delete:
-      summary: Destroy a setting
-      tags:
-        - Settings
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Setting'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    patch:
-      summary: Create a new setting
-      tags:
-        - Settings
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-        - name: waypoint
-          required: true
-          in: body
-          schema:
-            $ref: '#/definitions/Setting'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+
 definitions:
+
   Status:
     type: array
     minItems: 2
     maxItems: 2
     items:
       type: string
+
   Schedule:
     type: object
     properties:
@@ -1216,6 +750,7 @@ definitions:
         description: end of schedule (date time)
         type: string
         format: date-time
+
   Group:
     type: object
     properties:
@@ -1228,6 +763,7 @@ definitions:
       name:
         description: Name of the group
         type: string
+
   Setting:
     type: object
     properties:
@@ -1237,6 +773,7 @@ definitions:
       value:
         description: Value of the setting
         type: string
+
   Waypoint:
     type: object
     properties:
@@ -1271,8 +808,9 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Comment'
-      # user:
-      #   $ref: '#/definitions/User'
+      user:
+        description: The user who is driving the car now.
+        $ref: '#/definitions/User'
   Comment:
     type: object
     properties:
@@ -1286,6 +824,7 @@ definitions:
         description: Date when the comment was created
         type: string
       user:
+        description: User who published the comment
         $ref: '#/definitions/User'
   User:
     type: object
