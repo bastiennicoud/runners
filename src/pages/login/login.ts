@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http'
 import { HomePage } from '../home/home'
 import { SplashPage } from '../splash/splash'
 import { RefresherProvider } from '../../providers/refresher/refresher'
+import {RunsPage} from "../runs/runs";
 
 /**
  * This class displays the login page
@@ -107,10 +108,14 @@ export class LoginPage {
             showCloseButton: true,
           })
           .present()
-        this.refresher.hisFirstTime().then(()=>this.navCtrl.setRoot(HomePage)).catch(()=>this.navCtrl.setRoot(SplashPage))
+
+        this.refresher.hisFirstTime()
+          .then(()=>{this.navCtrl.setRoot(HomePage)})
+          .catch(()=>this.navCtrl.setRoot(SplashPage))
 
       },
       err => {
+        console.log(err)
         if (err.status == 401)
           this.toastCtrl
             .create({

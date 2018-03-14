@@ -8,7 +8,7 @@ import {
 
 import { RunService, Run } from '../../services/run.service'
 import { AuthStorage } from '../../storages/auth.storage'
-import { RunnerPage } from '../runner/runner'
+
 import { RunStatusEnum } from '../../enums/run-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 import { User } from '../../models/user'
@@ -96,18 +96,6 @@ export class RunPage {
       err => err.status != 401 && refresher.cancel(),
       () => refresher.complete()
     )
-  }
-
-  /**
-   * Show the view for the convoy selected
-   *
-   * @param {Runner} { id }
-   *
-   * @memberOf RunPage
-   */
-  showRunner({ id, user }: Runner, { title }: Run) {
-    if (this.InternetStatus.getConnectionStatus())
-      this.navCtrl.push(RunnerPage, { id, title })
   }
 
   /**

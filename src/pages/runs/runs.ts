@@ -37,8 +37,11 @@ export class RunsPage {
     private modalCtrl: ModalController,
     private authStorage: AuthStorage
   ) {}
+  ionViewDidLoad(){
 
+  }
   ionViewWillEnter() {
+
     this.user = this.authStorage.user
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
