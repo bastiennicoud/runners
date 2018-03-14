@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service'
 import { User } from '../../models/user'
 import { DriverPage } from '../driver/driver'
 import { AuthStorage } from '../../storages/auth.storage'
+import { DriverStatusEnum } from '../../enums/driver-status.enum'
 
 /**
  * Generated class for the DriversPage page.
@@ -25,6 +26,7 @@ import { AuthStorage } from '../../storages/auth.storage'
 export class DriversPage {
   drivers: User[] = []
   user: User
+  DriverStatusEnum = DriverStatusEnum
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -38,9 +40,9 @@ export class DriversPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadDrivers().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)),
+        () => loader.dismiss().catch(err => console.error(err)),
         err =>
-          err.status != 401 && loader.dismiss().catch(err => console.log(err))
+          err.status != 401 && loader.dismiss().catch(err => console.error(err))
       )
     })
   }
@@ -65,7 +67,7 @@ export class DriversPage {
       null,
       err =>
         err.status != 401 && refresher.cancel()
-          ? refresher.cancel().catch(err => console.log(err))
+          ? refresher.cancel().catch(err => console.error(err))
           : true,
       () => refresher.complete()
     )

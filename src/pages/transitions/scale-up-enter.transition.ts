@@ -1,9 +1,11 @@
 import { Animation, PageTransition } from 'ionic-angular';
 
+import debug from 'debug'
+
 export class ModalScaleUpEnterTransition extends PageTransition {
 
   public init() {
-    console.log(this.enteringView.data)
+    debug('transition')('entering data : %O',this.enteringView.data)
     const ele = this.enteringView.pageRef().nativeElement;
     var x = this.enteringView;
     const wrapper = new Animation(this.plt, ele.querySelector('.modal-wrapper'));
@@ -11,8 +13,7 @@ export class ModalScaleUpEnterTransition extends PageTransition {
     wrapper.beforeStyles({ 'transform': 'scale(0)', 'opacity': 1 });
     wrapper.fromTo('transform', 'scale(0)', 'scale(1.0)');
     wrapper.fromTo('opacity', 1, 1);
-    console.log(ele.offsetY + " " +ele.offsetX)
-    console.log()
+    debug('transition')('offset y:%d x:%d',ele.offsetY,ele.offsetX)
     function swipedetect(el, callback){
       // if(el == null)return;
       var touchsurface = el,

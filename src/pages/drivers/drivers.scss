@@ -1,3 +1,8 @@
 page-drivers {
-
+  @each $status, $value in map-remove($driverStatus) {
+    ion-item[status='#{$status}'] ion-label {
+      border-left: 4px solid $value;
+      padding-left: 10px;
+    }
+  }
 }

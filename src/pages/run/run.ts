@@ -17,6 +17,8 @@ import { RunnerService, Runner } from '../../services/runner.service'
 import { Observable } from 'rxjs'
 import { ProfilPage } from '../profil/profil'
 
+import debug from 'debug'
+
 /**
  * This class displays the details of a run when selected from the board
  *
@@ -72,7 +74,7 @@ export class RunPage {
     return this.runService
       .get(this.navParams.get('id'))
       .do(run => (this.run = run))
-      .do(r => console.log('LOADED RUN ', r))
+      .do(r => debug('run')('Loaded %O ', r))
   }
 
   alreadyInRun() {
