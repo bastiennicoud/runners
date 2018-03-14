@@ -32,10 +32,10 @@ export class RefresherProvider {
   constructor(
     public http: HttpClient,
     private injector: Injector,
-    private cache: CacheProvider, private zone: NgZone
-  ) {
-
-  }
+    private cache: CacheProvider,
+    private zone: NgZone
+  ) { }
+  
   autorefresh(){
 
     if(this.timeout != null){
@@ -45,22 +45,6 @@ export class RefresherProvider {
     this.timeout = setTimeout(()=>{
       this.refreshData().subscribe(null,null,()=>this.autorefresh())
     }, getRefreshTimeout())
-
-
-    // if(!this.polling == null){
-    //   this.polling.unsubscribe()
-    //   this.polling = null;
-    // }
-    // let time = getRefreshTimeout()
-    // if(time <= -1)
-    //   return
-    //
-    // console.log("refreshing data every ",time, " ms")
-    //
-    // const ref = () => this.refreshData()
-    // let obs = this.execute(ref, time)
-    // this.polling = obs.subscribe( null, (err)=>console.error("Error while refreshing data, ",err), () => console.log("Refreshed data"));
-    // return this.polling;
   }
 
 
