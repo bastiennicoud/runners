@@ -82,7 +82,6 @@ export class RunsPage {
         )
       }, [])
     const runs = filterEngine.filterList(this.runs)
-    
     return flatten(this.groupRuns(runs).map(g => g.runs))
   }
 
