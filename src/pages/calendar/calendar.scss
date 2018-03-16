@@ -8,4 +8,19 @@ page-calendar {
     margin-bottom: auto;
     line-height: 1.5;
   }
+  .calendar-title-fix{
+    display: inline-flex;
+  }
+  .fc-view-container, .fc-toolbar{
+    padding: 10px;
+  }
+  .sidemenu-toggle{
+    font-size: 16px;
+    padding-top: 6px;
+    //border-radius: 15px;
+    // background-color: $error;
+    margin-right: 20px;
+    float: right;
+    cursor: pointer;
+  }
 }

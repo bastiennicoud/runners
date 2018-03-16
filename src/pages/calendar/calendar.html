@@ -1,21 +1,54 @@
+<ion-menu id="calendarOptionsMenu" side="right" [content]="calendarContent" #sidemenu>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <button ion-item (click)="syncWithNativeCalendar()">
+          <ion-icon *ngIf="!syncing" name="sync" class="sync" ></ion-icon> Sync
+          <ion-spinner class="sync" icon="spiral" *ngIf="syncing"></ion-spinner>
+        </button>
+      </ion-item>
+      <ion-item (click)="changeDisplay('agendaDay')">
+        <button ion-item>
+          <span>Per day</span>
+        </button>
+      </ion-item>
+      <ion-item (click)="changeDisplay('agendaWeek')">
+        <button ion-item>
+          <span>Per Week</span>
+        </button>
+      </ion-item>
+      <ion-item (click)="changeDisplay('month')">
+        <button ion-item>
+          <span>Per Month</span>
+        </button>
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+
 <ion-header>
 
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title class="">
+    <ion-title class="calendar-title-fix">
       <ion-icon name="calendar"></ion-icon>&nbsp;Calendar&nbsp;
     </ion-title>
-    <ion-icon *ngIf="!syncing" name="sync" class="sync" (click)="syncWithNativeCalendar()"></ion-icon>
-    <ion-spinner class="sync" icon="spiral" *ngIf="syncing"></ion-spinner>
     <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon>
+    <ion-icon name="cog" class="sidemenu-toggle" (click)="toggleRightMenu()"></ion-icon>
+
+
+    <!--<ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon>-->
+
   </ion-navbar>
 </ion-header>
 
-
-<ion-content>
-
+<ion-content #calendarContent>
+  <ion-spinner *ngIf="!events.length"></ion-spinner>
   <angular2-fullcalendar *ngIf="events.length" #calendar [options]="calendarOptions"></angular2-fullcalendar>
 
 </ion-content>

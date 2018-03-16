@@ -1,5 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {
+  AlertController, IonicPage, LoadingController, MenuController, NavController, NavParams,
+  ToastController
+} from 'ionic-angular';
 import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 import {UserService} from "../../services/user.service";
 import {Observable} from "rxjs/Observable";
@@ -45,10 +48,13 @@ export class CalendarPage {
   }
   @ViewChild("sync-btn") syncBtn;
   @ViewChild('calendar') calendar;
-  constructor(public navCtrl: NavController, private internetStatusProvider : InternetStatusProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private alertCtrl : AlertController, public navParams: NavParams, public InternetStatus : InternetStatusProvider, private userService : UserService, private calendarService: Calendar) {
+  @ViewChild('sidemenu') sidemenu
+  constructor(public menuCtrl: MenuController, public navCtrl: NavController, private internetStatusProvider : InternetStatusProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private alertCtrl : AlertController, public navParams: NavParams, public InternetStatus : InternetStatusProvider, private userService : UserService, private calendarService: Calendar) {
+    this.menuCtrl.enable(true, this.sidemenu)
   }
 
   ionViewWillLoad() {
+    this.menuCtrl.open(this.sidemenu).then(()=>console.log("opened")).catch(()=>console.log("problem"))
     this.calendarService.listEventsInRange(new Date("01-02-2018"), new Date()).then(console.log).catch(console.log);
 
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
@@ -65,6 +71,12 @@ export class CalendarPage {
     })
 
 
+  }
+  changeDisplay(view : string){
+    this.calendarOptions.defaultView = view
+    this.calendar.fullCalendar('changeView', view);
+    //this.refreshCalendar()
+    this.toggleRightMenu()
   }
   refreshCalendar(){
     this.calendarOptions.events = this.events
@@ -166,11 +178,20 @@ export class CalendarPage {
         )
 
       })
-      .catch((error)=>this.alertCtrl.create({
+      .catch((error)=>{
+        if(error == "cordova_not_available"){
+          this.syncing = false
+          return
+        }
+        this.syncing = false //todo define cases when exception is handled but doesnt cut the sync process
+        this.alertCtrl.create({
         title:" Error",
         subTitle: error,
         message: "We're sorry, we couldn't save your runs to your personnal calendar",
-      }).present())
+      }).present()})
+  }
+  toggleRightMenu() {
+    this.menuCtrl.toggle('right');
   }
 
 }
