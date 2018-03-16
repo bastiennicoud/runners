@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 import { Vehicle } from '../models/vehicle'
 import { VehicleStatus } from '../models/vehicle-status'
 import { HttpClient } from '@angular/common/http'
+import { Comment } from '../models/comment'
 
 export { Vehicle, VehicleStatus }
 
@@ -34,4 +35,20 @@ export class VehicleService {
       .get<any[]>(`/vehicles`)
       .map(data => data.map(d => VehicleStatus.build(d)))
   }
+  getComments(id:string) : Observable<Comment[]>{
+    return this.httpClient.get<any[]>(`/vehicles/${id}/comments`)
+      .map(d => d.map(r => Comment.build(r)))
+  }
+  addComment(id: string, data:string ): Observable<Comment> {
+    return this.httpClient
+      .post(`/vehicles/${id}/comments`,{
+        content: data
+      })
+      .map(data => Comment.build(data))
+  }
+  deleteComment(vehicleId:string, commentId:string){
+    return this.httpClient
+      .delete(`/vehicles/${vehicleId}/comments/${commentId}`)
+  }
+
 }

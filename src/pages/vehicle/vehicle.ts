@@ -5,6 +5,7 @@ import { User } from '../../models/user'
 import { NavController, NavParams, LoadingController } from 'ionic-angular'
 import { VehicleStatusEnum } from '../../enums/vehicle-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
+import {Comment} from "../../models/comment";
 
 /**
  * This class displays the profile of a vehicle
@@ -61,7 +62,7 @@ export class VehiclePage {
               lastname: 'Remy',
             }),
             comments: [
-              {
+              Comment.build({
                 createdAt: new Date(),
                 message:
                   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti architecto qui laboriosam. Ipsa dolorum saepe nihil enim ex, eius soluta esse animi, illum sit nulla iste ea consequatur, assumenda provident?',
@@ -70,8 +71,8 @@ export class VehiclePage {
                   firstname: 'Laura',
                   lastname: 'Remy',
                 }),
-              },
-              {
+              }),
+              Comment.build({
                 createdAt: new Date(),
                 message:
                   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti architecto qui laboriosam. Ipsa dolorum saepe nihil enim ex, eius soluta esse animi, illum sit nulla iste ea consequatur, assumenda provident?',
@@ -80,7 +81,7 @@ export class VehiclePage {
                   firstname: 'Laura',
                   lastname: 'Remy',
                 }),
-              },
+              }),
             ],
           })
         )

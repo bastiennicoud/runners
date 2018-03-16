@@ -19,7 +19,7 @@ export class UserService {
   refresh(){
     return this.all().merge(this.myRuns()).merge(this.myWorkingHours())
   }
-  constructor(private httpService: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   /**
    * Get one user
@@ -30,11 +30,11 @@ export class UserService {
    * @memberOf UserService
    */
   get(id: string): Observable<User> {
-    return this.httpService.get(`/users/${id}`).map(data => User.build(data))
+    return this.httpClient.get(`/users/${id}`).map(data => User.build(data))
   }
 
   all(): Observable<User[]> {
-    return this.httpService
+    return this.httpClient
       .get<any[]>('/users')
       .map(data => data.map(user => User.build(user)))
   }
@@ -47,17 +47,19 @@ export class UserService {
    * @memberOf UserService
    */
   me(): Observable<User> {
-    // this.httpService.get<any>("https://httpbin.org/").subscribe()
+    // this.httpClient.get<any>("https://httpbin.org/").subscribe()
 
-    return this.get('me')
+    return this.httpClient
+      .get('/me').last()
+      .map(data => User.build(data))
   }
 
   myRuns() : Observable<Run[]>{
-    return this.httpService.get<any[]>(`/me/runs`).map(runs => runs.map(r => Run.build(r)))
+    return this.httpClient.get<any[]>(`/me/runs`).map(runs => runs.map(r => Run.build(r)))
   }
 
   myWorkingHours() : Observable<Schedule[]>{
-    return this.httpService.get<any[]>("/me/workinghours")
+    return this.httpClient.get<any[]>("/me/workinghours")
       .map(data => data.map(i => Schedule.build(i)))
   }
 }

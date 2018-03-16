@@ -44,10 +44,11 @@
     <preference name="android-minSdkVersion" value="16" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
-    <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="FadeSplashScreenDuration" value="500" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="AutoHideSplashScreen" value="false" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -67,9 +68,9 @@
         <variable name="UPDATE_API" value="https://api.ionicjs.com" />
         <variable name="MAX_STORE" value="2" />
     </plugin>
+    <engine name="browser" spec="^5.0.2" />
+    <engine name="android" spec="~7.0.0" />
     <plugin name="cordova-plugin-calendar" spec="^5.0.0" />
     <allow-navigation href="http://172.17.101.99:8100" />
     <allow-navigation href="http://localhost:8100" />
-    <engine name="browser" spec="^5.0.2" />
-    <engine name="android" spec="6.3.0" />
 </widget>

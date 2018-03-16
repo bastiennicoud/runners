@@ -103,7 +103,6 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-    this.pageName = this.navParams.get('title')
     this.cache.getRefreshChange().subscribe(d => (this.lastRefresh = d))
   }
   /**
@@ -112,9 +111,10 @@ export class HomePage {
    * @memberOf TabsPage
    */
   ionViewWillLoad() {
-    this.loggedSubscriber = this.authService.loggedOut.subscribe(() =>
+    this.loggedSubscriber = this.authService.loggedOut.subscribe(() => {
+      console.log("Logged out")
       this.navCtrl.setRoot(LoginPage)
-    )
+    })
     this.refreshSubscriber = this.cache
       .getRefreshChange()
       .subscribe(d => (this.lastRefresh = d))

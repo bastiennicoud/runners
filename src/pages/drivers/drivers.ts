@@ -10,6 +10,7 @@ import { User } from '../../models/user'
 import { DriverPage } from '../driver/driver'
 import { AuthStorage } from '../../storages/auth.storage'
 import { DriverStatusEnum } from '../../enums/driver-status.enum'
+import {InternetStatusProvider} from "../../providers/internet-status/internet-status";
 
 /**
  * Generated class for the DriversPage page.
@@ -32,7 +33,8 @@ export class DriversPage {
     public navParams: NavParams,
     private userService: UserService,
     private loadingCtrl: LoadingController,
-    private authStorage: AuthStorage
+    private authStorage: AuthStorage,
+    public InternetStatus: InternetStatusProvider
   ) {}
 
   ionViewDidLoad() {

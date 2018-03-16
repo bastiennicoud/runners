@@ -79,9 +79,9 @@ export class RunnerService {
  *
  * @memberOf RunnerService
  */
-  availableVehicles({ id , vehicleCategory }: Runner): Observable<Vehicle[]> {
+  availableVehicles({ vehicleCategory }: Runner|any): Observable<Vehicle[]> {
     let url = `/vehicles`
-    if(vehicleCategory!==null) url += `?type=${vehicleCategory.type}`
+    if(vehicleCategory) url += `?type=${vehicleCategory.type}`
 
     return this.httpService
       .get<any[]>(url)

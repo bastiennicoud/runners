@@ -6,6 +6,13 @@ page-run {
     }
   }
 
+  /*.select-vehicle{
+    max-width: 100%;
+    .select-placeholder{
+      color: #387ef5;
+    }
+  }*/
+
   ion-list.waypoints {
 
     ion-item {
@@ -48,5 +55,37 @@ page-run {
       .item-inner {
           background: none !important;
       }
+  }
+  .runner{
+    //& *{
+    //  display: inline;
+    //}
+    h2{
+      width: auto !important;
+      display: inline;
+    }
+    ion-label{
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    ion-select{
+      display: inline-block;
+      margin:0;
+      height: 30px;
+      & .select-text, & .select-icon{
+        display:inline-block;
+      }
+      & .select-icon{
+        margin-left: 4px;
+        //position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+    &__user, &__vehicle{
+      //display: inline;
+      //width: 100% !important;
+      text-align: left;
+    }
   }
 }
