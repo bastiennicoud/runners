@@ -17,6 +17,8 @@ import { AuthStorage } from '../../storages/auth.storage'
 import * as moment from 'moment'
 import { prefixNumber as pN } from '../../utils/helper'
 
+import debug from 'debug'
+
 @Component({
   selector: 'page-runs',
   templateUrl: 'runs.html',
@@ -47,9 +49,9 @@ export class RunsPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadRuns().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)), //TODO temporary dismiss
+        () => loader.dismiss().catch(err => console.error(err)), //TODO temporary dismiss
         err =>
-          err.status != 401 && loader.dismiss().catch(err => console.log(err))
+          err.status != 401 && loader.dismiss().catch(err => console.error(err))
       )
     })
   }
@@ -126,7 +128,7 @@ export class RunsPage {
       null,
       err =>
         err.status != 401 && refresher.cancel()
-          ? refresher.cancel().catch(err => console.log(err))
+          ? refresher.cancel().catch(err => console.error(err))
           : true,
       () => refresher.complete()
     )
@@ -169,7 +171,6 @@ export class RunsPage {
     if (!record.beginAt || !previous.beginAt) return null
 
     const previousRecordDate = x(previous)
-
     if (moment(currentRecordDate).isBefore(previousRecordDate))
       return format(record.beginAt) //.strftime("EEEE d MMMM y")
     return null

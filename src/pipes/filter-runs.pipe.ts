@@ -16,7 +16,6 @@ export class FilterRunsPipe {
     filters.hideCompleted.disable()
     filters.mine.disable()
     filters.urgent.disable()
-    console.log(filters)
   }
 
   transform(runs: Run[]): Run[] {

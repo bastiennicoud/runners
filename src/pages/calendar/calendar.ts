@@ -12,6 +12,8 @@ import {Schedule} from "../../models/schedule";
 import {Calendar, CalendarOptions} from '@ionic-native/calendar';
 import {Run} from "../../models/run";
 
+import debug from 'debug'
+
 /**
  * Generated class for the CalendarPage page.
  *
@@ -61,11 +63,11 @@ export class CalendarPage {
     loader.present().then(() => {
       this.loadCalendar().subscribe(
         null,
-        err => err.status != 401 && loader.dismiss().catch(err => console.log(err)),
+        err => err.status != 401 && loader.dismiss().catch(err => console.error(err)),
         ()=>{
-          loader.dismiss().catch(err => console.log(err))
+          loader.dismiss().catch(err => console.error(err))
 
-          console.log("FINISHED")
+          debug('calendar')('loaded')
         }
       )
     })
@@ -90,8 +92,16 @@ export class CalendarPage {
   }
 
   loadCalendar(){
-    console.log(this)
-
+    debug('calendar')(this)
+    const mapRuns = (runs) => {
+      return runs.map(run => ({
+        title:run.title,
+        start: run.beginAt,//run.startAt ? run.startAt : run.beginAt, //TODO ASk carrel
+        end: run.endAt ? run.endAt : run.finishAt,
+        url:run.id,
+        color:"#3d3d3d"
+      }))
+    }
     const mapWorkingHours = (schedules) => {
       return schedules/*.sort((a:Schedule,b:Schedule)=>{
         return a.start_at < b.start_at && a.end_at < b.end_at ? -1 : 1

@@ -35,7 +35,10 @@ export class MyApp {
         // Keep our cached results when device is offline!
         cache.setOfflineInvalidate(false)
       }),
+
     ])
+
+    refresher.autorefresh()
 
   }
 }

@@ -42,9 +42,9 @@ export class DriversPage {
     const loader = this.loadingCtrl.create({ content: 'Chargement ...' })
     loader.present().then(() => {
       this.loadDrivers().subscribe(
-        () => loader.dismiss().catch(err => console.log(err)),
+        () => loader.dismiss().catch(err => console.error(err)),
         err =>
-          err.status != 401 && loader.dismiss().catch(err => console.log(err))
+          err.status != 401 && loader.dismiss().catch(err => console.error(err))
       )
     })
   }
@@ -69,7 +69,7 @@ export class DriversPage {
       null,
       err =>
         err.status != 401 && refresher.cancel()
-          ? refresher.cancel().catch(err => console.log(err))
+          ? refresher.cancel().catch(err => console.error(err))
           : true,
       () => refresher.complete()
     )
