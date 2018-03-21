@@ -45,7 +45,7 @@
       <ion-card>
           <ion-card-header>Commentaires</ion-card-header>
           <ion-item>
-            <ion-button ion-button full (click)="openCommentModal()">Ajouter un commentaire</ion-button>
+            <ion-button ion-button full (click)="openCommentModal()" *ngIf="InternetStatus.getConnectionStatus()">Ajouter un commentaire</ion-button>
           </ion-item>
           <ion-item class="vehicle__comment" *ngFor="let comment of vehicle.comments">
               <ion-grid>
