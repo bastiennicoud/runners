@@ -2,10 +2,11 @@ import { Component } from '@angular/core'
 import { Vehicle, VehicleService } from '../../services/vehicle.service'
 import { ProfilPage } from '../../pages/profil/profil'
 import { User } from '../../models/user'
-import { NavController, NavParams, LoadingController } from 'ionic-angular'
+import {NavController, NavParams, LoadingController, ModalController} from 'ionic-angular'
 import { VehicleStatusEnum } from '../../enums/vehicle-status.enum'
 import { InternetStatusProvider } from '../../providers/internet-status/internet-status'
 import {Comment} from "../../models/comment";
+import {CommentPage} from "../comment/comment";
 
 /**
  * This class displays the profile of a vehicle
@@ -26,7 +27,8 @@ export class VehiclePage {
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private vehicleService: VehicleService,
-    private InternetStatus: InternetStatusProvider
+    private InternetStatus: InternetStatusProvider,
+    public modalCtrl: ModalController
   ) {}
 
   ionViewWillEnter() {
@@ -54,7 +56,7 @@ export class VehiclePage {
       this.vehicleService
         .get(this.navParams.get('id'))
         // TODO: fake data you have to replace them by real one
-        .map(vehicle =>
+        /*.map(vehicle =>
           Object.assign(vehicle, {
             user: User.build({
               id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
@@ -63,32 +65,39 @@ export class VehiclePage {
             }),
             comments: [
               Comment.build({
-                createdAt: new Date(),
-                message:
+                created_at: new Date().toDateString(),
+                content:
                   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti architecto qui laboriosam. Ipsa dolorum saepe nihil enim ex, eius soluta esse animi, illum sit nulla iste ea consequatur, assumenda provident?',
-                author: User.build({
+                user: {
                   id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
                   firstname: 'Laura',
                   lastname: 'Remy',
-                }),
+                },
               }),
               Comment.build({
-                createdAt: new Date(),
-                message:
+                created_at: new Date().toDateString(),
+                content:
                   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti architecto qui laboriosam. Ipsa dolorum saepe nihil enim ex, eius soluta esse animi, illum sit nulla iste ea consequatur, assumenda provident?',
-                author: User.build({
+                user: {
                   id: '140a24be-762e-4b83-b43a-1b6314d9bd3c',
                   firstname: 'Laura',
                   lastname: 'Remy',
-                }),
+                },
               }),
             ],
           })
-        )
+        )*/
         .do(vehicle => (this.vehicle = vehicle))
     )
   }
-
+  openCommentModal(){
+    let commentModal = this.modalCtrl.create(CommentPage, { id: this.vehicle.id});
+    commentModal.onDidDismiss(comment => {
+      if(comment)
+        this.vehicle.comments.push(comment)
+    });
+    commentModal.present();
+  }
   /**
    * Pull to refresh method to actualize the data
    *

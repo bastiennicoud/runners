@@ -56,6 +56,7 @@ import { CacheProvider } from '../providers/cache/cache'
 import { RefresherProvider } from '../providers/refresher/refresher'
 import {Calendar} from "@ionic-native/calendar";
 import { RelativeTimePipe } from '../pipes/relative-time/relative-time';
+import {CommentPageModule} from "../pages/comment/comment.module";
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { RelativeTimePipe } from '../pipes/relative-time/relative-time';
     HttpClientModule,
     PipesModule,
     CalendarPageModule,
+    CommentPageModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],

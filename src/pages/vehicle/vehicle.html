@@ -33,7 +33,7 @@
               <p>{{ vehicle.plateNumber }}</p>
             </ion-item>
 
-            <ion-item *ngIf="vehicle.user">
+            <ion-item *ngIf="vehicle.user && vehicle.user.fullname != null">
                 <ion-icon name="person" item-left></ion-icon>
                 <h2>Conducteur :</h2>
                 <p>{{ vehicle.user.fullname }}</p>
@@ -44,12 +44,14 @@
 
       <ion-card>
           <ion-card-header>Commentaires</ion-card-header>
-
+          <ion-item>
+            <ion-button ion-button full (click)="openCommentModal()">Ajouter un commentaire</ion-button>
+          </ion-item>
           <ion-item class="vehicle__comment" *ngFor="let comment of vehicle.comments">
               <ion-grid>
                 <ion-row>
                   <ion-col class="vehicle__comment__info"><span class="vehicle__comment__info--author">{{ comment.author.fullname }}</span></ion-col>
-                  <ion-col class="vehicle__comment__info"><span class="vehicle__comment__info--createdat">{{ comment.createdAt | date:'dd.MM.yy à HH:mm' }}</span></ion-col>
+                  <ion-col class="vehicle__comment__info"><span class="vehicle__comment__info--createdat">{{ comment.createdAt  | date:'dd.MM.yy à HH:mm' }}</span></ion-col>
                 </ion-row>
                 <ion-row>
                     <p class="vehicle__comment__info vehicle__comment__info--message">

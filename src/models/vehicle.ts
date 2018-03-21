@@ -2,6 +2,7 @@ import { VehicleCategory } from './vehicle-category'
 import { User } from './user'
 
 import { VehicleStatusEnum } from '../enums/vehicle-status.enum'
+import { Comment } from "./comment";
 /**
  *
  * @export
@@ -64,6 +65,13 @@ export class Vehicle {
    */
   public name: string
 
+  /**
+   * Comments of a vehicle
+   * @type { Comment[] }
+   * @memberOf Vehicle
+   */
+  public comments : Comment[]
+
   private _status: string
 
   /**
@@ -87,6 +95,7 @@ export class Vehicle {
     v.nbPlace = data.nb_place
     v.user = User.build(data.user)
     v._status = data.status
+    v.comments = data.comments ? data.comments.map(d => Comment.build(d)) : []
     return v
   }
 
