@@ -14,10 +14,8 @@ export class FilterRunsPipe {
   constructor(private authStorage: AuthStorage) {
     filters.mine.externalData = this.authStorage.user
     filters.hideCompleted.disable()
-    filters.hideNotReady.disable()
     filters.mine.disable()
     filters.urgent.disable()
-    console.log(filters)
   }
 
   transform(runs: Run[]): Run[] {

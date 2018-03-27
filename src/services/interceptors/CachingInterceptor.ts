@@ -42,11 +42,11 @@ export class CachingInterceptor implements HttpInterceptor {
             // .then(()=>{
             //   this.refreshor.setLastRefresh(new Date());
             // })
-            .catch(err => console.log("Error saving "+req.url+" in cache\n"+err));
+            .catch(err => console.error("Error saving "+req.url+" in cache\n"+err));
         }
       })
       .catch((err: HttpErrorResponse) => {
-        console.log(err)
+        console.error(err)
 
         //maybe status is 201, which is still an ok http response
         if (err.status >= 200 && err.status < 300) {

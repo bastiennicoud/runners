@@ -1,5 +1,10 @@
 page-vehicles {
-
+    @each $status, $value in map-remove($vehicleStatus) {
+        ion-item[status='#{$status}'] ion-label {
+            border-left: 4px solid $value;
+            padding-left: 10px;
+        }
+    }
     .free {
         color: #69bb7b;
     }

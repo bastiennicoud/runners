@@ -5,9 +5,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title class="runs-title-fix">
-      Drivers
+      <ion-icon name="contacts"></ion-icon>&nbsp;Drivers
     </ion-title>
-    <!-- <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon> -->
+     <ion-icon class="wifi-status" *ngIf="!this.InternetStatus.getConnectionStatus()" name="wifi" ></ion-icon>
   </ion-navbar>
 </ion-header>
 
@@ -18,12 +18,12 @@
     </ion-refresher>
 
     <ion-list>
-        <ion-item *ngFor="let driver of getDrivers()" (click)="showDriver(driver)">
+        <ion-item *ngFor="let driver of getDrivers()" (click)="showDriver(driver)" [attr.status]="driver.status">
           <ion-label class="driver">
             <h2>{{ driver.firstname }} {{ driver.lastname }}</h2>
           </ion-label>
         </ion-item>
-      <ion-item *ngIf="!getDrivers().length">
+      <ion-item *ngIf="!getDrivers()">
         <ion-label>
           <p>Aucun Conducteur</p>
         </ion-label>

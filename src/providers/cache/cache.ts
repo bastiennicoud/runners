@@ -17,9 +17,10 @@ export class CacheProvider extends CacheService {
   private refreshed : Observable<Date>;
   private KEY = "last-refresh";
   private _observer: Observer<Date>;
-
+  public isCacheEnabled = true;
   constructor(_storage: Storage) {
     super(_storage);
+    _storage.ready().then(()=>this.isCacheEnabled = true).catch(()=>this.isCacheEnabled = false);
     this.refreshed = new Observable<Date>(
       observer => this._observer = observer).share();
   }
@@ -49,4 +50,9 @@ export class CacheProvider extends CacheService {
     return super.saveItem(key,data,groupKey,ttl)
       .then(()=>this.setLastRefresh(date))
   }
+  enableCache(enable: boolean = true){
+    this.isCacheEnabled = enable;
+    super.enableCache(enable)
+  }
+
 }
