@@ -217,28 +217,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /runs/{id}/waypoints:
-    get:
-      summary: Returns all the waypoints of a run
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      tags:
-        - Waypoints
-        - Runs
-      responses:
-        200:
-          description: An array of waypoints
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /runs/{id}/start:
     post:
       summary: Start the run
@@ -298,21 +276,13 @@ paths:
       parameters:
         - name: id
           in: path
-          description: Unique identifier of the runner
           required: true
           type: number
-        - name: user
-          description: The user to attach to a runner. If the user == null, then the user is detached from a runner
+        - name: runner
           in: body
           required: false
           schema:
-            $ref: "#/definitions/User"
-        - name: car
-          description: The car to attach to a runner. If the car == null, then the user is detached from a runner
-          in: body
-          required: false
-          schema:
-            $ref: "#/definitions/Car"
+            $ref: '#/definitions/Runners'
       tags:
         - Runs
       security:
@@ -340,10 +310,10 @@ paths:
           type: number
       responses:
         200:
-          description: OK
-          type: array
-          items:
+          description: Ok
+          schema:
             $ref: '#/definitions/Comment'
+
         default:
           description: Unexpected error
           schema:
@@ -357,10 +327,11 @@ paths:
           required: true
           in: path
           type: number
-        - name: content
-          required: true
-          in: body
+        -
+          name: comment
           type: string
+          required: true
+          
       responses:
         200:
           description: OK
@@ -379,10 +350,12 @@ paths:
           required: true
           in: path
           type: number
-        - name: content
+        - 
+          name: comment
           required: true
           in: body
           type: string
+          
       responses:
         200:
           description: OK
@@ -455,10 +428,6 @@ paths:
           in: query
           description: "Add user object if the vehicle is taken : /vehicles?include=user"
           type: string
-        - name: between
-          in: query
-          type: array
-            items:
 
       tags:
         - Vehicles
@@ -482,8 +451,8 @@ paths:
         - name: model
           in: path
           required: true
-          allowEmptyValue: false
-          enum:
+          type: string
+          enum: 
             - car
             - user
             - run
@@ -591,129 +560,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /waypoints/search:
-    get:
-      summary: Returns an array of waypoints depending on search
-      parameters:
-        - name: q
-          required: true
-          allowEmptyValue: false
-          type: string
-          in: query
-      tags:
-        - Waypoints
-      security:
-        - AccessToken: []
-      responses:
-        200:
-          description: An array of waypoints
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /waypoints:
-    get:
-      summary: Returns all the waypoints
-      tags:
-        - Waypoints
-      security:
-        - AccessToken: []
-      responses:
-        200:
-          description: An array of waypoints
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /waypoints/{id}:
-    get:
-      summary: Get a waypoint
-      tags:
-        - Waypoints
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /settings:
-    post:
-      summary: Create a new setting
-      tags:
-        - Settings
-      security:
-        - AccessToken: []
-      parameters:
-        - name: waypoint
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Waypoint'
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Setting'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    get:
-      summary: Returns all the settings
-      tags:
-        - Settings
-      security:
-        - AccessToken: []
-      responses:
-        200:
-          description: An array of waypoints
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Waypoint'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /settings/{id}:
-    get:
-      summary: Get a setting
-      tags:
-        - Settings
-      security:
-        - AccessToken: []
-      parameters:
-        - name: id
-          required: true
-          in: path
-          type: number
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Setting'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
 
 definitions:
 
@@ -763,28 +609,6 @@ definitions:
       name:
         description: Name of the group
         type: string
-
-  Setting:
-    type: object
-    properties:
-      key:
-        description: Unique identifier
-        type: string
-      value:
-        description: Value of the setting
-        type: string
-
-  Waypoint:
-    type: object
-    properties:
-      id:
-        description: Unique identifier (PK)
-        type: integer
-      name:
-        description: Short name of the waypoint (used by coordinators)
-        type: string
-      geocoder:
-        $ref: '#/definitions/Geocoder'
 
   Vehicle:
     type: object
@@ -850,8 +674,6 @@ definitions:
       type:
         type: string
 
-
-
   VehicleStatus:
     type: object
     properties:
@@ -871,12 +693,6 @@ definitions:
         type: integer
       title:
         type: string
-      waypoints:
-        type: array
-        description: "Lists the steps in geographical ways in order to complete the run"
-        minItems: 2
-        items:
-          $ref: '#/definitions/Waypoint'
       begin_date:
         type: string
         format: date-time
@@ -914,78 +730,6 @@ definitions:
         $ref: '#/definitions/VehicleType'
       vehicle:
         $ref: '#/definitions/Vehicle'
-
-# Google Map API
-  Geocoder:
-    type: object
-    properties:
-      address_components:
-        type: array
-        description:
-          An array of GeocoderAddressComponents
-        items:
-          $ref: '#/definitions/GeocoderAddressComponent'
-      formatted_address:
-        type: string
-        description:
-          A string containing the human-readable address of this location.
-        items:
-          type: string
-      geometry:
-        $ref: '#/definitions/GeocoderGeometry'
-      place_id:
-        type: string
-      types:
-        type: array
-        items:
-              type: string
-
-  GeocoderAddressComponent:
-    type: object
-    properties:
-      long_name:
-        type: string
-        description: The full text of the address component
-      short_name:
-        type: string
-        description: The abbreviated, short text of the given address component
-      types:
-        type: array
-        description: An array of strings denoting the type of this address component. A list of valid types can be found here https://developers.google.com/maps/documentation/geocoding/intro?hl=fr#Types
-        items:
-         type: string
-
-  GeocoderGeometry:
-    type: object
-    properties:
-      location:
-        type: object
-        properties:
-          lat:
-            type: string
-          lng:
-            type: string
-      location_type:
-        type: string
-        items:
-          type: string
-      viewport:
-        type: object
-        properties:
-          northeast:
-            type: object
-            properties:
-              lat:
-                type: string
-              lng:
-                type: string
-          southwest:
-            type: object
-            properties:
-              lat:
-                type: string
-              lng:
-                type: string
 
   Error:
     type: object
