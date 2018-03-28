@@ -34,7 +34,7 @@ export class RunService {
   all(): Observable<Run[]> {
 
   return this.httpClient
-      .get<any[]>('/runs?finished=true')
+      .get<any[]>('/runs')
       .map(array => array.map(data => Run.build(data)))
 
   }
